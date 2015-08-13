@@ -1,0 +1,26 @@
+﻿@{
+    ViewBag.Title = "Admin Page";
+}
+
+<div id="sub_tit">
+    <ul>
+        <li>Admin</li>
+    </ul>
+</div>
+<div id="contents">
+    <div class="navi"> Home > <span>Admin</span> </div>
+    <div id="adm_index">
+        <h1> This screen is for administration.</h1>
+        <ul>
+            <li><a href="admin02.asp"><i class="fa fa-arrow-right"></i>  Member Management</a> </li>
+            <li><a href="admin03.asp"> <i class="fa fa-arrow-right"></i> Common Code </a></li>
+            <li><i class="fa fa-arrow-right"></i> @Html.ActionLink("Country Management", "Index", "Country")</li>
+            <li> <a href="admin04.asp"><i class="fa fa-arrow-right"></i> Permission Management </a></li>
+            <li> <a href="admin05.asp"><i class="fa fa-arrow-right"></i> Data Management </a></li>
+            <li> <a href="admin06.asp"><i class="fa fa-arrow-right"></i> Notification Management </a></li>
+        </ul>
+
+
+
+    </div>
+</div>
