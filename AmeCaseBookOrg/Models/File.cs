@@ -21,5 +21,7 @@ namespace AmeCaseBookOrg.Models
 
         public virtual ICollection<Announcement> AttachedToAnnouncements { get; set; }
 
+        public virtual ICollection<CommunityTopic> AttachedToCommunityTopics { get; set; }
+
     }
 }

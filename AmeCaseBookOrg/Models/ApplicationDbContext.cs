@@ -27,6 +27,10 @@ namespace AmeCaseBookOrg.Models
 
         public DbSet<Announcement> Announcements { get; set; }
 
+        public DbSet<CommunityTopic> CommunityTopics { get; set; }
+
+        public DbSet<CommuityTopicComment> CommuityTopicComments { get; set; }
+
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {
@@ -53,6 +57,12 @@ namespace AmeCaseBookOrg.Models
                 .Map(t => t.MapLeftKey("ID")
                     .MapRightKey("FileId")
                     .ToTable("AnnouncementAttachment"));
+
+            modelBuilder.Entity<CommunityTopic>()
+                .HasMany(c => c.AttachmentFiles).WithMany(i => i.AttachedToCommunityTopics)
+                .Map(t => t.MapLeftKey("ID")
+                    .MapRightKey("FileId")
+                    .ToTable("CommunityTopicAttachment"));
 
             base.OnModelCreating(modelBuilder);
         }
