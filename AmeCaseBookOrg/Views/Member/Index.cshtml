@@ -1,0 +1,66 @@
+﻿@model IEnumerable<AmeCaseBookOrg.Models.ApplicationUser>
+@using MvcJqGrid
+@using MvcJqGrid.Enums
+
+@{
+    ViewBag.Title = "Member Management";
+    Layout = "~/Views/Shared/_LayoutJQGrid.cshtml";
+}
+
+<div id="sub_tit">
+    <ul>
+        <li>Member Management</li>
+
+    </ul>
+
+</div>
+
+<div class="navi">
+    @Html.ActionLink("Home", "Index", "Home") > @Html.ActionLink("Admin", "Index", "Admin")  > <span>Member Management</span>
+
+</div>
+
+<script type="text/javascript">
+    var mvcJqGrid = { demo : {} };
+
+    mvcJqGrid.demo.buttonize = function (cellvalue, options, rowobject) {
+        return '<a onclick="return mvcJqGrid.demo.edit(' + options.rowId + ')" href="#"><div class="ui-icon ui-icon-pencil" style="display:inline-block"></div></a>' +
+               '<a onclick="return mvcJqGrid.demo.delete(' + options.rowId + ')" href="#"><div class="ui-icon ui-icon-trash" style="display:inline-block"></div></a>';
+
+    }
+
+    mvcJqGrid.demo.edit = function (id) {
+        alert("Edit for customerId " + id);
+        return false;
+    }
+
+    mvcJqGrid.demo.delete = function (id) {
+        alert("Delete for customerId " + id);
+        return false;
+    }
+</script>
+<div class="myinfo_t2" style="width: 960px">
+    @Html.ActionLink("Add Record", "Create", new { controller = "Member"}, new { @class = "bt_green" })
+    @(Html.Grid("memberGrid")
+        .SetRequestType(RequestType.Post)
+        .SetJsonReader(new MvcJqGrid.DataReaders.JsonReader { Id = "Id", RepeatItems = false })
+        .SetCaption("Members")
+        .AddColumn(new Column("FullName").SetLabel("Name"))
+        .AddColumn(new Column("Email").SetLabel("Email"))
+        .AddColumn(new Column("PhoneNumber").SetLabel("Tel"))
+        .AddColumn(new Column("Country").SetLabel("Country"))
+        .AddColumn(new Column("&nbsp;").SetSearch(false).SetCustomFormatter("mvcJqGrid.demo.buttonize")
+                                    .SetWidth(25)
+                                    .SetAlign(Align.Right))
+    .SetUrl(Url.Action("Search", "Member"))
+    .SetAutoWidth(true)
+    .SetRowNum(10)
+    .SetRowList(new[] { 10, 15, 20, 50 })
+    .SetViewRecords(true)
+    .SetPager("pager")
+    .SetSearchToolbar(true).SetSearchOnEnter(false)
+
+    )
+</div>
+
+

@@ -11,8 +11,15 @@ namespace AmeCaseBookOrg
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                         "~/Scripts/jquery-{version}.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/jqgrid").Include(
+                        "~/Scripts/jquery.jqGrid.min.js",
+                        "~/Scripts/i18n/grid.locale-en.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));
+
+            bundles.Add(new ScriptBundle("~/bundles/jqueryui").Include(
+                        "~/Scripts/jquery-ui.min.js"));
 
             // Use the development version of Modernizr to develop with and learn from. Then, when you're
             // ready for production, use the build tool at http://modernizr.com to pick only the tests you need.
@@ -34,6 +41,10 @@ namespace AmeCaseBookOrg
             bundles.Add(new ScriptBundle("~/bundles/slidesjs").Include(
                     "~/Scripts/jquery.slides.min.js",
                     "~/Scripts/mouse.couver.js"));
+
+            bundles.Add(new StyleBundle("~/Content/jqgridcss").Include(
+                      "~/Content/jquery.jqGrid/ui.jqgrid.css",
+                      "~/Content/themes/smoothness/jquery-ui-1.10.3.custom.min.css"));
         }
     }
 }

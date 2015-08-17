@@ -14,9 +14,17 @@ namespace AmeCaseBookOrg.Service
 
         IEnumerable<MainCategory> GetMainCategories();
 
-        IEnumerable<MainCategory> GetMainCategories(String UserId);
+        IEnumerable<MainCategory> GetMainCategories(ApplicationUser user);
+
+        IEnumerable<SubCategory> GetSubCategories(ApplicationUser user);
+
+        IEnumerable<SubCategory> GetSubCategories(MainCategory mainCategory, ApplicationUser user);
 
 
+        Category GetCategory(int Code);
 
+        void CreateCategory(Category category);
+
+        void SaveCategory();
     }
 }

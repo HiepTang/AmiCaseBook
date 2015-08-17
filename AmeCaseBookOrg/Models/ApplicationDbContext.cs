@@ -66,5 +66,6 @@ namespace AmeCaseBookOrg.Models
 
             base.OnModelCreating(modelBuilder);
         }
+
     }
 }

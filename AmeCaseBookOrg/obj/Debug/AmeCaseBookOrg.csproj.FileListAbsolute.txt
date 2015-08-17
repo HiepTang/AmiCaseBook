@@ -135,8 +135,9 @@ D:\Working\AmiCaseBook\Source\AmiCaseBook\AmeCaseBookOrg\bin\Microsoft.Owin.Secu
 D:\Working\AmiCaseBook\Source\AmiCaseBook\AmeCaseBookOrg\bin\Microsoft.Owin.Security.Google.xml
 D:\Working\AmiCaseBook\Source\AmiCaseBook\AmeCaseBookOrg\bin\Microsoft.Owin.Security.Twitter.xml
 D:\Working\AmiCaseBook\Source\AmiCaseBook\AmeCaseBookOrg\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
-D:\Working\AmiCaseBook\Source\AmiCaseBook\AmeCaseBookOrg\obj\Debug\AmeCaseBookOrg.csprojResolveAssemblyReference.cache
 D:\Working\AmiCaseBook\Source\AmiCaseBook\AmeCaseBookOrg\obj\Debug\AmeCaseBookOrg.Migrations.Initialize.resources
 D:\Working\AmiCaseBook\Source\AmiCaseBook\AmeCaseBookOrg\obj\Debug\AmeCaseBookOrg.csproj.GenerateResource.Cache
 D:\Working\AmiCaseBook\Source\AmiCaseBook\AmeCaseBookOrg\obj\Debug\AmeCaseBookOrg.dll
 D:\Working\AmiCaseBook\Source\AmiCaseBook\AmeCaseBookOrg\obj\Debug\AmeCaseBookOrg.pdb
+D:\Working\AmiCaseBook\Source\AmiCaseBook\AmeCaseBookOrg\bin\MvcJqGrid.dll
+D:\Working\AmiCaseBook\Source\AmiCaseBook\AmeCaseBookOrg\obj\Debug\AmeCaseBookOrg.csprojResolveAssemblyReference.cache

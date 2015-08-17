@@ -1,4 +1,4 @@
-@charset "utf-8";
+﻿@charset "utf-8";
 /* CSS Document */
 
 /******************************** contents ****************************************/				
@@ -56,15 +56,9 @@
 .bt_blue a{display:block;float:left;width:250px;line-height:50px;background:#52b4de;color:#fff;font-size:20px; text-decoration:none; border-radius:10px;}
 .bt_blue a:visited {color:#fff;}
 .bt_blue a:hover{background:#3c7ea2;color:#fff;}
-
+.bt_blue_button {display:block;float:left;width:250px;line-height:50px;background:#52b4de;color:#fff;font-size:20px; text-decoration:none; border-radius:10px;}
 .myinfo_t2 {width:950px;margin:0 auto;}
-.myinfo_t2 table {background:#1ab59a; border-radius:10px 10px 0px 0px;width:100%;border:1px solid #ddd; }
-.myinfo_t2 table, .myinfo_t2 td{border-bottom:1px solid #ddd; }
-.myinfo_t2 td {background:#fff;line-height:25px;text-align:center;padding:0px;height:50px;}
-.myinfo_t2 table td.td_bg {background:#eee;} 
-.myinfo_t2 table td.f_color{color:#999;}
-.myinfo_t2 th {line-height:25px;color:#beffff;text-align:center;padding:0px;height:50px;  }
-.myinfo_t2 table th.t_left,.myinfo_t2 table td.t_left{text-align:left;padding-left:10px;} 
+
 
 .datail_v {width:960px;margin:0 auto;height:auto;}
 .datail_v h1 {font-size:25px;color:#1ab59a;border-bottom:1px double #ccc;padding-bottom:10px;}
