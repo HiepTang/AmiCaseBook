@@ -48,6 +48,10 @@ namespace AmeCaseBookOrg.Models
         [Display(Name = "Introduction")]
         public string Introduction { get; set; }
 
+        [Display(Name = "Address")]
+        [StringLength(1000)]
+        public string Address { get; set; }
+
         [Display(Name = "Link In")]
         public string LinkIn { get; set; }
 

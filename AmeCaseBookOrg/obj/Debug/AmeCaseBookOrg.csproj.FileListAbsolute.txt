@@ -141,3 +141,4 @@ D:\Working\AmiCaseBook\Source\AmiCaseBook\AmeCaseBookOrg\obj\Debug\AmeCaseBookOr
 D:\Working\AmiCaseBook\Source\AmiCaseBook\AmeCaseBookOrg\obj\Debug\AmeCaseBookOrg.pdb
 D:\Working\AmiCaseBook\Source\AmiCaseBook\AmeCaseBookOrg\bin\MvcJqGrid.dll
 D:\Working\AmiCaseBook\Source\AmiCaseBook\AmeCaseBookOrg\obj\Debug\AmeCaseBookOrg.csprojResolveAssemblyReference.cache
+D:\Working\AmiCaseBook\Source\AmiCaseBook\AmeCaseBookOrg\obj\Debug\AmeCaseBookOrg.Migrations.ApplicationUserAddAddress.resources
