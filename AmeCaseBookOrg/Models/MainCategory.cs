@@ -12,10 +12,6 @@ namespace AmeCaseBookOrg.Models
 
         [Display(Name ="System Code")]
         public Boolean IsSystemCode { get; set; }
-
-        [InverseProperty("MainCategory")]
-        public virtual ICollection<SubCategory> SubCategories { get; set; }
-
         
     }
 }

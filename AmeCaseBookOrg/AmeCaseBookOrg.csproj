@@ -188,6 +188,18 @@
     <Compile Include="Migrations\201508121651157_Initialize.Designer.cs">
       <DependentUpon>201508121651157_Initialize.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201508170842377_ApplicationUserAddAddress.cs" />
+    <Compile Include="Migrations\201508170842377_ApplicationUserAddAddress.Designer.cs">
+      <DependentUpon>201508170842377_ApplicationUserAddAddress.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201508180411502_AddMenuDefinitionClasses.cs" />
+    <Compile Include="Migrations\201508180411502_AddMenuDefinitionClasses.Designer.cs">
+      <DependentUpon>201508180411502_AddMenuDefinitionClasses.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201508180416537_AddMenuDefinitionClasses1.cs" />
+    <Compile Include="Migrations\201508180416537_AddMenuDefinitionClasses1.Designer.cs">
+      <DependentUpon>201508180416537_AddMenuDefinitionClasses1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Announcement.cs" />
@@ -202,8 +214,10 @@
     <Compile Include="Models\FileType.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\MainCategory.cs" />
+    <Compile Include="Models\MainMenu.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\SubCategory.cs" />
+    <Compile Include="Models\SubMenu.cs" />
     <Compile Include="Models\UserViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\ICategoryService.cs" />
@@ -345,6 +359,9 @@
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <None Include="Scripts\jquery-2.1.4.intellisense.js" />
+    <Content Include="Scripts\jquery-2.1.4.js" />
+    <Content Include="Scripts\jquery-2.1.4.min.js" />
     <Content Include="Scripts\jquery-ui.min.js" />
     <Content Include="Scripts\jquery.jqGrid.min.js" />
     <Content Include="Scripts\jquery.slides.min.js" />
@@ -425,6 +442,15 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201508121651157_Initialize.resx">
       <DependentUpon>201508121651157_Initialize.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508170842377_ApplicationUserAddAddress.resx">
+      <DependentUpon>201508170842377_ApplicationUserAddAddress.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508180411502_AddMenuDefinitionClasses.resx">
+      <DependentUpon>201508180411502_AddMenuDefinitionClasses.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508180416537_AddMenuDefinitionClasses1.resx">
+      <DependentUpon>201508180416537_AddMenuDefinitionClasses1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
