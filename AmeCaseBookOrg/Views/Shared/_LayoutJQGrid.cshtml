@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNet.Identity
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -29,7 +30,23 @@
                     <li><a href="../dsmcase/dsmcase.asp">DSM CASE</a></li>
                     <li><a href="../communication/comm_main.asp">Communication</a></li>
                     <li class="right_m">@Html.ActionLink("Admin", "Index", "Admin")</li>
-                    <li class="right_m"><a href="../login.asp">Your Account</a></li>
+                    <li class="right_m">
+                        @if (!Request.IsAuthenticated)
+                        {
+                            @Html.ActionLink("Your Account", "Login", "Account")
+                        }
+                        else
+                        {
+                            using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                <a href="javascript:document.getElementById('logoutForm').submit()" class="a_line">
+                                    <i class="fa fa-user"></i>@User.Identity.GetUserName() <i class="fa fa-caret-down"></i>
+                                </a>
+
+                            }
+                        }
+                    </li>
                 </ul>
             </div>
         </div>

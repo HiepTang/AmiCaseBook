@@ -14,6 +14,7 @@ using MvcJqGrid;
 
 namespace AmeCaseBookOrg.Controllers
 {
+    [Authorize]
     public class MemberController : Controller
     {
         private ApplicationUserManager _userManager;
