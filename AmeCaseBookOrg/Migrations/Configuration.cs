@@ -1,5 +1,7 @@
 namespace AmeCaseBookOrg.Migrations
 {
+    using Microsoft.AspNet.Identity;
+    using Microsoft.AspNet.Identity.EntityFramework;
     using Models;
     using System;
     using System.Collections.Generic;
@@ -16,12 +18,13 @@ namespace AmeCaseBookOrg.Migrations
         {
             AutomaticMigrationsEnabled = true;
         }
-        string imageFolder = "D:\\Working\\Project\\Amicasebook\\AmiCaseBook\\AmeCaseBookOrg\\img\\";
+        //string imageFolder = "D:\\Working\\Project\\Amicasebook\\AmiCaseBook\\AmeCaseBookOrg\\img\\";
+        string imageFolder = "D:\\Working\\AmiCaseBook\\Source\\AmiCaseBook\\AmeCaseBookOrg\\img\\";
         protected override void Seed(AmeCaseBookOrg.Models.ApplicationDbContext context)
         {
-            List<File> files = createFileData(context);
+            List<File> memberImages = CreateMemberImages(context);
             List<MainCategory> mainCategory = createMainCategory(context);
-            List<MainMenu> mainMenus = CreateMainMenus(context, files);
+            List<MainMenu> mainMenus = CreateMainMenus(context);
             List<SubMenu> subMenus = CreateSubMenusForAbout(context);
             List<SubMenu> subMenusForAMI = CreateSubMenusForAMICASE(context);
             List<SubMenu> subMenusForDSM = CreateSubMenusForDSMCASE(context);
@@ -30,30 +33,153 @@ namespace AmeCaseBookOrg.Migrations
             List<SubCategory> countries = CreateCountries(context, countryFlagFiles);
 
 
-            var users = new List<ApplicationUser>()
+            List<ApplicationUser> users = CreateMembers(context, memberImages, countries);
+            
+        }
+
+        private List<ApplicationUser> CreateMembers(AmeCaseBookOrg.Models.ApplicationDbContext context, List<File> memberImages, List<SubCategory> countries)
+        {
+            if (!context.Roles.Any(u => u.Name == "Contributor"))
+            {
+                context.Roles.Add(new IdentityRole { Name = "Contributor" });
+            }
+
+            if (!context.Roles.Any(u => u.Name == "Admin"))
+            {
+                context.Roles.Add(new IdentityRole { Name = "Admin" });
+            }
+
+
+            var passwordHash = new PasswordHasher();
+            string password = passwordHash.HashPassword("123456");
+
+            var userStore = new UserStore<ApplicationUser>(context);
+            var userManager = new UserManager<ApplicationUser>(userStore);
+
+            var users = new List<ApplicationUser>
             {
                 new ApplicationUser
                 {
-                    FirstName = "John",
-                    LastName = "Can",
-                    Id = "john",
-                    Email = "join@gmail.com",
-                    Introduction = "Hi everyone",
-                    CountryId = mainMenus[0].Code,
+                    FirstName = "Dong",
+                    LastName = "Joo Kang",
+                    Email = "dong.joo.kang@gmail.com",
+                    Introduction = "Dong Joo Kang",
+                    CountryId = countries[13].Code,
                     LinkIn = "Link in",
-                    FileId = files[0].FileId,
+                    FileId = memberImages[0].FileId,
                     EmailConfirmed = true,
                     PhoneNumberConfirmed = true,
                     TwoFactorEnabled = true,
                     LockoutEnabled = true,
                     AccessFailedCount = 0,
-                    UserName = "john"
-                  
+                    UserName = "dong.joo.kang@gmail.com",
+                    PasswordHash = password,
+                    PhoneNumber = "84903666892"
+
+                },
+                 new ApplicationUser
+                {
+                    FirstName = "Laura",
+                    LastName = "Marretta",
+                    Email = "laura.marretta@gmail.com",
+                    Introduction = "Laura Marretta",
+                    CountryId = countries[12].Code,
+                    LinkIn = "Laura Marretta Link in",
+                    FileId = memberImages[1].FileId,
+                    EmailConfirmed = true,
+                    PhoneNumberConfirmed = true,
+                    TwoFactorEnabled = true,
+                    LockoutEnabled = true,
+                    AccessFailedCount = 0,
+                    UserName = "laura.marretta@gmail.com",
+                    PasswordHash = password,
+                    PhoneNumber = "84903666892"
+                },
+                 new ApplicationUser
+                {
+                    FirstName = "Jon",
+                    LastName = "Stromsather",
+                    Email = "jon.stromsather@gmail.com",
+                    Introduction = "Jon Stromsather",
+                    CountryId = countries[12].Code,
+                    LinkIn = "Jon Stromsather Link in",
+                    FileId = memberImages[2].FileId,
+                    EmailConfirmed = true,
+                    PhoneNumberConfirmed = true,
+                    TwoFactorEnabled = true,
+                    LockoutEnabled = true,
+                    AccessFailedCount = 0,
+                    UserName = "jon.stromsather@gmail.com",
+                    PasswordHash = password,
+                    PhoneNumber = "84903666892"
+                },
+                 new ApplicationUser
+                {
+                    FirstName = "Loc",
+                    LastName = "Truong",
+                    Email = "locitt@gmail.com",
+                    Introduction = "Loc Truong",
+                    CountryId = countries[13].Code,
+                    LinkIn = "Loc Truong",
+                    FileId = memberImages[0].FileId,
+                    EmailConfirmed = true,
+                    PhoneNumberConfirmed = true,
+                    TwoFactorEnabled = true,
+                    LockoutEnabled = true,
+                    AccessFailedCount = 0,
+                    UserName = "locitt@gmail.com",
+                    PasswordHash = password,
+                    PhoneNumber = "84903666892"
+                },
+                  new ApplicationUser
+                {
+                    FirstName = "Hiep",
+                    LastName = "Tang",
+                    Email = "tpthiep@gmail.com",
+                    Introduction = "Hiep Tang",
+                    CountryId = countries[3].Code,
+                    LinkIn = "Hiep Tang",
+                    FileId = memberImages[0].FileId,
+                    EmailConfirmed = true,
+                    PhoneNumberConfirmed = true,
+                    TwoFactorEnabled = true,
+                    LockoutEnabled = true,
+                    AccessFailedCount = 0,
+                    UserName = "tpthiep@gmail.com",
+                    PasswordHash = password,
+                    PhoneNumber = "84903666892"
+                },
+                   new ApplicationUser
+                {
+                    FirstName = "Phuc",
+                    LastName = "Nguyen",
+                    Email = "phuc0903@gmail.com",
+                    Introduction = "Phuc Nguyen",
+                    CountryId = countries[12].Code,
+                    LinkIn = "Phuc Nguyen",
+                    FileId = memberImages[0].FileId,
+                    EmailConfirmed = true,
+                    PhoneNumberConfirmed = true,
+                    TwoFactorEnabled = true,
+                    LockoutEnabled = true,
+                    AccessFailedCount = 0,
+                    UserName = "phuc0903@gmail.com",
+                    PasswordHash = password,
+                    PhoneNumber = "84903666892"
                 }
             };
-            users.ForEach(u => context.Users.AddOrUpdate(u));
-            context.SaveChanges();
-            
+            users.ForEach(u => userManager.Create(u));
+            var newUsers = context.Users.ToList();
+
+            userManager.AddToRole(newUsers[0].Id, "Contributor");
+            userManager.AddToRole(newUsers[1].Id, "Contributor");
+            userManager.AddToRole(newUsers[2].Id, "Contributor");
+            userManager.AddToRole(newUsers[3].Id, "Contributor");
+
+            userManager.AddToRole(newUsers[4].Id, "Admin");
+            userManager.AddToRole(newUsers[5].Id, "Admin");
+
+            return users;
         }
 
         private List<File> CreateFlagImages(AmeCaseBookOrg.Models.ApplicationDbContext context)
@@ -102,26 +228,14 @@ namespace AmeCaseBookOrg.Migrations
             };
             return file;
         }
-        private List<File> createFileData(AmeCaseBookOrg.Models.ApplicationDbContext context)
+        private List<File> CreateMemberImages(AmeCaseBookOrg.Models.ApplicationDbContext context)
         {
-            
             //create file table
             var files = new List<File>()
             {
-                new File
-                {
-                    FileName = "b_img.jpg",
-                    ContentType = "Image",
-                    Content = imageToByteArray( Image.FromFile(imageFolder+ "b_img.jpg")),
-                    FileType = FileType.Avatar
-                 },
-                new File
-                {
-                    FileName = "Belgium.png",
-                    ContentType = "Image",
-                    Content = imageToByteArray( Image.FromFile(imageFolder+"Belgium.png")),
-                    FileType = FileType.Avatar
-                 }
+               CreateFile("Dong Joo Kang.jpg", imageFolder, FileType.Avatar),
+               CreateFile("Laura Marretta.jpg", imageFolder, FileType.Avatar),
+               CreateFile("Jon Stromsather.jpg", imageFolder, FileType.Avatar)
             };
             files.ForEach(f => context.Files.AddOrUpdate(f));
             context.SaveChanges();
@@ -156,7 +270,7 @@ namespace AmeCaseBookOrg.Migrations
             context.SaveChanges();
             return mainCategories;
         }
-        private List<MainMenu> CreateMainMenus(AmeCaseBookOrg.Models.ApplicationDbContext context, List<File> files)
+        private List<MainMenu> CreateMainMenus(AmeCaseBookOrg.Models.ApplicationDbContext context)
         {
             var mainMenus = new List<MainMenu>()
             {

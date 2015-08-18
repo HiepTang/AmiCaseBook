@@ -53,7 +53,7 @@ namespace AmeCaseBookOrg.Controllers
 
         public JsonResult Search(GridSettings gridSettings)
         {
-            var applicationUsers = UserManager.Users.Include(a => a.Country).Include(a => a.UploadImage);
+            var applicationUsers = UserManager.Users;
             int totalRecords = applicationUsers.Count();
             var jsonData = new
             {
@@ -65,10 +65,9 @@ namespace AmeCaseBookOrg.Controllers
                     select new
                     {
                         Id = a.Id,
-                        FullName = a.FullName,
+                        FullName = a.FirstName,
                         Email = a.Email,
-                        PhoneNumber = a.PhoneNumber,
-                        Country = a.Country
+                        PhoneNumber = a.PhoneNumber
                     }
                 )
             };
