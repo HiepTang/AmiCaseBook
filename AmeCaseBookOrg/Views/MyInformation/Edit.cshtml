@@ -14,10 +14,10 @@
 </div>
 
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("Edit","MyInformation",FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
-
+    @Html.HiddenFor(model => model.Id)
 <div id="contents">
     <div class="navi"> @Html.ActionLink("Home", "Index", "Home") > <span>Edit My Information</span> </div>
     <div id="myinfo">

@@ -89,13 +89,33 @@ namespace AmeCaseBookOrg.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,LastName,FirstName,Affiliation,Introduction,LinkIn,FileId,CountryId,Email,EmailConfirmed,PasswordHash,SecurityStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEndDateUtc,LockoutEnabled,AccessFailedCount,UserName")] ApplicationUser applicationUser)
+        public ActionResult Edit(String id, HttpPostedFileBase upload)
         {
-            if (ModelState.IsValid)
+            var applicationUser = UserManager.FindById(id);
+            if (TryUpdateModel(applicationUser,"",new String[] { "Email", "FirstName","LastName", "PhoneNumber", "CountryId", "Affiliation", "Introduction" , "LinkIn"}))
             {
+                if (upload != null && upload.ContentLength > 0)
+                {                  
+                    var avatar = new File
+                    {
+                        FileName = System.IO.Path.GetFileName(upload.FileName),
+                        FileType = FileType.Avatar,
+                        ContentType = upload.ContentType
+                    };
+                    using (var reader = new System.IO.BinaryReader(upload.InputStream))
+                    {
+                        avatar.Content = reader.ReadBytes(upload.ContentLength);
+                    }
+                    if (applicationUser.UploadImage != null)
+                    {
+                        db.Files.Remove(applicationUser.UploadImage);
+                    }
+                    db.Files.Add(avatar);
+                    applicationUser.UploadImage = avatar;
+                }
                 db.Entry(applicationUser).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index?userId="+id);
             }
             ViewBag.CountryId = new SelectList(db.Categories, "Code", "CodeName", applicationUser.CountryId);
             ViewBag.FileId = new SelectList(db.Files, "FileId", "FileName", applicationUser.FileId);

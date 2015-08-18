@@ -16,7 +16,7 @@ namespace AmeCaseBookOrg.Migrations
         {
             AutomaticMigrationsEnabled = true;
         }
-
+        string imageFolder = "D:\\Working\\Project\\Amicasebook\\AmiCaseBook\\AmeCaseBookOrg\\img\\";
         protected override void Seed(AmeCaseBookOrg.Models.ApplicationDbContext context)
         {
             List<File> files = createFileData(context);
@@ -58,7 +58,6 @@ namespace AmeCaseBookOrg.Migrations
 
         private List<File> CreateFlagImages(AmeCaseBookOrg.Models.ApplicationDbContext context)
         {
-            string imageFolder = "D:\\Working\\AmiCaseBook\\Source\\AmiCaseBook\\AmeCaseBookOrg\\img\\";
             
             var files = new List<File>()
             {
@@ -113,14 +112,14 @@ namespace AmeCaseBookOrg.Migrations
                 {
                     FileName = "b_img.jpg",
                     ContentType = "Image",
-                    Content = imageToByteArray( Image.FromFile("D:\\Working\\AmiCaseBook\\Source\\AmiCaseBook\\AmeCaseBookOrg\\img\\b_img.jpg")),
+                    Content = imageToByteArray( Image.FromFile(imageFolder+ "b_img.jpg")),
                     FileType = FileType.Avatar
                  },
                 new File
                 {
                     FileName = "Belgium.png",
                     ContentType = "Image",
-                    Content = imageToByteArray( Image.FromFile("D:\\Working\\Amicasebook\\Source\\AmiCaseBook\\AmeCaseBookOrg\\img\\Belgium.png")),
+                    Content = imageToByteArray( Image.FromFile(imageFolder+"Belgium.png")),
                     FileType = FileType.Avatar
                  }
             };
