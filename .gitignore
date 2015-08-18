@@ -221,3 +221,5 @@ pip-log.txt
 
 #Mr Developer
 .mr.developer.cfg
+AmeCaseBookOrg/fonts/glyphicons-halflings-regular.eot
+*.csproj
