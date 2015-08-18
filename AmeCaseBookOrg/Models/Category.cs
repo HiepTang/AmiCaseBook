@@ -26,6 +26,10 @@ namespace AmeCaseBookOrg.Models
 
         [Display(Name ="Menu")]
         public Boolean IsMenu { get; set; }
-        
+
+
+
+        [InverseProperty("ParentCategory")]
+        public virtual ICollection<SubCategory> SubCategories { get; set; }
     }
 }
