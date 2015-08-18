@@ -19,10 +19,10 @@ namespace AmeCaseBookOrg.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: MyInformation
-        public ActionResult Index(String userId)
+        public ActionResult Index(String userName)
         {
             var applicationUsers = UserManager.Users.Include(a => a.Country).Include(a => a.UploadImage);
-            return View(applicationUsers.First(u => u.Id == userId));
+            return View(applicationUsers.First(u => u.UserName == userName));
         }
 
         // GET: MyInformation/Details/5
@@ -68,19 +68,19 @@ namespace AmeCaseBookOrg.Controllers
         }
 
         // GET: MyInformation/Edit/5
-        public ActionResult Edit(string id)
+        public ActionResult Edit(string UserName)
         {
-            if (id == null)
+            if (UserName == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ApplicationUser applicationUser = UserManager.FindById(id);
+            var applicationUser = UserManager.Users.Include(a => a.Country).Include(a => a.UploadImage).First(u => u.UserName == UserName);           
             if (applicationUser == null)
             {
                 return HttpNotFound();
             }
             ViewBag.CountryId = new SelectList(db.Categories, "Code", "CodeName", applicationUser.CountryId);
-            ViewBag.FileId = new SelectList(db.Files, "FileId", "FileName", applicationUser.FileId);
+            ViewBag.FileId = applicationUser.FileId;
             return View(applicationUser);
         }
 
@@ -89,9 +89,9 @@ namespace AmeCaseBookOrg.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(String id, HttpPostedFileBase upload)
+        public ActionResult Edit(string UserName, HttpPostedFileBase upload)
         {
-            var applicationUser = UserManager.FindById(id);
+            var applicationUser = UserManager.Users.First(u => u.UserName == UserName);
             if (TryUpdateModel(applicationUser,"",new String[] { "Email", "FirstName","LastName", "PhoneNumber", "CountryId", "Affiliation", "Introduction" , "LinkIn"}))
             {
                 if (upload != null && upload.ContentLength > 0)
@@ -115,7 +115,7 @@ namespace AmeCaseBookOrg.Controllers
                 }
                 db.Entry(applicationUser).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index?userId="+id);
+                return RedirectToAction("Index?userName=" + UserName);
             }
             ViewBag.CountryId = new SelectList(db.Categories, "Code", "CodeName", applicationUser.CountryId);
             ViewBag.FileId = new SelectList(db.Files, "FileId", "FileName", applicationUser.FileId);
