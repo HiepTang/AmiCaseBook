@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using AmeCaseBookOrg.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
+using MvcJqGrid;
 
 namespace AmeCaseBookOrg.Controllers
 {
@@ -100,7 +101,32 @@ namespace AmeCaseBookOrg.Controllers
             ViewBag.FileId = new SelectList(db.Files, "FileId", "FileName", applicationUser.FileId);
             return View(applicationUser);
         }
-
+        public JsonResult Search(GridSettings gridSettings, string userId)
+        {
+            var applicationUsers = UserManager.Users.Include(a => a.Country).Include(a => a.UploadImage);
+            var currentUser = applicationUsers.First(u => u.Id == userId);
+            int totalRecords = currentUser.DataItems==null ? 0 : currentUser.DataItems.Count;
+            int index = 1;
+            var jsonData = new
+            {
+                total = totalRecords / gridSettings.PageSize + 1,
+                page = gridSettings.PageIndex,
+                records = totalRecords,
+                rows = (
+                    from a in currentUser.DataItems
+                    select new
+                    {
+                        No = index++,
+                        Category = a.SubCategory.CodeName,
+                        Title = a.Title,
+                        InsertDate = a.CreatedDate,
+                        EditDate = a.LastUpdatedDate,
+                        Author = a.CreatedUser.FullName
+                    }
+                )
+            };
+            return Json(jsonData);
+        }
         // GET: MyInformation/Delete/5
         public ActionResult Delete(string id)
         {
