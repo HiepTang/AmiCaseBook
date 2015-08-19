@@ -1,0 +1,113 @@
+﻿@using MvcJqGrid
+@using MvcJqGrid.Enums
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutJQGrid.cshtml";
+}
+<div id="sub_tit">
+    <ul>
+        <li>Common Code</li>
+    </ul>
+</div>
+<script type="text/javascript">
+    var mainCategoryGrid = { demo: {} };
+
+    mainCategoryGrid.demo.buttonize = function (cellvalue, options, rowobject) {
+        return '<a onclick="return mainCategoryGrid.demo.edit(' + options.rowId + ')" href="#"><div class="ui-icon ui-icon-pencil" style="display:inline-block"></div></a>' +
+               '<a onclick="return mainCategoryGrid.demo.delete(' + options.rowId + ')" href="#"><div class="ui-icon ui-icon-trash" style="display:inline-block"></div></a>';
+
+    }
+
+    mainCategoryGrid.demo.edit = function (id) {
+        alert("Edit for  " + id);
+        return false;
+    }
+
+    mainCategoryGrid.demo.delete = function (id) {
+        alert("Delete for  " + id);
+        return false;
+    }
+    function onMainRowSelected(rowid, status) {
+        alert('This row has id: ' + rowid + " status:" + status);
+        
+    }
+
+    var subCategoryGrid = { demo: {} };
+
+    subCategoryGrid.demo.buttonize = function (cellvalue, options, rowobject) {
+        return '<a onclick="return subCategoryGrid.demo.edit(' + options.rowId + ')" href="#"><div class="ui-icon ui-icon-pencil" style="display:inline-block"></div></a>' +
+               '<a onclick="return subCategoryGrid.demo.delete(' + options.rowId + ')" href="#"><div class="ui-icon ui-icon-trash" style="display:inline-block"></div></a>';
+
+    }
+
+    subCategoryGrid.demo.edit = function (id) {
+        alert("Edit for  " + id);
+        return false;
+    }
+
+    subCategoryGrid.demo.delete = function (id) {
+        alert("Delete for  " + id);
+        return false;
+    }
+    function onSubRowSelected(rowid, status) {
+        alert('This row has id: ' + rowid);
+    }
+</script>
+<div id="contents">
+    <div class="navi"> Home > Adamin > <span>Common Code</span> </div>
+    <div style="width:960px;margin:0 auto;">
+        <div class="myinfo_t2" style="width:450px;float:left;padding-right:10px;border-right:1px dotted #999;">
+            <h1 style="font-size:15px;">Main Code</h1>
+            <p>&nbsp;</p>
+            @Html.ActionLink("Add Record", "Create", new { controller = "CommonCode" }, new { @class = "bt_green" })
+            @(Html.Grid("mainCategoryGrid")
+            .SetRequestType(RequestType.Post)
+            .SetJsonReader(new MvcJqGrid.DataReaders.JsonReader { Id = "Code", RepeatItems = false })
+            .AddColumn(new Column("No").SetLabel("No"))
+            .AddColumn(new Column("Code").SetLabel("Code"))
+            .AddColumn(new Column("CodeName").SetLabel("Code Name"))
+            .AddColumn(new Column("URL").SetLabel("URL"))
+            .AddColumn(new Column("Memo").SetLabel("Memo"))
+           .AddColumn(new Column("&nbsp;").SetSearch(false).SetCustomFormatter("mainCategoryGrid.demo.buttonize")
+                                        .SetWidth(25)
+                                    .SetAlign(Align.Right))
+            .SetUrl(Url.Action("SearchMainCategory", "CommonCode"))
+            .SetAutoWidth(true)
+            .SetRowNum(10)
+            .SetRowList(new[] { 10, 15, 20, 50 })
+            .SetViewRecords(true)
+            .SetPager("pager")
+            .SetSearchToolbar(true).SetSearchOnEnter(false)
+            .OnSelectRow("onMainRowSelected(rowid, status)")
+            )
+           
+        </div>
+        <div class="myinfo_t2" style="width:450px;float:left;padding-left:10px;">
+            <h1 style="font-size:15px;">Sub Code</h1>
+            <p style="color:#9d9d9d;">Select top code: (102011) Top Menu</p>
+            
+            @Html.ActionLink("Add Record", "Create", new { controller = "CommonCode" }, new { @class = "bt_green" })
+            @(Html.Grid("subCategoryGrid")
+            .SetRequestType(RequestType.Post)
+            .SetJsonReader(new MvcJqGrid.DataReaders.JsonReader { Id = "Code", RepeatItems = false })
+            .AddColumn(new Column("No").SetLabel("No"))
+            .AddColumn(new Column("Code").SetLabel("Code"))
+            .AddColumn(new Column("CodeName").SetLabel("Code Name"))
+            .AddColumn(new Column("URL").SetLabel("URL"))
+            .AddColumn(new Column("MEMO").SetLabel("MEMO"))
+           .AddColumn(new Column("&nbsp;").SetSearch(false).SetCustomFormatter("subCategoryGrid.demo.buttonize")
+                                        .SetWidth(25)
+                                    .SetAlign(Align.Right))
+            .SetUrl(Url.Action("SearchSubCategory", "CommonCode"))
+            .SetAutoWidth(true)
+            .SetRowNum(10)
+            .SetRowList(new[] { 10, 15, 20, 50 })
+            .SetViewRecords(true)
+            .SetPager("pager1")
+            .SetSearchToolbar(true).SetSearchOnEnter(false)
+            .OnSelectRow("onSubRowSelected(rowid, status)")
+            )
+        </div>
+    </div>
+</div>
+
