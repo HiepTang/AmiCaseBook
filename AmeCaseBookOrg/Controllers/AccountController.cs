@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using AmeCaseBookOrg.Models;
+using System.Data.Entity;
 
 namespace AmeCaseBookOrg.Controllers
 {
@@ -480,6 +481,14 @@ namespace AmeCaseBookOrg.Controllers
                 context.HttpContext.GetOwinContext().Authentication.Challenge(properties, LoginProvider);
             }
         }
+        #endregion
+        #region myInformation
+        public ActionResult MyInfo(String userName)
+        {
+            var applicationUsers = UserManager.Users.Include(a => a.Country).Include(a => a.UploadImage);
+            return View(applicationUsers.First(u => u.UserName == userName));
+        }
+
         #endregion
     }
 }

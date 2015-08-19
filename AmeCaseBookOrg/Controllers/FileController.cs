@@ -1,4 +1,5 @@
 ﻿using AmeCaseBookOrg.Models;
+using AmeCaseBookOrg.Service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,11 +10,15 @@ namespace AmeCaseBookOrg.Controllers
 {
     public class FileController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private IFileService fileService;
+        public FileController (IFileService service)
+        {
+            fileService = service;
+        }
         // GET: File
         public ActionResult Index(int id)
         {
-            var fileToRetrieve = db.Files.Find(id);
+            var fileToRetrieve = fileService.getFile(id);
             return File(fileToRetrieve.Content, fileToRetrieve.ContentType);
         }
     }

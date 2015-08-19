@@ -1,0 +1,88 @@
+﻿@model AmeCaseBookOrg.Models.ApplicationUser
+@using MvcJqGrid
+@using MvcJqGrid.Enums
+
+@{
+    ViewBag.Title = "My Information";
+    Layout = "~/Views/Shared/_LayoutJQGrid.cshtml";
+}
+
+<div id="sub_tit">
+    <ul>
+        <li>My Information</li>
+
+    </ul>
+
+</div>
+
+<div class="navi">
+    @Html.ActionLink("Home", "Index", "Home") > @Html.ActionLink("Admin", "Index", "Admin")  > <span>My Information</span>
+
+</div>
+@using (Html.BeginForm("EditAccount","Account",FormMethod.Get))
+{
+    @Html.AntiForgeryToken()
+    <div class="myinfo_t">
+        <table>
+            <tr>
+                <td rowspan="5" style="width:200px;padding:15px;text-align:center;"><img src="data:image;base64,@System.Convert.ToBase64String(Model.UploadImage.Content)" /></td>
+                <th> <i class="fa fa-chevron-circle-right"></i> Name </th>
+                <td colspan="3" class="border_right">@Html.DisplayFor(model => model.FullName)</td>
+            </tr>
+            <tr>
+                <th> <i class="fa fa-chevron-circle-right"></i> Tel </th>
+                <td>@Html.DisplayFor(model => model.PhoneNumber) </td>
+                <th> <i class="fa fa-chevron-circle-right"></i> Email </th>
+                <td class="border_right">@Html.DisplayFor(model => model.Email) </td>
+            </tr>
+            <tr>
+                <th><i class="fa fa-chevron-circle-right"></i> Address </th>
+                <td colspan="3" class="border_right"> </td>
+            </tr>
+            <tr>
+                <th><i class="fa fa-chevron-circle-right"></i> Country </th>
+                <td>@Html.DisplayFor(model => model.Country.CodeName) </td>
+                <th> <i class="fa fa-chevron-circle-right"></i> Affiliation </th>
+                <td class="border_right">@Html.DisplayFor(model => model.Affiliation) </td>
+            </tr>
+            <tr>
+                <th><i class="fa fa-chevron-circle-right"></i> Introduction </th>
+                <td>@Html.DisplayFor(model => model.Introduction) </td>
+                <th><i class="fa fa-chevron-circle-right"></i> Link In </th>
+                <td class="border_right">@Html.DisplayFor(model => model.LinkIn) </td>
+            </tr>
+            <tr>
+                <td colspan="5" rowspan="5" style="height:80px;border:0px;">
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                           @Html.HiddenFor(model => model.UserName)
+                            <input type="submit" value="EDIT" class="bt_blue_button" style="color:#fff;" />
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+}
+<div class="myinfo_t2" style="width: 960px">
+    @(Html.Grid("myInfoGrid")
+        .SetRequestType(RequestType.Post)
+        .SetJsonReader(new MvcJqGrid.DataReaders.JsonReader { Id = "Id", RepeatItems = false })
+        .SetCaption("My case document list")
+        .AddColumn(new Column("No").SetLabel("No"))
+        .AddColumn(new Column("Category").SetLabel("Category"))
+        .AddColumn(new Column("Title").SetLabel("Title"))
+        .AddColumn(new Column("InsertDate").SetLabel("Insert date"))
+        .AddColumn(new Column("EditDate").SetLabel("Edit date"))
+        .AddColumn(new Column("Author").SetLabel("Author"))
+
+    .SetUrl(Url.Action("Search", "MyInformation", new { userId = Model.Id }))
+    .SetAutoWidth(true)
+    .SetRowNum(10)
+    .SetRowList(new[] { 10, 15, 20, 50 })
+    .SetViewRecords(true)
+    .SetPager("pager")
+    .SetSearchToolbar(true).SetSearchOnEnter(false)
+
+    )
+</div>
