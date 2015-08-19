@@ -11,7 +11,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.AspNet.Identity;
 using MvcJqGrid;
 using AmeCaseBookOrg.Service;
-
+using AutoMapper;
 
 namespace AmeCaseBookOrg.Controllers
 {
@@ -20,18 +20,16 @@ namespace AmeCaseBookOrg.Controllers
     {
         private ApplicationUserManager _userManager;
         private ICategoryService categoryService;
-
-        private ApplicationDbContext db = new ApplicationDbContext();
-
+        private IFileService _fileService;
 
         public MemberController()
         {
 
         }
 
-        public MemberController(ICategoryService categoryService)
+        public MemberController(ICategoryService categoryService, IFileService fileService)
         {
-
+            _fileService = fileService;
             this.categoryService = categoryService;
         }
 
@@ -96,8 +94,7 @@ namespace AmeCaseBookOrg.Controllers
         // GET: Member/Create
         public ActionResult Create()
         {
-            ViewBag.CountryId = new SelectList(categoryService.GetCountries(), "Code", "CodeName");
-            ViewBag.FileId = new SelectList(db.Files, "FileId", "FileName");
+            ViewBag.CountryId = new SelectList(categoryService.GetCountries(), "Code", "CodeName");           
             return View();
         }
 
@@ -106,19 +103,48 @@ namespace AmeCaseBookOrg.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,LastName,FirstName,Affiliation,Introduction,LinkIn,FileId,CountryId,Email,EmailConfirmed,PasswordHash,SecurityStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEndDateUtc,LockoutEnabled,AccessFailedCount,UserName")] ApplicationUser applicationUser)
+        public ActionResult Create(UserViewModel model, HttpPostedFileBase upload)
         {
             if (ModelState.IsValid)
             {
-                UserManager.Create(applicationUser, applicationUser.PasswordHash);
-                return RedirectToAction("Index");
-            }
+                var applicationUser = Mapper.Map<ApplicationUser>(model);
+                if (upload != null && upload.ContentLength > 0)
+                {
+                    using (var reader = new System.IO.BinaryReader(upload.InputStream))
+                    {
+                        var avatar = new File
+                        {
+                            FileName = upload.FileName,
+                            FileType = FileType.Avatar,
+                            ContentType = upload.ContentType,
+                            Content = reader.ReadBytes(upload.ContentLength)
+                        };
+                        File outFile = _fileService.addFile(avatar);
+                        applicationUser.UploadImage = outFile;
+                    };
 
-            ViewBag.CountryId = new SelectList(db.Categories, "Code", "CodeName", applicationUser.CountryId);
-            ViewBag.FileId = new SelectList(db.Files, "FileId", "FileName", applicationUser.FileId);
-            return View(applicationUser);
+
+                }
+
+                var result = UserManager.Create(applicationUser, model.Password);
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    AddErrors(result);
+                }
+            }  
+            return View(model);
         }
-
+        private void AddErrors(IdentityResult result)
+        {
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError("", error);
+            }
+        }
         // GET: Member/Edit/5
         public ActionResult Edit(string id)
         {
@@ -131,8 +157,6 @@ namespace AmeCaseBookOrg.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.CountryId = new SelectList(db.Categories, "Code", "CodeName", applicationUser.CountryId);
-            ViewBag.FileId = new SelectList(db.Files, "FileId", "FileName", applicationUser.FileId);
             return View(applicationUser);
         }
 
@@ -145,12 +169,10 @@ namespace AmeCaseBookOrg.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(applicationUser).State = EntityState.Modified;
-                db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.CountryId = new SelectList(db.Categories, "Code", "CodeName", applicationUser.CountryId);
-            ViewBag.FileId = new SelectList(db.Files, "FileId", "FileName", applicationUser.FileId);
+            //ViewBag.CountryId = new SelectList(db.Categories, "Code", "CodeName", applicationUser.CountryId);
+           //viewBag.FileId = new SelectList(db.Files, "FileId", "FileName", applicationUser.FileId);
             return View(applicationUser);
         }
 
@@ -180,11 +202,7 @@ namespace AmeCaseBookOrg.Controllers
         }
 
         protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
+        {           
             base.Dispose(disposing);
         }
     }

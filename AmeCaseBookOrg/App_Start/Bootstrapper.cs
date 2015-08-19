@@ -9,7 +9,12 @@ namespace AmeCaseBookOrg.App_Start
 {
     public class Bootstrapper
     {
-        public static void SetAutofacContainer()
+        public static void run()
+        {
+            SetAutofacContainer();
+            AutoMapperConfiguration.Configure();
+        }
+        private static void SetAutofacContainer()
         {
             var builder = new ContainerBuilder();
             builder.RegisterControllers(Assembly.GetExecutingAssembly());
