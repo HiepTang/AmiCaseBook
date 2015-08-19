@@ -8,6 +8,9 @@ namespace AmeCaseBookOrg.Service
 {
     public interface IFileService
     {
-        File getFile(int fileId);
+        File getFile (int fileId);
+        File addFile (File file);
+        bool deleteFile (File file);
+        void saveFile();
     }
 }

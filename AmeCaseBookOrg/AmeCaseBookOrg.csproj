@@ -187,7 +187,6 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MemberController.cs" />
-    <Compile Include="Controllers\MyInformationController.cs" />
     <Compile Include="DAL\Infrastructure\DbFactory.cs" />
     <Compile Include="DAL\Infrastructure\Disposable.cs" />
     <Compile Include="DAL\Infrastructure\IDbFactory.cs" />
@@ -435,11 +434,6 @@
     <Content Include="Views\Member\Edit.cshtml" />
     <Content Include="Views\Member\Index.cshtml" />
     <Content Include="Views\Shared\_LayoutJQGrid.cshtml" />
-    <Content Include="Views\MyInformation\Create.cshtml" />
-    <Content Include="Views\MyInformation\Delete.cshtml" />
-    <Content Include="Views\MyInformation\Details.cshtml" />
-    <Content Include="Views\MyInformation\Edit.cshtml" />
-    <Content Include="Views\MyInformation\Index.cshtml" />
     <Content Include="Views\Account\MyInfo.cshtml" />
     <Content Include="Views\Account\EditAccount.cshtml" />
   </ItemGroup>
