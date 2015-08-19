@@ -33,7 +33,7 @@ namespace AmeCaseBookOrg.Service
 
         public IEnumerable<MainCategory> GetMainCategories()
         {
-            return appContext.MainCategories.ToList();
+            return appContext.MainCategories;
         }
 
         public IEnumerable<MainCategory> GetMainCategories(ApplicationUser user)
@@ -60,12 +60,17 @@ namespace AmeCaseBookOrg.Service
         {
             // First, find the MainCategory Country
             MainCategory countryMainCategory = appContext.MainCategories.Where(c => c.CodeName == "Country").FirstOrDefault();
-            List<SubCategory> countries = null;
+            IEnumerable<SubCategory> countries = null;
             if(countryMainCategory != null)
             {
-                countries = countryMainCategory.SubCategories.ToList();
+                countries = countryMainCategory.SubCategories;
             }
             return countries;
+        }
+
+        public IEnumerable<MainMenu> GetMainMenus()
+        {
+            return appContext.MainMenus;
         }
 
         public void SaveCategory()

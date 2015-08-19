@@ -18,6 +18,8 @@ namespace AmeCaseBookOrg.Models
         public DbSet<Category> Categories { get; set; }
 
         public DbSet<MainCategory> MainCategories { get; set; }
+
+        public DbSet<MainMenu> MainMenus { get; set; }
         public DbSet<File> Files { get; set; }
 
         public DbSet<DataItem> DataItems { get; set; }

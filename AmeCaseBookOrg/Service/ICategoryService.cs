@@ -22,6 +22,8 @@ namespace AmeCaseBookOrg.Service
 
         IEnumerable<SubCategory> GetCountries();
 
+        IEnumerable<MainMenu> GetMainMenus();
+
         Category GetCategory(int Code);
 
         void CreateCategory(Category category);
