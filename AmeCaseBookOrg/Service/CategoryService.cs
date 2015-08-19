@@ -17,7 +17,7 @@ namespace AmeCaseBookOrg.Service
 
         public void CreateCategory(Category category)
         {
-            throw new NotImplementedException();
+            appContext.Categories.Add(category);
         }
 
         public IEnumerable<Category> GetCategories()
@@ -27,12 +27,13 @@ namespace AmeCaseBookOrg.Service
 
         public Category GetCategory(int Code)
         {
-            throw new NotImplementedException();
+            var category = appContext.Categories.Find(Code);
+            return category;
         }
 
         public IEnumerable<MainCategory> GetMainCategories()
         {
-            return appContext.MainCategories.ToList();
+            return appContext.MainCategories;
         }
 
         public IEnumerable<MainCategory> GetMainCategories(ApplicationUser user)
@@ -55,9 +56,26 @@ namespace AmeCaseBookOrg.Service
             throw new NotImplementedException();
         }
 
+        public IEnumerable<SubCategory> GetCountries()
+        {
+            // First, find the MainCategory Country
+            MainCategory countryMainCategory = appContext.MainCategories.Where(c => c.CodeName == "Country").FirstOrDefault();
+            IEnumerable<SubCategory> countries = null;
+            if(countryMainCategory != null)
+            {
+                countries = countryMainCategory.SubCategories;
+            }
+            return countries;
+        }
+
+        public IEnumerable<MainMenu> GetMainMenus()
+        {
+            return appContext.MainMenus;
+        }
+
         public void SaveCategory()
         {
-            throw new NotImplementedException();
+            appContext.SaveChanges();
         }
     }
 }

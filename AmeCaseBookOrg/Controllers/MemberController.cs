@@ -10,6 +10,7 @@ using AmeCaseBookOrg.Models;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.AspNet.Identity;
 using MvcJqGrid;
+using AmeCaseBookOrg.Service;
 
 
 namespace AmeCaseBookOrg.Controllers
@@ -18,6 +19,7 @@ namespace AmeCaseBookOrg.Controllers
     public class MemberController : Controller
     {
         private ApplicationUserManager _userManager;
+        private ICategoryService categoryService;
 
         private ApplicationDbContext db = new ApplicationDbContext();
 
@@ -27,10 +29,10 @@ namespace AmeCaseBookOrg.Controllers
 
         }
 
-        public MemberController(ApplicationUserManager userManager)
+        public MemberController(ICategoryService categoryService)
         {
 
-            UserManager = userManager; 
+            this.categoryService = categoryService;
         }
 
         public ApplicationUserManager UserManager
@@ -94,7 +96,7 @@ namespace AmeCaseBookOrg.Controllers
         // GET: Member/Create
         public ActionResult Create()
         {
-            ViewBag.CountryId = new SelectList(db.Categories, "Code", "CodeName");
+            ViewBag.CountryId = new SelectList(categoryService.GetCountries(), "Code", "CodeName");
             ViewBag.FileId = new SelectList(db.Files, "FileId", "FileName");
             return View();
         }

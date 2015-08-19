@@ -20,6 +20,9 @@ namespace AmeCaseBookOrg.Service
 
         IEnumerable<SubCategory> GetSubCategories(MainCategory mainCategory, ApplicationUser user);
 
+        IEnumerable<SubCategory> GetCountries();
+
+        IEnumerable<MainMenu> GetMainMenus();
 
         Category GetCategory(int Code);
 

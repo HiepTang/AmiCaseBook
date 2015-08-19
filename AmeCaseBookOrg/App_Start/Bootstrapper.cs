@@ -16,6 +16,7 @@ namespace AmeCaseBookOrg.App_Start
             builder.RegisterType<DbFactory>().As<IDbFactory>().InstancePerRequest();
 
             builder.RegisterType<FileService>().As<IFileService>().InstancePerRequest();
+            builder.RegisterType<CategoryService>().As<ICategoryService>().InstancePerRequest();
 
             IContainer container = builder.Build();
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
