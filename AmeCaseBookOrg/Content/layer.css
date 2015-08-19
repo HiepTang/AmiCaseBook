@@ -24,6 +24,7 @@
  .f_pw {float:left;width:300px;text-align:right;line-height:20px;}
  .bt_login {float:left;width:400px;line-height:57px;background:#e0eeeb;text-align:center;border-right:1px solid #c7c7c7; border-top:1px solid #cad5d4;}
  .bt_login a:link{display:block;float:left;width:400px;line-height:57px;background:#52b4de;color:#fff;font-size:20px; text-decoration:none;}
+ .bt_login_button{display:block;float:left;width:400px;line-height:57px;background:#52b4de;color:#fff;font-size:20px; text-decoration:none;}
  .bt_login a:visited {background:#52b4de;color:#fff;}
  .bt_login a:hover{background:#3c7ea2;}
  .google_bt {text-align:center;padding:20px 60px;}

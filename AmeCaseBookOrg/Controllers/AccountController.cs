@@ -9,6 +9,9 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using AmeCaseBookOrg.Models;
+using System.Data.Entity;
+using AmeCaseBookOrg.Service;
+using System.Net;
 
 namespace AmeCaseBookOrg.Controllers
 {
@@ -17,9 +20,12 @@ namespace AmeCaseBookOrg.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
-
-        public AccountController()
+        private IFileService _fileService;
+        private ICategoryService _categoryService;
+        public AccountController(IFileService fileService, ICategoryService categoryService)
         {
+            _fileService = fileService;
+            _categoryService = categoryService;
         }
 
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
@@ -153,6 +159,7 @@ namespace AmeCaseBookOrg.Controllers
             {
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
                 var result = await UserManager.CreateAsync(user, model.Password);
+                
                 if (result.Succeeded)
                 {
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
@@ -479,6 +486,73 @@ namespace AmeCaseBookOrg.Controllers
                 }
                 context.HttpContext.GetOwinContext().Authentication.Challenge(properties, LoginProvider);
             }
+        }
+        #endregion
+        #region myInformation
+        public ActionResult MyInfo()
+        {
+            var applicationUsers = UserManager.Users.Include(a => a.Country).Include(a => a.UploadImage);
+            return View(applicationUsers.First(u => u.UserName == User.Identity.Name));
+        }
+        // GET: MyInformation/Edit/5
+        public ActionResult EditAccount()
+        {
+            var applicationUser = UserManager.Users.Include(a => a.Country).Include(a => a.UploadImage).First(u => u.UserName == User.Identity.Name);
+            if (applicationUser == null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.CountryId = new SelectList(_categoryService.GetCategories(), "Code", "CodeName", applicationUser.CountryId);
+            ViewBag.FileId = applicationUser.FileId;
+            return View(applicationUser);
+        }
+
+        // POST: MyInformation/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditAccount( HttpPostedFileBase upload)
+        {
+            var applicationUser = UserManager.Users.First(u => u.UserName == User.Identity.Name);
+            if (TryUpdateModel(applicationUser, "", new String[] { "Email", "FirstName", "LastName", "PhoneNumber", "CountryId", "Affiliation", "Introduction", "LinkIn" }))
+            {
+                if (upload != null && upload.ContentLength > 0)
+                {
+                    String fileName = System.IO.Path.GetFileName(upload.FileName);
+                    String contentType = upload.ContentType;
+                    byte[] content = null;
+                    using (var reader = new System.IO.BinaryReader(upload.InputStream))
+                    {
+                        content = reader.ReadBytes(upload.ContentLength);
+                    }
+                    if (applicationUser.UploadImage != null)
+                    {                       
+                        File oldFile = _fileService.getFile(applicationUser.UploadImage.FileId);
+                        oldFile.FileName = fileName;
+                        oldFile.Content = content;
+                        oldFile.ContentType = contentType;
+                        _fileService.saveFile();
+                    }
+                    else
+                    {
+                        var avatar = new File
+                        {
+                            FileName = fileName,
+                            FileType = FileType.Avatar,
+                            ContentType = contentType,
+                            Content = content
+                        };
+                        File outFile = _fileService.addFile(avatar);
+                        applicationUser.UploadImage = outFile;
+                    }                                   
+                }
+                UserManager.Update(applicationUser);               
+                return RedirectToAction("MyInfo");
+            }
+            ViewBag.CountryId = new SelectList(_categoryService.GetCategories(), "Code", "CodeName", applicationUser.CountryId);
+    
+            return View(applicationUser);
         }
         #endregion
     }

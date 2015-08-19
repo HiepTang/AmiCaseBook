@@ -19,7 +19,7 @@
     @Html.ActionLink("Home", "Index", "Home") > @Html.ActionLink("Admin", "Index", "Admin")  > <span>My Information</span>
 
 </div>
-@using (Html.BeginForm("edit","MyInformation",FormMethod.Get))
+@using (Html.BeginForm("EditAccount","Account",FormMethod.Get))
 {
     @Html.AntiForgeryToken()
     <div class="myinfo_t">

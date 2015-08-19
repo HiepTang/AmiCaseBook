@@ -18,12 +18,12 @@
 
 </div>
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm("Create", "Member", FormMethod.Post, new { enctype = "multipart/form-data" })) 
 {
     @Html.AntiForgeryToken()
 
     <div class="datail_v">
-
+        @Html.ValidationSummary("", new { @class = "text-danger" })
         <div class="myinfo_add_ta">
             <table>
                 <tr>
@@ -31,6 +31,20 @@
                     <td colspan="3">
                         @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                    </td>
+                </tr>
+                <tr>
+                    <th><i class="fa fa-chevron-circle-right"> </i> Password</th>
+                    <td colspan="3">
+                        @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                    </td>
+                </tr>
+                <tr>
+                    <th><i class="fa fa-chevron-circle-right"> </i> ConfirmPassword</th>
+                    <td colspan="3">
+                        @Html.EditorFor(model => model.ConfirmPassword, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
                     </td>
                 </tr>
                 <tr>
@@ -78,7 +92,7 @@
                 <tr>
                     <th><i class="fa fa-chevron-circle-right"> </i> Image</th>
                     <td colspan="3">
-                        <input type="file" id="Avatar" name="upload" />
+                        <input type="file" id="Avatar" name="upload" class="re_input" style="width:300px;text-align:left;" />
                     </td>
                 </tr>
                 <tr>

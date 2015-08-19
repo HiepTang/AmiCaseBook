@@ -14,12 +14,17 @@ namespace AmeCaseBookOrg.Service
 
         IEnumerable<MainCategory> GetMainCategories();
 
-        IEnumerable<MainCategory> GetMainCategories(ApplicationUser user);
+        IEnumerable<MainMenu> GetMainMenus(ApplicationUser user);
 
-        IEnumerable<SubCategory> GetSubCategories(ApplicationUser user);
+        IEnumerable<SubMenu> GetSubMenus(ApplicationUser user);
+
+        IEnumerable<SubMenu> GetSubMenus(ApplicationUser user, MainMenu mainMenu);
 
         IEnumerable<SubCategory> GetSubCategories(MainCategory mainCategory, ApplicationUser user);
 
+        IEnumerable<SubCategory> GetCountries();
+
+        IEnumerable<MainMenu> GetMainMenus();
 
         Category GetCategory(int Code);
 
