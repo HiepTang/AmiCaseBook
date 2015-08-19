@@ -24,12 +24,12 @@
                 <ul class="log_w">
                     <li class="log_lef"> E-mail </li>
                     <li class="log_input">
-                        @Html.TextBoxFor(m => m.Email)
+                        @Html.TextBoxFor(m => m.Email, new { @class = "email" })
                         @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
                     </li>
                     <li class="log_lef">Password </li>
                     <li class="log_input"> 
-                        @Html.PasswordFor(m => m.Password)
+                        @Html.PasswordFor(m => m.Password, new { @class = "pw" })
                         @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
                     </li>
                     <li class="f_pw"> <a href="pw.asp" style="color:#50aada;">forgot password?</a></li>
@@ -40,7 +40,7 @@
 
                 <ul class="bt_login">
                     <li>
-                        <input type="submit" value="Log in" class="btn btn-default" />
+                        <input type="submit" value="Log in" class="bt_login_button" />
                     </li>
                 </ul>
             }
