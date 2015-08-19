@@ -44,7 +44,7 @@ namespace AmeCaseBookOrg.Models
 
         public virtual MainCategory MainCategory { get; set; }
         
-        public virtual SubCategory SubCategory { get; set; }
+        public virtual SubMenu SubCategory { get; set; }
         
         [ForeignKey("CountryID")]
         public virtual SubCategory Country { get; set; }

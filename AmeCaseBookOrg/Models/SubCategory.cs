@@ -22,9 +22,5 @@ namespace AmeCaseBookOrg.Models
         [ForeignKey("ParentCategoryCode")]
         public virtual Category ParentCategory { get; set; }
 
-        public virtual ICollection<ApplicationUser> GrantForUsers { get; set; }
-
-        [InverseProperty("SubCategory")]
-        public virtual ICollection<DataItem> DataItems { get; set; }
     }
 }

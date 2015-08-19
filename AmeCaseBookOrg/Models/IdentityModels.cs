@@ -65,7 +65,7 @@ namespace AmeCaseBookOrg.Models
         [ForeignKey("CountryId")]
         public virtual SubCategory Country { get; set; }
 
-        public virtual ICollection<SubCategory> CanAccessCategories { get; set; }
+        public virtual ICollection<SubMenu> CanAccessCategories { get; set; }
         
         [InverseProperty("CreatedUser")]
         public  virtual ICollection<DataItem> DataItems { get; set; }

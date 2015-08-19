@@ -239,6 +239,7 @@
     <Compile Include="Service\CategoryService.cs" />
     <Compile Include="Service\FileService.cs" />
     <Compile Include="Service\ICategoryService.cs" />
+    <Compile Include="Service\IDataItemService.cs" />
     <Compile Include="Service\IFileService.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
