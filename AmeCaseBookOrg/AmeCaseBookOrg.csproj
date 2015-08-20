@@ -242,11 +242,15 @@
     <Compile Include="Models\SubMenu.cs" />
     <Compile Include="Models\UserViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service\AnnouncementService.cs" />
     <Compile Include="Service\CategoryService.cs" />
     <Compile Include="Service\FileService.cs" />
+    <Compile Include="Service\IAnnouncementService.cs" />
     <Compile Include="Service\ICategoryService.cs" />
     <Compile Include="Service\IDataItemService.cs" />
     <Compile Include="Service\IFileService.cs" />
+    <Compile Include="Service\IMemberService.cs" />
+    <Compile Include="Service\MemberService.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>

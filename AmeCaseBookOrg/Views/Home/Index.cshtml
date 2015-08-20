@@ -1,5 +1,9 @@
 ﻿@{
     ViewBag.Title = "Home Page";
+    IEnumerable<AmeCaseBookOrg.Models.Announcement> announcements = ViewBag.Announcements;
+    IEnumerable<AmeCaseBookOrg.Models.SubCategory> countries = ViewBag.Countries;
+    IEnumerable<AmeCaseBookOrg.Models.ApplicationUser> contributors = ViewBag.Contributors;
+
 }
 
 <div id="banner">
@@ -10,21 +14,15 @@
         <div class="announcements">
             <h1><span style="display:none">announcements</span></h1>
             <ul>
-                <li>
-                    <span class="day">23.12.10 friday</span><br />
-                    <a href="#">(Workshop) ISGAN-GSGF Smart Grid Workshop in Lecco  </a><br />
-                    I am glad to inform you that ISGAN is hosting its 7th international smart grid workshop in Lecco in September 2015. More details are as below..
-                </li>
-                <li>
-                    <span class="day">23.12.10 friday</span><br />
-                    <a href="#">(Workshop) ISGAN-GSGF Smart Grid Workshop in Lecco  </a><br />
-                    I am glad to inform you that ISGAN is hosting its 7th international smart grid workshop in Lecco in September 2015. More details are as below..
-                </li>
-                <li>
-                    <span class="day">23.12.10 friday</span><br />
-                    <a href="#">(Workshop) ISGAN-GSGF Smart Grid Workshop in Lecco  </a><br />
-                    I am glad to inform you that ISGAN is hosting its 7th international smart grid workshop in Lecco in September 2015. More details are as below..
-                </li>
+                @foreach (var item in announcements)
+                {
+                    <li>
+                        <span class="day">@item.InsertDate</span><br />
+                        <a href="#">@item.Title  </a><br />
+                        @item.Content
+                    </li>
+                }
+              
             </ul>
 
         </div>
@@ -32,38 +30,25 @@
         <div class="participants">
             <h2><span style="display:none">participants</span></h2>
             <ul>
-                <li>
-                    <a href="#"><img src="~/img/Australia.png" width="32" height="23" alt="Australia" /></a>
-                    <a href="#"><img src="~/img/Austria.png" width="32" height="23" alt="Austria" /></a>
-                    <a href="#"><img src="~/img/Belgium.png" width="32" height="23" alt="Belgium" /></a>
-                    <a href="#"><img src="~/img/Canada.png" width="32" height="23" alt="Canada" /></a>
-                    <a href="#"><img src="~/img/China.png" width="32" height="23" alt="China" /></a>
-                    <a href="#"><img src="~/img/Denmark.png" width="32" height="23" alt="Denmark" /></a>
-                    <a href="#"><img src="~/img/EuropeanCommission.png" width="32" height="23" alt="EuropeanCommission" /></a>
-                </li>
-                <li>
-                    <a href="#"><img src="~/img/Finland.png" width="32" height="23" alt="Finland" /></a>
-                    <a href="#"><img src="~/img/France.png" width="32" height="23" alt="France" /></a>
-                    <a href="#"><img src="~/img/Germany.png" width="32" height="23" alt="Germany" /></a>
-                    <a href="#"><img src="~/img/India.png" width="32" height="22" alt="India" /></a>
-                    <a href="#"><img src="~/img/Ireland.png" width="32" height="23" alt="Ireland" /></a>
-                    <a href="#"><img src="~/img/Italy.png" width="32" height="23" alt="Italy" /></a>
-                    <a href="#"><img src="~/img/Korea.png" width="32" height="23" alt="Korea" /></a>
-                </li>
-                <li>
-                    <a href="#"><img src="~/img/Mexico.png" width="32" height="23" alt="Mexico" /></a>
-                    <a href="#"><img src="~/img/Norway.png" width="32" height="23" alt="Norway" /></a>
-                    <a href="#"><img src="~/img/Russia.png" width="32" height="23" alt="Russia" /></a>
-                    <a href="#"><img src="~/img/Singapore.png" width="32" height="23" alt="Singapore" /></a>
-                    <a href="#"><img src="~/img/South_Africa.png" width="32" height="23" alt="South_Africa" /></a>
-                    <a href="#"><img src="~/img/Spain.png" width="32" height="23" alt="Spain" /></a>
-                    <a href="#"><img src="~/img/Sweden.png" width="32" height="23" alt="Sweden" /></a>
-                </li>
-                <li>
-                    <a href="#"><img src="~/img/Switzerland.png" width="32" height="23" alt="Mexico" /></a>
-                    <a href="#"><img src="~/img/Netherlands.png" width="32" height="23" alt="Norway" /></a>
-                    <a href="#"><img src="~/img/United_States.png" width="32" height="23" alt="Russia" /></a>
-                </li>
+
+                @for (int i = 0; i <= countries.Count() / 7; i++)
+                {
+                    <li>
+                        @for (int j = 0; j < 7; j++)
+                        {
+                            int index = i * 7 + j;
+                            if (index < countries.Count())
+                            {
+                                AmeCaseBookOrg.Models.SubCategory country = countries.ElementAt(index);
+                                <a href="#"><img src="~/File?id=@country.ImageFileID" width="32" height="23" alt="@country.CodeName" /></a>
+                            }
+                        }
+
+                    </li>
+                    
+                   
+                }
+              
             </ul>
         </div>
     </div>
@@ -71,36 +56,17 @@
 <div id="contributors">
     <div class="tit">
         <h1>CONTRIBUTORS</h1>
-        <div class="boxgrid slideright">
-            <img class="cover" src="~/img/Dong Joo Kang.jpg">
-            <h2> Dong Joo Kang</h2>
-            <h3> Senior Researcher in Smart Grid Research Center</h3>
-            <p>Affiliation: KERI (Korea Electro-technology Research Institute)</p>
-            <p> Country: Korea</p>
-        </div>
-        <div class="boxgrid slideright">
-            <img class="cover" src="~/img/Laura Marretta.jpg">
-            <h2> Laura Marretta</h2>
-            <h3> Business Developer for Smart Grids & New Technologies</h3>
-            <p>Affiliation: ENEL Distribuzione</p>
-            <p> Country: Italy</p>
-        </div>
-        <div class="boxgrid slideright">
-            <img class="cover" src="~/img/Jon Stromsather.jpg">
-            <h2> Jon Stromsather</h2>
-            <h3> Head of Smart Grids Development </h3>
-            <p>ENEL Distribuzione </p>
-            <p> Country: Italy</p>
-        </div>
-        <div class="boxgrid slideright">
-            <img class="cover" src="~/img/Dong Joo Kang.jpg">
-            <h2> Dong Joo Kang</h2>
-            <h3> Senior Researcher in Smart Grid Research Center</h3>
-            <p>Affiliation: KERI (Korea Electro-technology Research Institute)</p>
-            <p> Country: Korea</p>
-        </div>
-
-
+        @foreach (var contributor in contributors)
+        {
+            <div class="boxgrid slideright">
+                <img class="cover" src="~/File?id=@contributor.FileId">
+                <h2> @contributor.FullName</h2>
+                <h3> @contributor.Introduction</h3>
+                <p>Affiliation: @contributor.Affiliation</p>
+                <p> Country: @contributor.Country.CodeName</p>
+            </div>
+        }
+        
 
 
     </div>
