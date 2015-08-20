@@ -193,6 +193,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MemberController.cs" />
+    <Compile Include="Controllers\MenuController.cs" />
     <Compile Include="DAL\Infrastructure\DbFactory.cs" />
     <Compile Include="DAL\Infrastructure\Disposable.cs" />
     <Compile Include="DAL\Infrastructure\IDbFactory.cs" />
@@ -450,6 +451,7 @@
     <Content Include="Views\Account\MyInfo.cshtml" />
     <Content Include="Views\Account\EditAccount.cshtml" />
     <Content Include="Views\CommonCode\Index.cshtml" />
+    <Content Include="Views\Menu\MainMenu.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
