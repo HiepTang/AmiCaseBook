@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace AmeCaseBookOrg.Models
 {
@@ -50,7 +51,7 @@ namespace AmeCaseBookOrg.Models
         [Display(Name = "Link In")]
         public string LinkIn { get; set; }
 
-        [Display(Name = "Role")]
-        public String role;
+        [Display(Name = "Admin")]
+        public bool IsAdmin;
     }
 }

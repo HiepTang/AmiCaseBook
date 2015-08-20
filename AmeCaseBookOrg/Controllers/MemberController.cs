@@ -21,7 +21,6 @@ namespace AmeCaseBookOrg.Controllers
         private ApplicationUserManager _userManager;
         private readonly ICategoryService categoryService;
         private readonly IFileService _fileService;
-
         public MemberController()
         {
 
@@ -94,7 +93,6 @@ namespace AmeCaseBookOrg.Controllers
         // GET: Member/Create
         public ActionResult Create()
         {
-            //ViewBag.Role = new SelectList(UserManager.get)
             ViewBag.CountryId = new SelectList(categoryService.GetCountries(), "Code", "CodeName");           
             return View();
         }
@@ -129,7 +127,19 @@ namespace AmeCaseBookOrg.Controllers
                 var result = UserManager.Create(applicationUser, model.Password);
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("Index");
+                    if (model.IsAdmin)
+                    {
+                        result = UserManager.AddToRole(applicationUser.Id, "Admin");
+                    }
+                    else
+                    {
+                        result = UserManager.AddToRole(applicationUser.Id, "Contributor");
+                    }                
+                    if (result.Succeeded)
+                    {
+                        return RedirectToAction("Index");
+                    }
+                    
                 }
                 else
                 {

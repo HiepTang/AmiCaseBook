@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using AmeCaseBookOrg.Models;
 using AmeCaseBookOrg.DAL.Infrastructure;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace AmeCaseBookOrg.Service
 {
@@ -22,6 +23,10 @@ namespace AmeCaseBookOrg.Service
             var usersInRole = context.Users.Where(m => m.Roles.Any(r => r.RoleId == role.Id));
 
             return usersInRole;
+        }
+        public IEnumerable<IdentityRole> GetUserRoles()
+        {
+            return context.Roles;
         }
     }
 }

@@ -103,6 +103,12 @@
                     </td>
                 </tr>
                 <tr>
+                    <th><i class="fa fa-chevron-circle-right"> </i> Role</th>
+                    <td colspan="3">
+                        @Html.CheckBoxFor(model => model.IsAdmin, new { htmlAttributes= new { @class = "form-control" } })
+                    </td>
+                </tr>
+                <tr>
                     <td colspan="3" rowspan="5" style="height:80px;border:0px;">
                         <ul class="bt_blue" style="padding-right:10px;">
                             <li>
