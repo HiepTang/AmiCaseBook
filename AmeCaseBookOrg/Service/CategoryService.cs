@@ -56,14 +56,14 @@ namespace AmeCaseBookOrg.Service
             return mainMenus;
         }
 
-        public IEnumerable<SubMenu> GetSubMenus(ApplicationUser user, MainMenu mainMenu)
+        public IEnumerable<SubCategory> GetSubMenus(ApplicationUser user, MainMenu mainMenu)
         {
-            List<SubMenu> subMenus = new List<SubMenu>();
+            List<SubCategory> subMenus = new List<SubCategory>();
 
             if(null != user.CanAccessCategories)
             {
                 // get all submenus of mainmenu
-                List<SubMenu> subAllMenus = mainMenu.GetSubMenus().ToList();
+                List<SubCategory> subAllMenus = mainMenu.GetSubMenus().ToList();
                 // all submenus have grant permission to user
                 List<SubMenu> permissionSubMenus = user.CanAccessCategories.ToList();
 
@@ -84,7 +84,7 @@ namespace AmeCaseBookOrg.Service
             throw new NotImplementedException();
         }
 
-        public IEnumerable<SubMenu> GetSubMenus(ApplicationUser user)
+        public IEnumerable<SubCategory> GetSubMenus(ApplicationUser user)
         {
             return user.CanAccessCategories;
             

@@ -187,7 +187,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
-    <Compile Include="Controllers\CommonCodeController.cs" />
+    <Compile Include="Controllers\MenuAdminController.cs" />
     <Compile Include="Controllers\CountryController.cs" />
     <Compile Include="Controllers\FileController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -454,7 +454,7 @@
     <Content Include="Views\Shared\_LayoutJQGrid.cshtml" />
     <Content Include="Views\Account\MyInfo.cshtml" />
     <Content Include="Views\Account\EditAccount.cshtml" />
-    <Content Include="Views\CommonCode\Index.cshtml" />
+    <Content Include="Views\MenuAdmin\Index.cshtml" />
     <Content Include="Views\Menu\MainMenu.cshtml" />
   </ItemGroup>
   <ItemGroup>

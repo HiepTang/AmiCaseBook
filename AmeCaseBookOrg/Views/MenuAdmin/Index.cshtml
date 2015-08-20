@@ -27,9 +27,8 @@
         alert("Delete for  " + id);
         return false;
     }
-    function onMainRowSelected(rowid, status) {
-        alert('This row has id: ' + rowid + " status:" + status);
-        
+    function onMainRowSelected(rowid, status) {       
+        $("#subCategoryGrid").jqGrid('setGridParam', { url: '/MenuAdmin/SearchSubMenu?mainCode=' + rowid }).trigger('reloadGrid');      
     }
 
     var subCategoryGrid = { demo: {} };
@@ -50,7 +49,7 @@
         return false;
     }
     function onSubRowSelected(rowid, status) {
-        alert('This row has id: ' + rowid);
+        
     }
 </script>
 <div id="contents">
@@ -63,15 +62,15 @@
             @(Html.Grid("mainCategoryGrid")
             .SetRequestType(RequestType.Post)
             .SetJsonReader(new MvcJqGrid.DataReaders.JsonReader { Id = "Code", RepeatItems = false })
-            .AddColumn(new Column("No").SetLabel("No"))
+            .AddColumn(new Column("No").SetLabel("No").SetWidth(25))
             .AddColumn(new Column("Code").SetLabel("Code"))
             .AddColumn(new Column("CodeName").SetLabel("Code Name"))
             .AddColumn(new Column("URL").SetLabel("URL"))
             .AddColumn(new Column("Memo").SetLabel("Memo"))
            .AddColumn(new Column("&nbsp;").SetSearch(false).SetCustomFormatter("mainCategoryGrid.demo.buttonize")
-                                        .SetWidth(25)
+                                        .SetWidth(55)
                                     .SetAlign(Align.Right))
-            .SetUrl(Url.Action("SearchMainCategory", "CommonCode"))
+            .SetUrl(Url.Action("SearchMainMenu", "MenuAdmin"))
             .SetAutoWidth(true)
             .SetRowNum(10)
             .SetRowList(new[] { 10, 15, 20, 50 })
@@ -85,20 +84,18 @@
         <div class="myinfo_t2" style="width:450px;float:left;padding-left:10px;">
             <h1 style="font-size:15px;">Sub Code</h1>
             <p style="color:#9d9d9d;">Select top code: (102011) Top Menu</p>
-            
             @Html.ActionLink("Add Record", "Create", new { controller = "CommonCode" }, new { @class = "bt_green" })
             @(Html.Grid("subCategoryGrid")
             .SetRequestType(RequestType.Post)
             .SetJsonReader(new MvcJqGrid.DataReaders.JsonReader { Id = "Code", RepeatItems = false })
-            .AddColumn(new Column("No").SetLabel("No"))
+            .AddColumn(new Column("No").SetLabel("No").SetWidth(25).SetFixedWidth(true))
             .AddColumn(new Column("Code").SetLabel("Code"))
             .AddColumn(new Column("CodeName").SetLabel("Code Name"))
             .AddColumn(new Column("URL").SetLabel("URL"))
-            .AddColumn(new Column("MEMO").SetLabel("MEMO"))
+            .AddColumn(new Column("Memo").SetLabel("Memo"))
            .AddColumn(new Column("&nbsp;").SetSearch(false).SetCustomFormatter("subCategoryGrid.demo.buttonize")
-                                        .SetWidth(25)
+                                        .SetWidth(55)
                                     .SetAlign(Align.Right))
-            .SetUrl(Url.Action("SearchSubCategory", "CommonCode"))
             .SetAutoWidth(true)
             .SetRowNum(10)
             .SetRowList(new[] { 10, 15, 20, 50 })
@@ -108,6 +105,5 @@
             .OnSelectRow("onSubRowSelected(rowid, status)")
             )
         </div>
-    </div>
 </div>
 

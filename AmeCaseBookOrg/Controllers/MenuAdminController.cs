@@ -10,31 +10,26 @@ using MvcJqGrid;
 
 namespace AmeCaseBookOrg.Controllers
 {
-    public class CommonCodeController : Controller
+    public class MenuAdminController : Controller
     {
         private ApplicationUserManager _userManager;
         private ICategoryService _categoryService;
-        public CommonCodeController(ICategoryService categoryService)
+        public MenuAdminController(ICategoryService categoryService)
         {
             _categoryService = categoryService;
         }
         // GET: CommonCode
-        public ActionResult Index()
+        public ActionResult Index(int? mainCode)
         {
+            if (mainCode != null)
+            {
+                ViewBag.MainCode = mainCode;
+            }
             return View();
         }
-        public JsonResult SearchMainCategory(GridSettings gridSettings)
-        {
-            ApplicationUser user = UserManager.Users.First(u => u.UserName == User.Identity.Name);
-            IEnumerable<MainMenu> mainMenus = null;
-            if (User.IsInRole("Admin"))
-            {
-                mainMenus = _categoryService.GetMainMenus();
-            }
-            else
-            {
-                mainMenus = _categoryService.GetMainMenus(user);
-            }
+        public JsonResult SearchMainMenu(GridSettings gridSettings)
+        {          
+            var mainMenus = _categoryService.GetMainMenus();         
             if(mainMenus == null)
             {
                 mainMenus = new List<MainMenu>();
@@ -60,11 +55,10 @@ namespace AmeCaseBookOrg.Controllers
             };
             return Json(jsonData);
         }
-        public JsonResult SearchSubCategory(int mainCode, GridSettings gridSettings)
-        {
-            ApplicationUser user = UserManager.Users.First(u => u.UserName == User.Identity.Name);
+        public JsonResult SearchSubMenu(int mainCode, GridSettings gridSettings)
+        {            
             var mainMenu = _categoryService.GetCategory(mainCode);
-            var subMenus = _categoryService.GetSubMenus(user, mainMenu as MainMenu);
+            var subMenus = mainMenu.SubCategories;
             var totalRecords = subMenus.Count();
             int index = 1;
             var jsonData = new
