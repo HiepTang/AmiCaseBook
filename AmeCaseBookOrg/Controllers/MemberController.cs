@@ -94,6 +94,7 @@ namespace AmeCaseBookOrg.Controllers
         // GET: Member/Create
         public ActionResult Create()
         {
+            //ViewBag.Role = new SelectList(UserManager.get)
             ViewBag.CountryId = new SelectList(categoryService.GetCountries(), "Code", "CodeName");           
             return View();
         }
@@ -124,8 +125,7 @@ namespace AmeCaseBookOrg.Controllers
                     };
 
 
-                }
-
+                }             
                 var result = UserManager.Create(applicationUser, model.Password);
                 if (result.Succeeded)
                 {

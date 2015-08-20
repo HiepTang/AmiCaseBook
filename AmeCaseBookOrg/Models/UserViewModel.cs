@@ -50,6 +50,7 @@ namespace AmeCaseBookOrg.Models
         [Display(Name = "Link In")]
         public string LinkIn { get; set; }
 
-
+        [Display(Name = "Role")]
+        public String role;
     }
 }

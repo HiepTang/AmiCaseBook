@@ -7,17 +7,24 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using AmeCaseBookOrg.Models;
+using AmeCaseBookOrg.Service;
+using MvcJqGrid;
 
 namespace AmeCaseBookOrg.Controllers
 {
-    public class CountryController : Controller
+    public class CommonCodeController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private readonly ICategoryService _categoryService;
+        public CommonCodeController( ICategoryService service)
+        {
+            _categoryService = service;
+        }
 
         // GET: Country
         public ActionResult Index()
         {
-            return View(db.Countries.ToList());
+            var mainMenus = _categoryService.GetMainCategories(false);
+            return View(mainMenus);
         }
 
         // GET: Country/Details/5
@@ -27,7 +34,7 @@ namespace AmeCaseBookOrg.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Country country = db.Countries.Find(id);
+            Country country = _categoryService.GetCountries().Where(c => c.Code == id) as Country;
             if (country == null)
             {
                 return HttpNotFound();
@@ -50,8 +57,7 @@ namespace AmeCaseBookOrg.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Countries.Add(country);
-                db.SaveChanges();
+                
                 return RedirectToAction("Index");
             }
 
@@ -65,7 +71,7 @@ namespace AmeCaseBookOrg.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Country country = db.Countries.Find(id);
+            Country country = _categoryService.GetCountries().Where(c => c.Code == id) as Country;
             if (country == null)
             {
                 return HttpNotFound();
@@ -82,8 +88,7 @@ namespace AmeCaseBookOrg.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(country).State = EntityState.Modified;
-                db.SaveChanges();
+                
                 return RedirectToAction("Index");
             }
             return View(country);
@@ -96,7 +101,7 @@ namespace AmeCaseBookOrg.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Country country = db.Countries.Find(id);
+            Country country = _categoryService.GetCountries().Where(c => c.Code == id) as Country;
             if (country == null)
             {
                 return HttpNotFound();
@@ -109,18 +114,62 @@ namespace AmeCaseBookOrg.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Country country = db.Countries.Find(id);
-            db.Countries.Remove(country);
-            db.SaveChanges();
+            Country country = _categoryService.GetCountries().Where(c => c.Code == id) as Country;
+            
             return RedirectToAction("Index");
         }
-
+        public JsonResult SearchMainCode(GridSettings gridSettings)
+        {
+            var mainMenus = _categoryService.GetMainCategories(false);
+            if (mainMenus == null)
+            {
+                mainMenus = new List<MainCategory>();
+            }
+            int totalRecords = mainMenus.Count();
+            var jsonData = new
+            {
+                total = totalRecords / gridSettings.PageSize + 1,
+                page = gridSettings.PageIndex,
+                records = totalRecords,
+                rows = (
+                   from a in mainMenus
+                   select new
+                   {
+                       Code = a.Code,
+                       CodeName = a.CodeName,
+                       URL = a.URL,
+                       Memo = a.Memo
+                   }
+               )
+            };
+            return Json(jsonData);
+        }
+        public JsonResult SearchSubCode(int mainCode, GridSettings gridSettings)
+        {
+            var mainMenu = _categoryService.GetCategory(mainCode);
+            var subMenus = mainMenu.SubCategories;
+            var totalRecords = subMenus.Count();
+            var jsonData = new
+            {
+                total = totalRecords / gridSettings.PageSize + 1,
+                page = gridSettings.PageIndex,
+                records = totalRecords,
+                rows = (
+                   from a in subMenus
+                   select new
+                   {
+                       Code = a.Code,
+                       CodeName = a.CodeName,
+                       URL = a.URL,
+                       Memo = a.Memo
+                   }
+               )
+            };
+            return Json(jsonData);
+        }
         protected override void Dispose(bool disposing)
         {
-            if (disposing)
-            {
-                db.Dispose();
-            }
+           
             base.Dispose(disposing);
         }
     }

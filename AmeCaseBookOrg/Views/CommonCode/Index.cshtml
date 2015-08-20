@@ -1,15 +1,16 @@
-﻿@model IEnumerable<AmeCaseBookOrg.Models.MainMenu>
+﻿@model IEnumerable<AmeCaseBookOrg.Models.MainCategory>
 @using MvcJqGrid
 @using MvcJqGrid.Enums
 @{
-    ViewBag.Title = "Menu Management";
+    ViewBag.Title = "Common Code";
     Layout = "~/Views/Shared/_LayoutJQGrid.cshtml";
 }
 <div id="sub_tit">
     <ul>
-        <li>Menu Management</li>
+        <li>Common Code</li>
     </ul>
 </div>
+
 <script type="text/javascript">
     var mainCategoryGrid = { demo: {} };
 
@@ -30,7 +31,7 @@
     }
     function onMainRowSelected(rowid, status) {
         $("#txtSelectedCode").html("Select top code: " + rowid);
-        $("#subCategoryGrid").jqGrid('setGridParam', { url: '/MenuAdmin/SearchSubMenu?mainCode=' + rowid }).trigger('reloadGrid');      
+        $("#subCategoryGrid").jqGrid('setGridParam', { url: '/CommonCode/SearchSubCode?mainCode=' + rowid }).trigger('reloadGrid');
     }
     
     var subCategoryGrid = { demo: {} };
@@ -52,12 +53,12 @@
     }
 </script>
 <div id="contents">
-    <div class="navi"> Home > Adamin > <span>Menu Management</span> </div>
+    <div class="navi"> Home > Adamin > <span>Common Code</span> </div>
     <div style="width:960px;margin:0 auto;">
         <div class="myinfo_t2" style="width:450px;float:left;padding-right:10px;border-right:1px dotted #999;">
             <h1 style="font-size:15px;">Main Code</h1>
             <p>&nbsp;</p>
-            @Html.ActionLink("Add Record", "Create", new { controller = "MenuAdmin" }, new { @class = "bt_green" })
+            @Html.ActionLink("Add Record", "Create", new { controller = "CommonCode" }, new { @class = "bt_green" })
             @(Html.Grid("mainCategoryGrid")
             .SetRequestType(RequestType.Post)
             .SetJsonReader(new MvcJqGrid.DataReaders.JsonReader { Id = "Code", RepeatItems = false })
@@ -69,21 +70,21 @@
            .AddColumn(new Column("&nbsp;").SetSearch(false).SetCustomFormatter("mainCategoryGrid.demo.buttonize")
                                         .SetWidth(55)
                                     .SetAlign(Align.Right))
-            .SetUrl(Url.Action("SearchMainMenu", "MenuAdmin"))
+            .SetUrl(Url.Action("SearchMainCode", "CommonCode"))
             .SetAutoWidth(true)
             .SetRowNum(10)
             .SetRowList(new[] { 10, 15, 20, 50 })
             .SetViewRecords(true)
             .SetPager("pager")
             .SetSearchToolbar(true).SetSearchOnEnter(false)
-            .OnSelectRow("onMainRowSelected(rowid, status)")           
+            .OnSelectRow("onMainRowSelected(rowid, status)")        
             )
-           
+
         </div>
         <div class="myinfo_t2" style="width:450px;float:left;padding-left:10px;">
             <h1 style="font-size:15px;">Sub Code</h1>
             @{
-                string url = "/MenuAdmin/SearchSubMenu";
+                string url = "/CommonCode/SearchSubCode";
                 if (Model.First() != null)
                 {
                     url += "?mainCode=" + Model.First().Code;
@@ -94,12 +95,12 @@
                     <p id="txtSelectedCode" style="color:#9d9d9d;">&nbsp;</p>
                 }
             }
-            @Html.ActionLink("Add Record", "Create", new { controller = "MenuAdmin" }, new { @class = "bt_green" })
-            @(Html.Grid("subCategoryGrid")
-            .SetUrl(url)
-            .SetRowNumbers(true)
+           
+            @Html.ActionLink("Add Record", "Create", new { controller = "CommonCode" }, new { @class = "bt_green" })
+            @(Html.Grid("subCategoryGrid").SetUrl(url)
             .SetRequestType(RequestType.Post)
             .SetJsonReader(new MvcJqGrid.DataReaders.JsonReader { Id = "Code", RepeatItems = false })
+            .SetRowNumbers(true)
             .AddColumn(new Column("Code").SetLabel("Code"))
             .AddColumn(new Column("CodeName").SetLabel("Code Name"))
             .AddColumn(new Column("URL").SetLabel("URL"))
@@ -110,9 +111,8 @@
             .SetAutoWidth(true)
             .SetRowNum(10)
             .SetRowList(new[] { 10, 15, 20, 50 })
-            .SetViewRecords(true)
             .SetPager("pager1")
-            .SetSearchToolbar(true).SetSearchOnEnter(false)           
+            .SetSearchToolbar(true).SetSearchOnEnter(false)
             )
         </div>
     </div>

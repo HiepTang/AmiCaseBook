@@ -19,13 +19,10 @@ namespace AmeCaseBookOrg.Controllers
             _categoryService = categoryService;
         }
         // GET: CommonCode
-        public ActionResult Index(int? mainCode)
+        public ActionResult Index()
         {
-            if (mainCode != null)
-            {
-                ViewBag.MainCode = mainCode;
-            }
-            return View();
+            var mainMenus = _categoryService.GetMainMenus();
+            return View(mainMenus);
         }
         public JsonResult SearchMainMenu(GridSettings gridSettings)
         {          
@@ -35,7 +32,6 @@ namespace AmeCaseBookOrg.Controllers
                 mainMenus = new List<MainMenu>();
             }
             int totalRecords = mainMenus.Count();
-            int index = 1;
             var jsonData = new
             {
                 total = totalRecords / gridSettings.PageSize + 1,
@@ -45,7 +41,6 @@ namespace AmeCaseBookOrg.Controllers
                    from a in mainMenus
                    select new
                    {
-                       No = index++,
                        Code = a.Code,
                        CodeName = a.CodeName,
                        URL = a.URL,
@@ -60,7 +55,6 @@ namespace AmeCaseBookOrg.Controllers
             var mainMenu = _categoryService.GetCategory(mainCode);
             var subMenus = mainMenu.SubCategories;
             var totalRecords = subMenus.Count();
-            int index = 1;
             var jsonData = new
             {
                 total = totalRecords / gridSettings.PageSize + 1,
@@ -70,7 +64,6 @@ namespace AmeCaseBookOrg.Controllers
                    from a in subMenus
                    select new
                    {
-                       No = index++,
                        Code = a.Code,
                        CodeName = a.CodeName,
                        URL = a.URL,

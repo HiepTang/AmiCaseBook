@@ -13,6 +13,7 @@ namespace AmeCaseBookOrg.Service
         IEnumerable<Category> GetCategories();
 
         IEnumerable<MainCategory> GetMainCategories();
+        IEnumerable<MainCategory> GetMainCategories(bool isMenu);
 
         IEnumerable<MainMenu> GetMainMenus(ApplicationUser user);
 

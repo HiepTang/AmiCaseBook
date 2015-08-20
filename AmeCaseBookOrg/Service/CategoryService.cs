@@ -37,7 +37,10 @@ namespace AmeCaseBookOrg.Service
         {
             return appContext.MainCategories;
         }
-
+        public IEnumerable<MainCategory> GetMainCategories(bool isMenu)
+        {
+            return appContext.MainCategories.Where(m => m.IsMenu == isMenu);
+        }
         public IEnumerable<MainMenu> GetMainMenus(ApplicationUser user)
         {
             var subMenus = user.CanAccessCategories;
