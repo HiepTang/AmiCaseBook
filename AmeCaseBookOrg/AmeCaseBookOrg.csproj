@@ -199,6 +199,10 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201508192218444_DataItemModelsModified.cs" />
+    <Compile Include="Migrations\201508192218444_DataItemModelsModified.Designer.cs">
+      <DependentUpon>201508192218444_DataItemModelsModified.cs</DependentUpon>
+    </Compile>
     <Compile Include="ModelMaper\DomainToViewModelMappingProfile.cs" />
     <Compile Include="Migrations\201508121651157_Initialize.cs" />
     <Compile Include="Migrations\201508121651157_Initialize.Designer.cs">
@@ -471,6 +475,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201508180416537_AddMenuDefinitionClasses1.resx">
       <DependentUpon>201508180416537_AddMenuDefinitionClasses1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508192218444_DataItemModelsModified.resx">
+      <DependentUpon>201508192218444_DataItemModelsModified.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

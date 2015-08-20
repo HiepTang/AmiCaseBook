@@ -23,5 +23,7 @@ namespace AmeCaseBookOrg.Models
 
         public virtual ICollection<CommunityTopic> AttachedToCommunityTopics { get; set; }
 
+        public virtual ICollection<DataItem> AttachedToDataItem { get; set; }
+
     }
 }
