@@ -193,11 +193,16 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MemberController.cs" />
+    <Compile Include="Controllers\MenuController.cs" />
     <Compile Include="DAL\Infrastructure\DbFactory.cs" />
     <Compile Include="DAL\Infrastructure\Disposable.cs" />
     <Compile Include="DAL\Infrastructure\IDbFactory.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201508192218444_DataItemModelsModified.cs" />
+    <Compile Include="Migrations\201508192218444_DataItemModelsModified.Designer.cs">
+      <DependentUpon>201508192218444_DataItemModelsModified.cs</DependentUpon>
     </Compile>
     <Compile Include="ModelMaper\DomainToViewModelMappingProfile.cs" />
     <Compile Include="Migrations\201508121651157_Initialize.cs" />
@@ -446,6 +451,7 @@
     <Content Include="Views\Account\MyInfo.cshtml" />
     <Content Include="Views\Account\EditAccount.cshtml" />
     <Content Include="Views\MenuAdmin\Index.cshtml" />
+    <Content Include="Views\Menu\MainMenu.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -471,6 +477,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201508180416537_AddMenuDefinitionClasses1.resx">
       <DependentUpon>201508180416537_AddMenuDefinitionClasses1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508192218444_DataItemModelsModified.resx">
+      <DependentUpon>201508192218444_DataItemModelsModified.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

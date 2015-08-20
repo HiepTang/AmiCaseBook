@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-
+using System.Web.Mvc;
 
 namespace AmeCaseBookOrg.Models
 {
@@ -14,6 +14,7 @@ namespace AmeCaseBookOrg.Models
 
         public int ID { get; set; }
 
+        [AllowHtml]
         [Required]
         [MaxLength(1000)]
         public String Content { get; set; }

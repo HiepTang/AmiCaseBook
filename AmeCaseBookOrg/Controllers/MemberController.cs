@@ -19,8 +19,8 @@ namespace AmeCaseBookOrg.Controllers
     public class MemberController : Controller
     {
         private ApplicationUserManager _userManager;
-        private ICategoryService categoryService;
-        private IFileService _fileService;
+        private readonly ICategoryService categoryService;
+        private readonly IFileService _fileService;
 
         public MemberController()
         {

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Web.Mvc;
 
 namespace AmeCaseBookOrg.Models
 {
@@ -30,13 +31,13 @@ namespace AmeCaseBookOrg.Models
 
         public DateTime LastUpdatedDate { get; set; }
 
-        public int MainImageID { get; set; }
-
+        
 
         [Required]
         [MaxLength(1000)]
         public string Title { get; set; }
-        
+
+        [AllowHtml]
         [Required]
         [MaxLength(4000)]
         public string Content { get; set; }
@@ -49,9 +50,7 @@ namespace AmeCaseBookOrg.Models
         [ForeignKey("CountryID")]
         public virtual SubCategory Country { get; set; }
         
-
-        [ForeignKey("MainImageID")]
-        public virtual File MainImage { get; set; }
+        public virtual ICollection<File> Images { get; set; }
 
         [ForeignKey("CreatedUserID")]
         public virtual ApplicationUser CreatedUser { get; set; }

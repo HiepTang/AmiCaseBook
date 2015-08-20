@@ -24,19 +24,111 @@ namespace AmeCaseBookOrg.Migrations
         {
             List<File> memberImages = CreateMemberImages(context);
             List<MainCategory> mainCategory = createMainCategory(context);
-            List<MainMenu> mainMenus = CreateMainMenus(context);
-            List<SubMenu> subMenus = CreateSubMenusForAbout(context);
-            List<SubMenu> subMenusForAMI = CreateSubMenusForAMICASE(context);
-            List<SubMenu> subMenusForDSM = CreateSubMenusForDSMCASE(context);
-            List<SubMenu> subMenusForCommunication = CreateSubMenusForCommunication(context);
             List<File> countryFlagFiles = CreateFlagImages(context);
             List<SubCategory> countries = CreateCountries(context, countryFlagFiles);
-
-
-            List<ApplicationUser> users = CreateMembers(context, memberImages, countries);
+            List<MainMenu> mainMenus = CreateMainMenus(context);
+            List<SubMenu> subMenus = CreateSubMenusForAbout(context);
+            List<SubMenu> subMenusForAMI = CreateSubMenusForAMICASE(context, countries);
+            List<SubMenu> subMenusForDSM = CreateSubMenusForDSMCASE(context, countries);
+            List<SubMenu> subMenusForCommunication = CreateSubMenusForCommunication(context);
+           
             
+            List<ApplicationUser> users = CreateMembers(context, memberImages, countries);
+
+            List<File> dataItemImages = CreateDataItemImages(context);
+            List<DataItem> amiDataItems = CreateDataItems(context, subMenusForAMI, countries, users, dataItemImages);
+            List<DataItem> dsmDataItems = CreateDataItems(context, subMenusForDSM, countries, users, dataItemImages);
+            List<Announcement> announcements = CreateAnnouncements(context, subMenusForCommunication, users);
+            List<CommunityTopic> communityTopics = CreateCommunityTopic(context, subMenusForCommunication, users);
         }
 
+        private List<Announcement> CreateAnnouncements(ApplicationDbContext context, List<SubMenu> subMenus, List<ApplicationUser> members)
+        {
+            List<Announcement> announcements = new List<Announcement>();
+            for (int i = 0; i < 20; i++)
+            {
+                Announcement announcement = new Announcement {
+                    Title = "Announcement title " + i,
+                    Content = "Announcement content " + 1,
+                    InsertDate = DateTime.Now,
+                    LastUpdatedDate = DateTime.Now,
+                    AuthorUserID = members[4 + (i % 2)].Id,
+                    LastUpdatedUserID = members[4 + (i % 2)].Id
+                };
+                announcements.Add(announcement);
+            }
+            announcements.ForEach(f => context.Announcements.AddOrUpdate(f));
+            context.SaveChanges();
+
+            return announcements;
+        }
+
+        private List<CommunityTopic> CreateCommunityTopic(ApplicationDbContext context, List<SubMenu> subMenus, List<ApplicationUser> members)
+        {
+            List<CommunityTopic> communityTopics = new List<CommunityTopic>();
+            for (int i = 0; i < 20; i++)
+            {
+                CommunityTopic communityTopic = new CommunityTopic
+                {
+                    Title = "Community Topic title " + i,
+                    Content = "Community Topic content " + 1,
+                    InsertDate = DateTime.Now,
+                    LastUpdatedDate = DateTime.Now,
+                    AuthorUserID = members[4 + (i % 2)].Id,
+                    LastUpdatedUserID = members[4 + (i % 2)].Id
+                };
+                communityTopics.Add(communityTopic);
+            }
+            communityTopics.ForEach(f => context.CommunityTopics.AddOrUpdate(f));
+            context.SaveChanges();
+
+            return communityTopics;
+        }
+
+
+        private List<DataItem> CreateDataItems(AmeCaseBookOrg.Models.ApplicationDbContext context, List<SubMenu> subMenus, List<SubCategory> countries, List<ApplicationUser> members, List<File> dataItemImages)
+        {
+            List<DataItem> dataItems = new List<DataItem>();
+
+            for (int i = 0; i < subMenus.Count; i++)
+            {
+                SubMenu subMenu = subMenus[i];
+                SubCategory country = countries[13]; // Korea for Key Findings
+                if(i > 0)
+                {
+                    country = countries[i - 1];
+                }
+
+                ApplicationUser member = members[4];
+                if(i % 2 == 0)
+                {
+                    member = members[5];
+                }
+
+                DataItem dataItem = new DataItem
+                {
+                    MainCategoryID = subMenu.ParentCategoryCode,
+                    SubCategoryID = subMenu.Code,
+                    CountryID = country.Code,
+                    CreatedDate = DateTime.Now,
+                    LastUpdatedDate = DateTime.Now,
+                    CreatedUserID = member.Id,
+                    LastUpdatedUserID = member.Id,
+                    Title = i.ToString() + ". " + country.CodeName.ToUpper(),
+                    Content = "<p>It is the sample content for CASE</p>",
+                    AllowComment = true    
+                };
+                List<File> image = new List<File> {dataItemImages[i % 3] };
+                dataItem.Images = image;
+                dataItems.Add(dataItem);
+            }
+
+            dataItems.ForEach(f => context.DataItems.AddOrUpdate(f));
+            context.SaveChanges();
+
+            return dataItems;
+
+        }
         private List<ApplicationUser> CreateMembers(AmeCaseBookOrg.Models.ApplicationDbContext context, List<File> memberImages, List<SubCategory> countries)
         {
             if (!context.Roles.Any(u => u.Name == "Contributor"))
@@ -241,6 +333,22 @@ namespace AmeCaseBookOrg.Migrations
             context.SaveChanges();
             return files;
         }
+
+        private List<File> CreateDataItemImages(AmeCaseBookOrg.Models.ApplicationDbContext context)
+        {
+            //create file table
+            var files = new List<File>()
+            {
+               CreateFile("Korea1-640x450.jpg", imageFolder, FileType.Avatar),
+               CreateFile("SPAIN1-640x4502-270x250.png", imageFolder, FileType.Avatar),
+               CreateFile("France-640x450-270x250.jpg", imageFolder, FileType.Avatar),
+               CreateFile("A-summary.png", imageFolder, FileType.Avatar),
+               CreateFile("img01.png", imageFolder, FileType.Avatar)
+            };
+            files.ForEach(f => context.Files.AddOrUpdate(f));
+            context.SaveChanges();
+            return files;
+        }
         private List<MainCategory> createMainCategory(AmeCaseBookOrg.Models.ApplicationDbContext context)
         {
             var mainCategories = new List<MainCategory>()
@@ -385,7 +493,7 @@ namespace AmeCaseBookOrg.Migrations
             return subMenus;
         }
 
-        private List<SubMenu> CreateSubMenusForAMICASE(AmeCaseBookOrg.Models.ApplicationDbContext context)
+        private List<SubMenu> CreateSubMenusForAMICASE(AmeCaseBookOrg.Models.ApplicationDbContext context, List<SubCategory> countries)
         {
             var subMenus = new List<SubMenu>()
             {
@@ -398,222 +506,59 @@ namespace AmeCaseBookOrg.Migrations
                     URL = "",
                    ParentCategoryCode = 3001002
 
-                },
-                 new SubMenu
-                {
-                    Code = 30010022,
-                    CodeName = "Austria",
-                    IsMenu = true,
-                    Memo = "",
-                    URL = "",
-                   ParentCategoryCode= 3001002
-
-                },
-                 new SubMenu
-                {
-                    Code = 30010023,
-                    CodeName = "Canada",
-                    IsMenu = true,
-                    Memo = "",
-                    URL = "",
-                   ParentCategoryCode= 3001002
-                },
-                 new SubMenu
-                {
-                    Code = 30010024,
-                    CodeName = "France",
-                    IsMenu = true,
-                    Memo = "",
-                    URL = "",
-                   ParentCategoryCode = 3001002
-
-                },
-                 new SubMenu
-                {
-                    Code = 30010025,
-                    CodeName = "Ireland",
-                    IsMenu = true,
-                    Memo = "",
-                    URL = "",
-                   ParentCategoryCode= 3001002
-
-                },
-                 new SubMenu
-                {
-                    Code = 30010026,
-                    CodeName = "Italy",
-                    IsMenu = true,
-                    Memo = "",
-                    URL = "",
-                   ParentCategoryCode= 3001002
-                },
-                 new SubMenu
-                {
-                    Code = 30010027,
-                    CodeName = "Korea",
-                    IsMenu = true,
-                    Memo = "",
-                    URL = "",
-                   ParentCategoryCode= 3001002
-
-                },
-                 new SubMenu
-                {
-                    Code = 30010028,
-                    CodeName = "Netherlands",
-                    IsMenu = true,
-                    Memo = "",
-                    URL = "",
-                   ParentCategoryCode= 3001002
-                },
-                 new SubMenu
-                {
-                    Code = 30010029,
-                    CodeName = "Sweden",
-                    IsMenu = true,
-                    Memo = "",
-                    URL = "",
-                   ParentCategoryCode = 3001002
-
-                },
-                 new SubMenu
-                {
-                    Code = 300100210,
-                    CodeName = "USA",
-                    IsMenu = true,
-                    Memo = "",
-                    URL = "",
-                   ParentCategoryCode= 3001002
-
-                },
-                 new SubMenu
-                {
-                    Code = 300100211,
-                    CodeName = "Spain",
-                    IsMenu = true,
-                    Memo = "",
-                    URL = "",
-                   ParentCategoryCode= 3001002
                 }
-
             };
+
+            int beginCode = 30010022;
+            foreach (var country in countries)
+            {
+                SubMenu subMenu = new SubMenu
+                {
+                    Code = beginCode,
+                    CodeName = country.CodeName,
+                    IsMenu = true,
+                    Memo = "",
+                    URL = "",
+                    ParentCategoryCode = 3001002
+                };
+                beginCode = beginCode + 1;
+                subMenus.Add(subMenu);
+            }
             subMenus.ForEach(m => context.Categories.AddOrUpdate(m));
             context.SaveChanges();
             return subMenus;
         }
 
-        private List<SubMenu> CreateSubMenusForDSMCASE(AmeCaseBookOrg.Models.ApplicationDbContext context)
+        private List<SubMenu> CreateSubMenusForDSMCASE(AmeCaseBookOrg.Models.ApplicationDbContext context, List<SubCategory> countries)
         {
             var subMenus = new List<SubMenu>()
             {
                 new SubMenu
                 {
-                    Code = 30010021,
+                    Code = 30010031,
                     CodeName = "Key Findings",
                     IsMenu = true,
                     Memo = "",
                     URL = "",
                    ParentCategoryCode = 3001003
 
-                },
-                 new SubMenu
-                {
-                    Code = 30010022,
-                    CodeName = "Austria",
-                    IsMenu = true,
-                    Memo = "",
-                    URL = "",
-                   ParentCategoryCode= 3001003
-
-                },
-                 new SubMenu
-                {
-                    Code = 30010023,
-                    CodeName = "Canada",
-                    IsMenu = true,
-                    Memo = "",
-                    URL = "",
-                   ParentCategoryCode= 3001003
-                },
-                 new SubMenu
-                {
-                    Code = 30010024,
-                    CodeName = "France",
-                    IsMenu = true,
-                    Memo = "",
-                    URL = "",
-                   ParentCategoryCode = 3001003
-
-                },
-                 new SubMenu
-                {
-                    Code = 30010025,
-                    CodeName = "Ireland",
-                    IsMenu = true,
-                    Memo = "",
-                    URL = "",
-                   ParentCategoryCode= 3001003
-
-                },
-                 new SubMenu
-                {
-                    Code = 30010026,
-                    CodeName = "Italy",
-                    IsMenu = true,
-                    Memo = "",
-                    URL = "",
-                   ParentCategoryCode= 3001003
-                },
-                 new SubMenu
-                {
-                    Code = 30010027,
-                    CodeName = "Korea",
-                    IsMenu = true,
-                    Memo = "",
-                    URL = "",
-                   ParentCategoryCode= 3001003
-
-                },
-                 new SubMenu
-                {
-                    Code = 30010028,
-                    CodeName = "Netherlands",
-                    IsMenu = true,
-                    Memo = "",
-                    URL = "",
-                   ParentCategoryCode= 3001003
-                },
-                 new SubMenu
-                {
-                    Code = 30010029,
-                    CodeName = "Sweden",
-                    IsMenu = true,
-                    Memo = "",
-                    URL = "",
-                   ParentCategoryCode = 3001003
-
-                },
-                 new SubMenu
-                {
-                    Code = 300100210,
-                    CodeName = "USA",
-                    IsMenu = true,
-                    Memo = "",
-                    URL = "",
-                   ParentCategoryCode= 3001003
-
-                },
-                 new SubMenu
-                {
-                    Code = 300100211,
-                    CodeName = "Spain",
-                    IsMenu = true,
-                    Memo = "",
-                    URL = "",
-                   ParentCategoryCode= 3001003
                 }
-
             };
+            int beginCode = 30010032;
+            foreach (var country in countries)
+            {
+                SubMenu subMenu = new SubMenu
+                {
+                    Code = beginCode,
+                    CodeName = country.CodeName,
+                    IsMenu = true,
+                    Memo = "",
+                    URL = "",
+                    ParentCategoryCode = 3001003
+                };
+                beginCode = beginCode + 1;
+                subMenus.Add(subMenu);
+            }
             subMenus.ForEach(m => context.Categories.AddOrUpdate(m));
             context.SaveChanges();
             return subMenus;
