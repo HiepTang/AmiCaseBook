@@ -34,6 +34,7 @@ namespace AmeCaseBookOrg.Models
 
         public String LastUpdatedUserID { get; set; }
 
+
         public virtual ICollection<File> AttachmentFiles { get; set; }
         
         [ForeignKey("AuthorUserID")]

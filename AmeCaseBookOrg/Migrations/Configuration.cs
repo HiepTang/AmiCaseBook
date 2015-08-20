@@ -38,8 +38,51 @@ namespace AmeCaseBookOrg.Migrations
             List<File> dataItemImages = CreateDataItemImages(context);
             List<DataItem> amiDataItems = CreateDataItems(context, subMenusForAMI, countries, users, dataItemImages);
             List<DataItem> dsmDataItems = CreateDataItems(context, subMenusForDSM, countries, users, dataItemImages);
+            List<Announcement> announcements = CreateAnnouncements(context, subMenusForCommunication, users);
+            List<CommunityTopic> communityTopics = CreateCommunityTopic(context, subMenusForCommunication, users);
+        }
 
+        private List<Announcement> CreateAnnouncements(ApplicationDbContext context, List<SubMenu> subMenus, List<ApplicationUser> members)
+        {
+            List<Announcement> announcements = new List<Announcement>();
+            for (int i = 0; i < 20; i++)
+            {
+                Announcement announcement = new Announcement {
+                    Title = "Announcement title " + i,
+                    Content = "Announcement content " + 1,
+                    InsertDate = DateTime.Now,
+                    LastUpdatedDate = DateTime.Now,
+                    AuthorUserID = members[4 + (i % 2)].Id,
+                    LastUpdatedUserID = members[4 + (i % 2)].Id
+                };
+                announcements.Add(announcement);
+            }
+            announcements.ForEach(f => context.Announcements.AddOrUpdate(f));
+            context.SaveChanges();
 
+            return announcements;
+        }
+
+        private List<CommunityTopic> CreateCommunityTopic(ApplicationDbContext context, List<SubMenu> subMenus, List<ApplicationUser> members)
+        {
+            List<CommunityTopic> communityTopics = new List<CommunityTopic>();
+            for (int i = 0; i < 20; i++)
+            {
+                CommunityTopic communityTopic = new CommunityTopic
+                {
+                    Title = "Community Topic title " + i,
+                    Content = "Community Topic content " + 1,
+                    InsertDate = DateTime.Now,
+                    LastUpdatedDate = DateTime.Now,
+                    AuthorUserID = members[4 + (i % 2)].Id,
+                    LastUpdatedUserID = members[4 + (i % 2)].Id
+                };
+                communityTopics.Add(communityTopic);
+            }
+            communityTopics.ForEach(f => context.CommunityTopics.AddOrUpdate(f));
+            context.SaveChanges();
+
+            return communityTopics;
         }
 
 
