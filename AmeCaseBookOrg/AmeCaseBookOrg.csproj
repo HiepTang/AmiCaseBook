@@ -206,6 +206,14 @@
     <Compile Include="Migrations\201508192218444_DataItemModelsModified.Designer.cs">
       <DependentUpon>201508192218444_DataItemModelsModified.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201508211819115_DataItemRelationWithMenu.cs" />
+    <Compile Include="Migrations\201508211819115_DataItemRelationWithMenu.Designer.cs">
+      <DependentUpon>201508211819115_DataItemRelationWithMenu.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201508211826430_DataItemChangeMainCategoryToMainMenu.cs" />
+    <Compile Include="Migrations\201508211826430_DataItemChangeMainCategoryToMainMenu.Designer.cs">
+      <DependentUpon>201508211826430_DataItemChangeMainCategoryToMainMenu.cs</DependentUpon>
+    </Compile>
     <Compile Include="ModelMaper\DomainToViewModelMappingProfile.cs" />
     <Compile Include="Migrations\201508121651157_Initialize.cs" />
     <Compile Include="Migrations\201508121651157_Initialize.Designer.cs">
@@ -465,6 +473,7 @@
     <Content Include="Views\MenuAdmin\CreateSubMenu.cshtml" />
     <Content Include="Views\CommonCode\CreateMainCode.cshtml" />
     <Content Include="Views\CommonCode\CreateSubCode.cshtml" />
+    <Content Include="Views\DataItem\View.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -492,6 +501,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201508192218444_DataItemModelsModified.resx">
       <DependentUpon>201508192218444_DataItemModelsModified.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508211819115_DataItemRelationWithMenu.resx">
+      <DependentUpon>201508211819115_DataItemRelationWithMenu.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508211826430_DataItemChangeMainCategoryToMainMenu.resx">
+      <DependentUpon>201508211826430_DataItemChangeMainCategoryToMainMenu.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

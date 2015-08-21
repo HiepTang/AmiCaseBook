@@ -30,9 +30,9 @@ namespace AmeCaseBookOrg.Service
             return this.context.DataItems;
         }
 
-        public IEnumerable<DataItem> GetDataItemsByCountry(int mainCategoryCode, int countryCode)
+        public IEnumerable<DataItem> GetDataItemsByCountry(int mainMenuID, int countryCode)
         {
-            var dataItems = this.context.DataItems.Where(d => d.MainCategoryID == mainCategoryCode && d.CountryID == countryCode);
+            var dataItems = this.context.DataItems.Where(d => d.MainMenuID== mainMenuID && d.CountryID == countryCode);
             return dataItems;
         }
 
@@ -43,9 +43,9 @@ namespace AmeCaseBookOrg.Service
         }
 
 
-        public IEnumerable<DataItem> GetDataItemsByMainCategory(int mainCategoryCode)
+        public IEnumerable<DataItem> GetDataItemsByMainCategory(int mainMenuID)
         {
-            var dataItems = this.context.DataItems.Where(d => d.MainCategoryID == mainCategoryCode);
+            var dataItems = this.context.DataItems.Where(d => d.MainMenuID== mainMenuID);
             return dataItems;
         }
 

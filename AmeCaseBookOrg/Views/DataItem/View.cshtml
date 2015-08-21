@@ -1,0 +1,25 @@
+﻿@model AmeCaseBookOrg.Models.DataItem
+@{
+    ViewBag.Title = Model.Title;
+}
+<div id="sub_tit">
+    <ul>
+        <li>@Model.MainMenu.CodeName</li>
+    </ul>
+</div>
+
+<div id="contents">
+    <div class="navi"> 
+        @Html.ActionLink("Home", "Index", "Home") <a href="~/DataItem/List/@Model.MainMenu.Code/0" class="ali"> > @Model.MainMenu.CodeName</a> <span> > @Model.Title</span>
+        
+    </div>
+    <div class="datail_v">
+        <h1>@Model.MainMenu.CodeName, @Model.Title</h1>
+        <ul class="da_text">
+            <li style="float:left;text-align:left;width:920px;padding:50px;">
+                @Html.Raw(Model.Content)
+            </li>
+        </ul>
+    </div>
+</div>
+

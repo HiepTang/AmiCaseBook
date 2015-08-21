@@ -13,7 +13,7 @@ namespace AmeCaseBookOrg.Models
 
         public int ID { get; set; }
 
-        public int MainCategoryID { get; set; }
+        public int MainMenuID { get; set; }
 
         public int SubCategoryID { get; set; }
 
@@ -43,8 +43,10 @@ namespace AmeCaseBookOrg.Models
         public string Content { get; set; }
         public bool AllowComment { get; set; }
 
-        public virtual MainCategory MainCategory { get; set; }
+        [ForeignKey("MainMenuID")]
+        public virtual MainMenu MainMenu { get; set; }
         
+        [ForeignKey("SubCategoryID")]
         public virtual SubMenu SubCategory { get; set; }
         
         [ForeignKey("CountryID")]

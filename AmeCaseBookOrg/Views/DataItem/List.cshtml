@@ -97,7 +97,7 @@
                                 <li><img src="~/File?id=@dataItem.Images.FirstOrDefault().FileId" width="270" height="250"/></li>
                             }
                             <li>
-                                <h3><a href="#">@dataItem.Title</a></h3>
+                                <h3><a href="~/DataItem/View/@dataItem.ID">@dataItem.Title</a></h3>
                                 <p style="font-size:12px;">@dataItem.CreatedDate</p>
                                 @Html.Raw(dataItem.Content)
                                 <ul class="luxe-post-share">

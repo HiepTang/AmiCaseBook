@@ -107,7 +107,7 @@ namespace AmeCaseBookOrg.Migrations
 
                 DataItem dataItem = new DataItem
                 {
-                    MainCategoryID = subMenu.ParentCategoryCode,
+                    MainMenuID = subMenu.ParentCategoryCode,
                     SubCategoryID = subMenu.Code,
                     CountryID = country.Code,
                     CreatedDate = DateTime.Now,

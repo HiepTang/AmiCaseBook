@@ -43,7 +43,7 @@ namespace AmeCaseBookOrg.Controllers
             {
                 if (countryCode != 0 && code == 0)
                 {
-                    dataItems = dataItemService.GetDataItemsByCountry(code, countryCode.Value);
+                    dataItems = dataItemService.GetDataItemsByCountry(countryCode.Value);
                 }
                 else
                 {
@@ -75,6 +75,24 @@ namespace AmeCaseBookOrg.Controllers
                 ViewBag.Country = country;
             }
             return View(dataItems);
+        }
+
+        public ActionResult View(int id)
+        {
+            if(id == 0)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            var dataItem = dataItemService.GetDataItem(id);
+
+            if(dataItem == null)
+            {
+                return HttpNotFound();
+            }
+            
+            
+            return View(dataItem);
         }
     }
 }
