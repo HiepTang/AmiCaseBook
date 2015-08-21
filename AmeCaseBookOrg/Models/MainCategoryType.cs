@@ -5,8 +5,8 @@ using System.Web;
 
 namespace AmeCaseBookOrg.Models
 {
-    public enum MemberRoles
+    public enum MainCategoryType
     {
-        Admin, Contributor
+        Menu = 103001, Country = 102001
     }
 }

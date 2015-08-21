@@ -9,6 +9,8 @@ using System.Web.Mvc;
 using AmeCaseBookOrg.Models;
 using AmeCaseBookOrg.Service;
 using MvcJqGrid;
+using AutoMapper;
+using AmeCaseBookOrg.Common;
 
 namespace AmeCaseBookOrg.Controllers
 {
@@ -166,6 +168,72 @@ namespace AmeCaseBookOrg.Controllers
                )
             };
             return Json(jsonData);
+        }
+        public ActionResult CreateMainCode()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult CreateMainCode(MainCategory model)
+        {
+            if (ModelState.IsValid)
+            {
+                model.IsMenu = false;
+                try
+                {
+                    if (_categoryService.GetCategory(model.Code) == null)
+                    {
+                        _categoryService.CreateCategory(model);
+                        _categoryService.SaveCategory();
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("Code", ErrorMessages.CATEGORYCODE_EXIST);
+                    }                   
+                }
+                catch (Exception e)
+                {
+                    ModelState.AddModelError("", e);
+                }
+
+
+            }
+            return View(model);
+        }
+        public ActionResult CreateSubCode(int mainCode)
+        {
+            SubCategory subMenu = new SubCategory();
+            subMenu.ParentCategoryCode = mainCode;
+            return View(subMenu);
+        }
+        [HttpPost]
+        public ActionResult CreateSubCode(SubCategory subCategory)
+        {
+            if (ModelState.IsValid)
+            {
+                subCategory.IsMenu = false;
+                try
+                {
+                    if (_categoryService.GetCategory(subCategory.Code) == null)
+                    {
+                        _categoryService.CreateCategory(subCategory);
+                        _categoryService.SaveCategory();
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("Code", ErrorMessages.CATEGORYCODE_EXIST);
+                    }
+                }
+                catch (Exception e)
+                {
+                    ModelState.AddModelError("", e);
+                }
+
+
+            }
+            return View(subCategory);
         }
         protected override void Dispose(bool disposing)
         {

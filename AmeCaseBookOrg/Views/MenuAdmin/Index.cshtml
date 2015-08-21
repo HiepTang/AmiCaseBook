@@ -29,6 +29,7 @@
         return false;
     }
     function onMainRowSelected(rowid, status) {
+        $("#mainMenuCode").val(rowid);
         $("#txtSelectedCode").html("Select top code: " + rowid);
         $("#subCategoryGrid").jqGrid('setGridParam', { url: '/MenuAdmin/SearchSubMenu?mainCode=' + rowid }).trigger('reloadGrid');      
     }
@@ -52,12 +53,16 @@
     }
 </script>
 <div id="contents">
-    <div class="navi"> Home > Adamin > <span>Menu Management</span> </div>
+    <div class="navi"> Home > Admin > <span>Menu Management</span> </div>
     <div style="width:960px;margin:0 auto;">
         <div class="myinfo_t2" style="width:450px;float:left;padding-right:10px;border-right:1px dotted #999;">
             <h1 style="font-size:15px;">Main Code</h1>
             <p>&nbsp;</p>
-            @Html.ActionLink("Add Record", "Create", new { controller = "MenuAdmin" }, new { @class = "bt_green" })
+            @using (Html.BeginForm("CreateMainMenu", "MenuAdmin", FormMethod.Get))
+            {
+                @Html.AntiForgeryToken();
+                <input name="btnCreateSubCode" type="submit" value="Add Record" class="bt_green" />
+            }
             @(Html.Grid("mainCategoryGrid")
             .SetRequestType(RequestType.Post)
             .SetJsonReader(new MvcJqGrid.DataReaders.JsonReader { Id = "Code", RepeatItems = false })
@@ -75,7 +80,7 @@
             .SetRowList(new[] { 10, 15, 20, 50 })
             .SetViewRecords(true)
             .SetPager("pager")
-            .SetSearchToolbar(true).SetSearchOnEnter(false)
+            .SetSearchToolbar(false).SetSearchOnEnter(false)
             .OnSelectRow("onMainRowSelected(rowid, status)")           
             )
            
@@ -84,17 +89,25 @@
             <h1 style="font-size:15px;">Sub Code</h1>
             @{
                 string url = "/MenuAdmin/SearchSubMenu";
+            }
+            @using (Html.BeginForm("CreateSubMenu","MenuAdmin",FormMethod.Get))
+            {
+                @Html.AntiForgeryToken();                
+                int maincode = 0;
                 if (Model.First() != null)
                 {
-                    url += "?mainCode=" + Model.First().Code;
-                    <p id="txtSelectedCode" style="color:#9d9d9d;">Select top code: @Model.First().Code</p>
+                    maincode = Model.First().Code;
+                    url += "?mainCode=" + maincode;
+                    <p id="txtSelectedCode" style="color:#9d9d9d;">Select top code: @maincode</p>
                 }
                 else
                 {
                     <p id="txtSelectedCode" style="color:#9d9d9d;">&nbsp;</p>
                 }
+                <input type="hidden" name="mainMenuCode" id="mainMenuCode" value="@maincode" />
+                <input name="btnCreateSubCode" type="submit" value="Add Record" class="bt_green" />
             }
-            @Html.ActionLink("Add Record", "Create", new { controller = "MenuAdmin" }, new { @class = "bt_green" })
+           
             @(Html.Grid("subCategoryGrid")
             .SetUrl(url)
             .SetRowNumbers(true)
@@ -112,7 +125,7 @@
             .SetRowList(new[] { 10, 15, 20, 50 })
             .SetViewRecords(true)
             .SetPager("pager1")
-            .SetSearchToolbar(true).SetSearchOnEnter(false)           
+            .SetSearchToolbar(false).SetSearchOnEnter(false)           
             )
         </div>
     </div>
