@@ -16,7 +16,7 @@ namespace AmeCaseBookOrg.ModelMapper
 
         protected override void Configure()
         {
-            Mapper.CreateMap<UserViewModel, ApplicationUser>().ForMember(u => u.UserName , map => map.MapFrom( vm => vm.Email));
+            Mapper.CreateMap<UserViewModel, ApplicationUser>().ForMember(u => u.UserName , map => map.MapFrom( vm => vm.Email));          
         }
     }
 }

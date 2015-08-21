@@ -185,6 +185,7 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Common\ErrorMessages.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\DataItemController.cs" />
@@ -237,6 +238,7 @@
     <Compile Include="Models\FileType.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\MainCategory.cs" />
+    <Compile Include="Models\MainCategoryType.cs" />
     <Compile Include="Models\MainMenu.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\MemberRoles.cs" />
@@ -444,7 +446,6 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
-    <Content Include="Views\CommonCode\Create.cshtml" />
     <Content Include="Views\CommonCode\Delete.cshtml" />
     <Content Include="Views\CommonCode\Details.cshtml" />
     <Content Include="Views\CommonCode\Edit.cshtml" />
@@ -460,10 +461,13 @@
     <Content Include="Views\MenuAdmin\Index.cshtml" />
     <Content Include="Views\Menu\MainMenu.cshtml" />
     <Content Include="Views\DataItem\List.cshtml" />
+    <Content Include="Views\MenuAdmin\CreateMainMenu.cshtml" />
+    <Content Include="Views\MenuAdmin\CreateSubMenu.cshtml" />
+    <Content Include="Views\CommonCode\CreateMainCode.cshtml" />
+    <Content Include="Views\CommonCode\CreateSubCode.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\File\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

@@ -129,11 +129,11 @@ namespace AmeCaseBookOrg.Controllers
                 {
                     if (model.IsAdmin)
                     {
-                        result = UserManager.AddToRole(applicationUser.Id, "Admin");
+                        result = UserManager.AddToRole(applicationUser.Id, MemberRoles.Admin.ToString());
                     }
                     else
                     {
-                        result = UserManager.AddToRole(applicationUser.Id, "Contributor");
+                        result = UserManager.AddToRole(applicationUser.Id, MemberRoles.Contributor.ToString());
                     }                
                     if (result.Succeeded)
                     {

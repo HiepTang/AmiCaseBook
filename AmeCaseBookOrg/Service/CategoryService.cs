@@ -101,7 +101,7 @@ namespace AmeCaseBookOrg.Service
         public IEnumerable<SubCategory> GetCountries()
         {
             // First, find the MainCategory Country
-            MainCategory countryMainCategory = appContext.MainCategories.Where(c => c.CodeName == "Country").FirstOrDefault();
+            MainCategory countryMainCategory = appContext.MainCategories.Where(c => c.Code == (int) MainCategoryType.Country).FirstOrDefault();
             IEnumerable<SubCategory> countries = null;
             if(countryMainCategory != null)
             {
