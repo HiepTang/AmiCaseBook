@@ -187,6 +187,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\DataItemController.cs" />
     <Compile Include="Controllers\MenuAdminController.cs" />
     <Compile Include="Controllers\CommonCodeController.cs" />
     <Compile Include="Controllers\FileController.cs" />
@@ -245,6 +246,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\AnnouncementService.cs" />
     <Compile Include="Service\CategoryService.cs" />
+    <Compile Include="Service\DataItemService.cs" />
     <Compile Include="Service\FileService.cs" />
     <Compile Include="Service\IAnnouncementService.cs" />
     <Compile Include="Service\ICategoryService.cs" />
@@ -457,6 +459,7 @@
     <Content Include="Views\Account\EditAccount.cshtml" />
     <Content Include="Views\MenuAdmin\Index.cshtml" />
     <Content Include="Views\Menu\MainMenu.cshtml" />
+    <Content Include="Views\DataItem\List.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

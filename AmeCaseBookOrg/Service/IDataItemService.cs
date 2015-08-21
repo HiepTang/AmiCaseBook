@@ -11,7 +11,13 @@ namespace AmeCaseBookOrg.Service
     {
         IEnumerable<DataItem> GetDataItems();
 
-        void CreateDataItem();
+        IEnumerable<DataItem> GetDataItemsByMainCategory(int mainCategoryCode);
+
+        IEnumerable<DataItem> GetDataItemsByCountry(int mainCategoryCode, int countryCode);
+
+        DataItem GetDataItem(int ID);
+
+        void CreateDataItem(DataItem dataItem);
 
         void SaveDataItem();
 
