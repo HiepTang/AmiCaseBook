@@ -29,19 +29,28 @@ namespace AmeCaseBookOrg.Controllers
         [Route("DataItem/List/{code}/{countryCode}")]
         public ActionResult List(int code, int? countryCode)
         {
-            if (code == 0)
+            if (code == 0 && countryCode == 0)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
             // Get the DataItems belong to this code
             IEnumerable<DataItem> dataItems;
-            if(countryCode == 0) { 
+            if(countryCode == 0 && code != 0) { 
                 dataItems = dataItemService.GetDataItemsByMainCategory(code);
             }
             else
             {
-                dataItems = dataItemService.GetDataItemsByCountry(code, countryCode.Value);
+                if (countryCode != 0 && code == 0)
+                {
+                    dataItems = dataItemService.GetDataItemsByCountry(code, countryCode.Value);
+                }
+                else
+                {
+                    dataItems = dataItemService.GetDataItemsByCountry(code, countryCode.Value);
+                }
+
+                
             }
                 
             if(dataItems == null)
@@ -54,9 +63,17 @@ namespace AmeCaseBookOrg.Controllers
             ViewBag.Countries = countries;
 
             // Get menu for this code
-            MainMenu menu = (MainMenu)categoryService.GetCategory(code);
-            ViewBag.Menu = menu;
+            if (code != 0)
+            {
+                MainMenu menu = (MainMenu)categoryService.GetCategory(code);
+                ViewBag.Menu = menu;
+            }
 
+            if(countryCode != 0)
+            {
+                var country = categoryService.GetCategory(countryCode.Value);
+                ViewBag.Country = country;
+            }
             return View(dataItems);
         }
     }

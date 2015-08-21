@@ -7,6 +7,6 @@ namespace AmeCaseBookOrg.Common
 {
     public class ErrorMessages
     {
-        public readonly static string CATEGORYCODE_EXIST = "This code is existed";
+        public readonly static string CATEGORYCODE_EXIST = "This code already exists";
     }
 }

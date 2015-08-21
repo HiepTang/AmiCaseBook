@@ -15,6 +15,8 @@ namespace AmeCaseBookOrg.Service
 
         IEnumerable<DataItem> GetDataItemsByCountry(int mainCategoryCode, int countryCode);
 
+        IEnumerable<DataItem> GetDataItemsByCountry(int countryCode);
+
         DataItem GetDataItem(int ID);
 
         void CreateDataItem(DataItem dataItem);

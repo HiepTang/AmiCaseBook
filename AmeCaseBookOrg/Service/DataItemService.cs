@@ -32,7 +32,13 @@ namespace AmeCaseBookOrg.Service
 
         public IEnumerable<DataItem> GetDataItemsByCountry(int mainCategoryCode, int countryCode)
         {
-            var dataItems = this.context.DataItems.Where(d => d.MainCategoryID == mainCategoryCode && d.SubCategoryID == countryCode);
+            var dataItems = this.context.DataItems.Where(d => d.MainCategoryID == mainCategoryCode && d.CountryID == countryCode);
+            return dataItems;
+        }
+
+        public IEnumerable<DataItem> GetDataItemsByCountry(int countryCode)
+        {
+            var dataItems = this.context.DataItems.Where(d => d.CountryID == countryCode);
             return dataItems;
         }
 
