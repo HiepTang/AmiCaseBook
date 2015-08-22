@@ -114,7 +114,6 @@ namespace AmeCaseBookOrg.Service
         {
             return appContext.MainMenus;
         }
-
         public void SaveCategory()
         {
             appContext.SaveChanges();

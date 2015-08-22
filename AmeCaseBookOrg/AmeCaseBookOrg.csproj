@@ -195,6 +195,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MemberController.cs" />
     <Compile Include="Controllers\MenuController.cs" />
+    <Compile Include="Controllers\PermissionController.cs" />
     <Compile Include="DAL\Infrastructure\DbFactory.cs" />
     <Compile Include="DAL\Infrastructure\Disposable.cs" />
     <Compile Include="DAL\Infrastructure\IDbFactory.cs" />
@@ -462,6 +463,7 @@
     <Content Include="Views\MenuAdmin\CreateSubMenu.cshtml" />
     <Content Include="Views\CommonCode\CreateMainCode.cshtml" />
     <Content Include="Views\CommonCode\CreateSubCode.cshtml" />
+    <Content Include="Views\Permission\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
