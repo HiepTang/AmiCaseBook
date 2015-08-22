@@ -1,0 +1,118 @@
+﻿@model IEnumerable<AmeCaseBookOrg.Models.DataItem>
+@{
+    IEnumerable<AmeCaseBookOrg.Models.SubCategory> countries = ViewBag.Countries;
+    AmeCaseBookOrg.Models.MainMenu menu = ViewBag.Menu;
+    AmeCaseBookOrg.Models.SubCategory selectedCountry = ViewBag.Country;
+    if(menu != null && selectedCountry != null)
+    {
+        ViewBag.Title = menu.CodeName + "-" + selectedCountry.CodeName;
+    }
+
+    if (menu == null && selectedCountry != null)
+    {
+        ViewBag.Title = selectedCountry.CodeName;
+    }
+
+    if (menu != null && selectedCountry == null)
+    {
+        ViewBag.Title = menu.CodeName;
+    }
+
+}
+<div id="sub_tit">
+    <ul>
+        @if (menu != null && selectedCountry != null)
+        {
+            <li>@menu.CodeName - @selectedCountry.CodeName</li>
+        }
+        
+        @if (menu == null && selectedCountry != null)
+        {
+            <li>@selectedCountry.CodeName</li>
+        }
+
+        @if (menu != null && selectedCountry == null)
+        {
+            <li>@menu.CodeName</li>
+        }
+
+    </ul>
+</div>
+<div id="contents">
+    <div class="navi"> 
+        @if (@menu != null && selectedCountry != null)
+        {
+            @Html.ActionLink("Home", "Index", "Home") <a href="~/DataItem/List/@menu.Code/0" class="ali"> > @menu.CodeName</a> <span> > @selectedCountry.CodeName</span>
+        }
+        @if (@menu != null && selectedCountry == null)
+        {
+            @Html.ActionLink("Home", "Index", "Home")  <span>  > @menu.CodeName </span>
+
+        }
+
+        @if (@menu == null && selectedCountry != null)
+        {
+            @Html.ActionLink("Home", "Index", "Home")  <span>  > @selectedCountry.CodeName </span>
+
+        }
+
+    </div>
+    <div class="datail_v">
+        <h1>
+            Select country
+            <ul style="padding:15px;border-top:1px double #ccc;background:#ddd;">
+                <li>
+                    @foreach (var country in countries)
+                    {
+                        if (menu != null)
+                        {
+                            <a href="~/DataItem/List/@menu.Code/@country.Code"><img src="~/File?id=@country.ImageFileID" width="32" height="23" alt="@country.CodeName" /></a>
+                        }
+                        else
+                        {
+                            <a href="~/DataItem/List/0/@country.Code"><img src="~/File?id=@country.ImageFileID" width="32" height="23" alt="@country.CodeName" /></a>
+                        }
+
+                    }
+                </li>
+                
+            </ul>
+        </h1>
+        <ul class="da_text">
+            
+            @for (int i = 0; i <= Model.Count() / 3; i++)
+            {
+                <li class="t_rig" style="width:960px;border-bottom:1px double #ccc;padding-bottom:10px;">
+                    @for (int j = 0; j < 3; j++)
+                    {
+                        int index = i * 3 + j;
+                        if (index >= Model.Count())
+                        {
+                            break;
+                        }
+                        AmeCaseBookOrg.Models.DataItem dataItem = Model.ElementAt(index);
+                        <ul class="re_p">
+                            @if (dataItem.Images.Count > 0)
+                            {
+                                <li><img src="~/File?id=@dataItem.Images.FirstOrDefault().FileId" width="270" height="250"/></li>
+                            }
+                            <li>
+                                <h3><a href="~/DataItem/View/@dataItem.ID">@dataItem.Title</a></h3>
+                                <p style="font-size:12px;">@dataItem.CreatedDate</p>
+                                @Html.Raw(dataItem.Content)
+                                <ul class="luxe-post-share">
+                                    <a href="http://www.facebook.com/sharer.php?u=http://amicasebook.org/?p=1268&t=@dataItem.Title" target="blank" title="Facebook" class="socialico-facebook"></a>
+                                    <a href="http://twitter.com/share?url=http://amicasebook.org/?p=1268&text=@dataItem.Title" target="blank" title="Twitter" class="socialico-twitter"></a>
+                                    <a href="https://plus.google.com/share?url=http://amicasebook.org/?p=1268" target="blank" title="GooglePlus" class="socialico-google"></a>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    }
+                    </li>
+            }
+               
+            
+        </ul>
+    </div>
+</div>

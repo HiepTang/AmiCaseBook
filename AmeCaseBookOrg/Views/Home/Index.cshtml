@@ -19,7 +19,7 @@
                     <li>
                         <span class="day">@item.InsertDate</span><br />
                         <a href="#">@item.Title  </a><br />
-                        @item.Content
+                        @Html.Raw(item.Content)
                     </li>
                 }
               
@@ -40,7 +40,7 @@
                             if (index < countries.Count())
                             {
                                 AmeCaseBookOrg.Models.SubCategory country = countries.ElementAt(index);
-                                <a href="#"><img src="~/File?id=@country.ImageFileID" width="32" height="23" alt="@country.CodeName" /></a>
+                                <a href="~/DataItem/List/0/@country.Code"><img src="~/File?id=@country.ImageFileID" width="32" height="23" alt="@country.CodeName" /></a>
                             }
                         }
 

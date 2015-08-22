@@ -107,7 +107,7 @@ namespace AmeCaseBookOrg.Migrations
 
                 DataItem dataItem = new DataItem
                 {
-                    MainCategoryID = subMenu.ParentCategoryCode,
+                    MainMenuID = subMenu.ParentCategoryCode,
                     SubCategoryID = subMenu.Code,
                     CountryID = country.Code,
                     CreatedDate = DateTime.Now,
@@ -509,19 +509,23 @@ namespace AmeCaseBookOrg.Migrations
                 }
             };
 
-            int beginCode = 30010022;
+            int beginCode = 30010021;
+            int step = 1;
             foreach (var country in countries)
             {
+                if(step == 9){
+                    step = 270090189;
+                }
                 SubMenu subMenu = new SubMenu
                 {
-                    Code = beginCode,
+                    Code = beginCode + step,
                     CodeName = country.CodeName,
                     IsMenu = true,
                     Memo = "",
                     URL = "",
                     ParentCategoryCode = 3001002
                 };
-                beginCode = beginCode + 1;
+                step= step + 1;
                 subMenus.Add(subMenu);
             }
             subMenus.ForEach(m => context.Categories.AddOrUpdate(m));
@@ -544,19 +548,21 @@ namespace AmeCaseBookOrg.Migrations
 
                 }
             };
-            int beginCode = 30010032;
+            int beginCode = 30010031;
+            int step = 1;
             foreach (var country in countries)
             {
+                if (step == 9) step = 270090279;
                 SubMenu subMenu = new SubMenu
                 {
-                    Code = beginCode,
+                    Code = beginCode + step,
                     CodeName = country.CodeName,
                     IsMenu = true,
                     Memo = "",
                     URL = "",
                     ParentCategoryCode = 3001003
                 };
-                beginCode = beginCode + 1;
+                step = step + 1;
                 subMenus.Add(subMenu);
             }
             subMenus.ForEach(m => context.Categories.AddOrUpdate(m));
