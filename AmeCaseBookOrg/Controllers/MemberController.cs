@@ -67,7 +67,8 @@ namespace AmeCaseBookOrg.Controllers
                         Id = a.Id,
                         FullName = a.FirstName,
                         Email = a.Email,
-                        PhoneNumber = a.PhoneNumber
+                        PhoneNumber = a.PhoneNumber,
+                        Country = a.Country.CodeName
                     }
                 )
             };
