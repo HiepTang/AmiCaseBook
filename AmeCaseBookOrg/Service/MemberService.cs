@@ -21,7 +21,7 @@ namespace AmeCaseBookOrg.Service
         {
             var role = context.Roles.SingleOrDefault(m => m.Name == roleName);
             var usersInRole = context.Users.Where(m => m.Roles.Any(r => r.RoleId == role.Id));
-
+            
             return usersInRole;
         }
         public IEnumerable<IdentityRole> GetUserRoles()

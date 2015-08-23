@@ -1,0 +1,43 @@
+﻿
+@{
+    ViewBag.Title = "Casebook";
+}
+
+<div id="sub_tit">
+    <ul>
+        <li>Casebook </li>
+    </ul>
+</div>
+<div id="contents">
+    <div class="navi">
+    @Html.ActionLink("Home", "Index", "Home") > <a href="~/About/Index/0/0" class="ali">About</a>  > <span>Casebook</span>
+    </div>
+    <div class="datail_v">
+        <h1>CASEBOOK</h1>
+        <ul class="da_text">
+            <li style="float:left;text-align:left;width:920px;padding:50px;">
+                <p>
+                    This casebook focuses on advanced metering infrastructure (AMI) projects.
+                    ISGAN Participants have volunteered these cases for the purposes of increasing knowledge and cooperation among stakeholders on smart grid project planning,
+                    implementation and management.The cases included in this book represent a broad range of contexts: economic, political, geographical, structural, cultural and market.
+                    They are intended to promote more sophisticated conversation about lessons learned and best practices across jurisdictions.
+                </p>
+                <p>Key terms used throughout this case book are:</p>
+                <br />
+                <p class="p_t bold"><i class="fa fa-check-circle"></i> AMI </p>
+                <p>
+                    Advanced Metering Infrastructure, which includes smart meters communication devices and systems capable of remote control operations,
+                    reporting interval readings and two-way communication between the customer and the distribution network.
+                </p>
+                <br />
+                <p class="p_t bold"><i class="fa fa-check-circle"></i> AMR </p>
+                <p> Automated Meter Reading, which is enabled by smart meters, but does not necessarily include interval reading or other functional aspects of AMI. </p>
+                <br />
+                <p class="p_t bold"><i class="fa fa-check-circle"></i> MDMS </p>
+                <p> AMeter Data Management System, the central data collection system responsible for validating, estimating and editing data for accurate customer billing.</p>
+                <br />
+            </li>
+
+        </ul>
+    </div>
+</div>

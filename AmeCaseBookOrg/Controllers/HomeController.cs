@@ -44,18 +44,13 @@ namespace AmeCaseBookOrg.Controllers
             var countries = categoryService.GetCountries();
             ViewBag.Countries = countries;
 
-            var users = memberService.GetUserInRole("Contributor");
+            var users = memberService.GetUserInRole(MemberRoles.Contributor.ToString());
             ViewBag.Contributors = users;
 
             return View();
         }
 
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
+       
 
         public ActionResult Contact()
         {

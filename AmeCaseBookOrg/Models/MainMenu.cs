@@ -8,6 +8,7 @@ namespace AmeCaseBookOrg.Models
     public class MainMenu : SubCategory
     {
 
+      
         public ICollection<SubCategory> GetSubMenus()
         {
             return (List<SubCategory>)SubCategories.ToList();

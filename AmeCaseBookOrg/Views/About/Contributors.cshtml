@@ -1,0 +1,33 @@
+﻿@model IEnumerable<AmeCaseBookOrg.Models.ApplicationUser>
+@{
+    ViewBag.Title = "Contributors";
+}
+<div id="sub_tit">
+    <ul>
+        <li>Contributors </li>
+    </ul>
+</div>
+<div id="contents">
+    <div class="navi"> 
+        @Html.ActionLink("Home", "Index", "Home") > <a href="~/About/Index/0/0" class="ali">About</a>  > <span>Contributors</span>
+    </div>
+    <div class="datail_v">
+        <h1>Contributors</h1>
+        @foreach (var contributor in Model)
+        {
+            <div class="con_img">
+                <div class="boxgrid slideright">
+                    <img class="cover" src="~/File?id=@contributor.FileId">
+                    <h2> @contributor.FullName</h2>
+                    <h3> @contributor.Introduction</h3>
+                    <p>Affiliation: @contributor.Affiliation</p>
+                    <p> Country: @contributor.Country.CodeName</p>
+                </div>
+                <ul class="social-icons team-social" style="float:left;width:100%;margin-top:10px;text-align:center;">
+                    <li class="linkedin"><a class="socialico-linkedin" href="@contributor.LinkIn" target="_blank"></a></li>
+                </ul>
+            </div>
+        }
+       
+    </div>
+</div>

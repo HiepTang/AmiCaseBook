@@ -355,7 +355,7 @@ namespace AmeCaseBookOrg.Migrations
             {
                 new MainCategory
                 {
-                    Code = 102001,
+                    Code = (int)MainCategoryType.Country,
                     CodeName = "Country",
                     IsMenu = false,
                     Memo = "",
@@ -365,7 +365,7 @@ namespace AmeCaseBookOrg.Migrations
                 },
                  new MainCategory
                 {
-                    Code = 103001,
+                    Code = (int)MainCategoryType.Menu,
                     CodeName = "Menu",
                     IsMenu = true,
                     Memo = "",
@@ -388,7 +388,7 @@ namespace AmeCaseBookOrg.Migrations
                     CodeName = "ABOUT",
                     IsMenu = true,
                     Memo = "",
-                    URL = "",
+                    URL = "About/Index",
                    ParentCategoryCode = 103001
 
                 },
@@ -398,7 +398,7 @@ namespace AmeCaseBookOrg.Migrations
                     CodeName = "AMI CASE",
                     IsMenu = true,
                     Memo = "",
-                    URL = "",
+                    URL = "DataItem/List",
                    ParentCategoryCode= 103001
                   
                 },
@@ -408,7 +408,7 @@ namespace AmeCaseBookOrg.Migrations
                     CodeName = "DSM CASE",
                     IsMenu = true,
                     Memo = "",
-                    URL = "",
+                    URL = "DataItem/List",
                    ParentCategoryCode= 103001
                 },
                  new MainMenu
@@ -417,7 +417,7 @@ namespace AmeCaseBookOrg.Migrations
                     CodeName = "Communication",
                     IsMenu = true,
                     Memo = "",
-                    URL = "",
+                    URL = "Communication/Index",
                    ParentCategoryCode= 103001
                     
                 }
