@@ -1,0 +1,41 @@
+﻿@model IEnumerable<AmeCaseBookOrg.Models.CommunityTopic>
+@using MvcJqGrid
+@using MvcJqGrid.Enums
+
+@{
+    ViewBag.Title = "Member Community";
+    Layout = "~/Views/Shared/_LayoutJQGrid.cshtml";
+}
+
+<div id="sub_tit">
+    <ul>
+        <li>Member Community</li>
+
+    </ul>
+
+</div>
+<div class="navi">
+    @Html.ActionLink("Home", "Index", "Home") ><a href="~/Communication/Index/0/0" class="ali">About</a>   > <span>Member Community</span>
+
+</div>
+<div class="myinfo_t2" style="width: 960px">
+    @(Html.Grid("communityGrid")
+        .SetRequestType(RequestType.Post)
+        .SetJsonReader(new MvcJqGrid.DataReaders.JsonReader { Id = "ID", RepeatItems = false })
+        .AddColumn(new Column("Title").SetWidth(850).SetSortable(false).SetLabel("Title").SetSearch(true))
+        .AddColumn(new Column("InsertDate").SetFormatter(Formatters.Date).SetSortable(false).SetLabel("Date").SetSearch(false))
+      
+    .SetUrl(Url.Action("Search", "Community"))
+    .SetAutoWidth(true)
+    .SetRowNum(15)
+    .SetRowList(new[] { 15, 30, 50 })
+    .SetViewRecords(true)
+    .SetPager("pager")
+    .SetSearchToolbar(true).SetSearchOnEnter(true)
+
+    )
+</div>
+
+
+
+

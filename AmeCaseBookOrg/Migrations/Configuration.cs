@@ -585,7 +585,7 @@ namespace AmeCaseBookOrg.Migrations
                 },
                  new SubMenu
                 {
-                    Code = 3001004,
+                    Code = 30010042,
                     CodeName = "Community",
                     IsMenu = true,
                     Memo = "",

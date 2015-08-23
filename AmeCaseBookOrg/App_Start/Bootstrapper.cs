@@ -25,6 +25,7 @@ namespace AmeCaseBookOrg.App_Start
             builder.RegisterType<AnnouncementService>().As<IAnnouncementService>().InstancePerRequest();
             builder.RegisterType<MemberService>().As<IMemberService>().InstancePerRequest();
             builder.RegisterType<DataItemService>().As<IDataItemService>().InstancePerRequest();
+            builder.RegisterType<CommunityService>().As<ICommunityService>().InstancePerRequest();
 
             IContainer container = builder.Build();
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
