@@ -1,11 +1,18 @@
-﻿@model IEnumerable<AmeCaseBookOrg.Models.CommunityTopic>
-@using MvcJqGrid
+﻿@using MvcJqGrid
 @using MvcJqGrid.Enums
 
 @{
     ViewBag.Title = "Member Community";
     Layout = "~/Views/Shared/_LayoutJQGrid.cshtml";
 }
+
+<script type="text/javascript">
+
+    function FormatViewLink(cellValue, options, rowObject) {
+        var linkHtml = '<a href="View?id=' + options.rowId + '">' + cellValue + '</a>';
+        return linkHtml;
+    }
+</script>
 
 <div id="sub_tit">
     <ul>
@@ -22,7 +29,7 @@
     @(Html.Grid("communityGrid")
         .SetRequestType(RequestType.Post)
         .SetJsonReader(new MvcJqGrid.DataReaders.JsonReader { Id = "ID", RepeatItems = false })
-        .AddColumn(new Column("Title").SetWidth(850).SetSortable(false).SetLabel("Title").SetSearch(true))
+        .AddColumn(new Column("Title").SetWidth(850).SetSortable(false).SetLabel("Title").SetSearch(true).SetCustomFormatter("FormatViewLink"))
         .AddColumn(new Column("InsertDate").SetFormatter(Formatters.Date).SetSortable(false).SetLabel("Date").SetSearch(false))
       
     .SetUrl(Url.Action("Search", "Community"))

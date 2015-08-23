@@ -218,6 +218,10 @@
     <Compile Include="Migrations\201508211826430_DataItemChangeMainCategoryToMainMenu.Designer.cs">
       <DependentUpon>201508211826430_DataItemChangeMainCategoryToMainMenu.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201508231542007_AddHitToCommunityTopic.cs" />
+    <Compile Include="Migrations\201508231542007_AddHitToCommunityTopic.Designer.cs">
+      <DependentUpon>201508231542007_AddHitToCommunityTopic.cs</DependentUpon>
+    </Compile>
     <Compile Include="ModelMaper\DomainToViewModelMappingProfile.cs" />
     <Compile Include="Migrations\201508121651157_Initialize.cs" />
     <Compile Include="Migrations\201508121651157_Initialize.Designer.cs">
@@ -488,6 +492,7 @@
     <Content Include="Views\About\Contributors.cshtml" />
     <Content Include="Views\Communication\Index.cshtml" />
     <Content Include="Views\Community\Index.cshtml" />
+    <Content Include="Views\Community\View.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -522,6 +527,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201508211826430_DataItemChangeMainCategoryToMainMenu.resx">
       <DependentUpon>201508211826430_DataItemChangeMainCategoryToMainMenu.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508231542007_AddHitToCommunityTopic.resx">
+      <DependentUpon>201508231542007_AddHitToCommunityTopic.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

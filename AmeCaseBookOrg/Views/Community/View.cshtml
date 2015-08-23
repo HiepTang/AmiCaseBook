@@ -1,0 +1,67 @@
+﻿@model AmeCaseBookOrg.Models.CommunityTopic
+@{
+    ViewBag.Title = "View";
+}
+
+<div id="sub_tit">
+    <ul>
+        <li>Member Community</li>
+    </ul>
+</div>
+<div id="contents">
+    <div class="navi">
+     @Html.ActionLink("Home", "Index", "Home") ><a href="~/Communication/Index/0/0" class="ali">About</a>   > <span>Member Community</span>
+    </div>
+    <div class="datail_v">
+        <ul class="luxe-post-share" style="text-align:right;">
+            <a href="http://www.facebook.com/" target="blank" title="Facebook" class="socialico-facebook"></a>
+            <a href="http://twitter.com/" target="blank" title="Twitter" class="socialico-twitter"></a>
+        </ul>
+        <h1>@Model.Title	</h1>
+        <h2>Secretariat | <span style="font-weight:normal;">@Model.InsertDate | Hit @Model.Hit</span> <span style="float:right;"><a href="#"><i class="fa fa-print"></i> Print </a></span></h2>
+        <ul class="da_text">
+            <li style="float:left;text-align:left;width:850px;padding:50px;">
+                @Html.Raw(Model.Content)
+            </li>
+            <li style="float:left;width:960px;border-bottom:1px double #ccc;color:#F60;"> 
+            <i class="fa fa-file"></i>  attached file :
+            @foreach (var file in Model.AttachmentFiles)
+            {
+                <a href="~/File?id=@file.FileId"> @file.FileName</a>
+            }
+                
+            </li>
+        </ul>
+        <ul class="reply">
+            <li style="float:left;width:960px;border-bottom:1px double #ccc;line-height:40px;"> <i class="fa fa-twitch"></i> Comment </li>
+            @foreach (var comment in Model.CommuityTopicComments)
+            {
+                <li>
+                    <span>@comment.CommentUser.FullName (@comment.ComemmentTime): </span>
+                    @comment.Content
+                    <a href="#"><i class="fa fa-times" style="color:#F00"></i></a>
+                </li>
+            }
+           @if (!Request.IsAuthenticated)
+           {
+            <li style="padding-top:10px;">
+                <ul style="width:90%;padding:10px;margin:0 auto;" class="re_input">
+                    <li>You need login to leave a message here @Html.ActionLink("Login", "Login", "Account")</li>
+                </ul>
+            </li>
+           }
+           else
+           {
+               using (Html.BeginForm("Comment", "Community", new { topic = Model.ID }, FormMethod.Post, new { id = "commentForm" }))
+               {
+                <li style="padding-top:10px;">
+                    @Html.TextArea("comment", null, new { @class = "fre_input", placeholder = "Comment", style = "width:950px;height:50px;margin-top:10px;padding:10px;"  })
+                    <a href="javascript:document.getElementById('commentForm').submit()" class="bt_blue_t" style="float:right;margin:10px;"> <i class="fa fa-share"></i> Comment Save</a>
+                </li>
+               }
+
+           }
+        </ul>
+    </div>
+</div>
+

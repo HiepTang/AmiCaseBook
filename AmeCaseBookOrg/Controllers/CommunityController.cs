@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using AmeCaseBookOrg.Models;
 using AmeCaseBookOrg.Service;
 using MvcJqGrid;
+using System.Net;
 
 namespace AmeCaseBookOrg.Controllers
 {
@@ -54,6 +55,36 @@ namespace AmeCaseBookOrg.Controllers
 
             JsonResult result = Json(jsonData);
             return result;
+        }
+
+        public ActionResult View(int id)
+        {
+            if (id == 0)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            var topic = communityService.GetTopic(id);
+
+            if (topic == null)
+            {
+                return HttpNotFound();
+            }
+            return View(topic);
+        }
+
+        [HttpPost]
+        public ActionResult Comment(int topic, string comment)
+        {
+            if(topic == 0)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+
+
+
+            return View();
         }
     }
 }

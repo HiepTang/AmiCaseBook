@@ -21,6 +21,8 @@ namespace AmeCaseBookOrg.Models
         [MaxLength(4000)]
         public String Content { get; set; }
 
+        public int Hit { get; set; }
+
         [Display(Name = "Insert date")]
         public DateTime InsertDate { get; set; }
 

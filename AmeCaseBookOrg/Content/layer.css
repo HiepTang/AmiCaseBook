@@ -63,7 +63,7 @@
 
 .datail_v {width:960px;margin:0 auto;height:auto;}
 .datail_v h1 {font-size:25px;color:#1ab59a;border-bottom:1px double #ccc;padding-bottom:10px;}
-.datail_v h2 {color:#666;background:#eee;line-height:30px;width:100%;text-align:left;border-bottom:1px double #ccc}
+.datail_v h2 {color:#666;background:#eee;line-height:30px;width:100%;text-align:left;border-bottom:1px double #ccc; font-size:13px}
 .datail_v label{float:right;}
 .da_text {width:960px;padding-top:10px;line-height:40px;font-size:14px;}
 .da_text li.t_lef{float:left;text-align:left;width:90px;padding-right:10px;}
