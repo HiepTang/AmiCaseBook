@@ -8,5 +8,7 @@ namespace AmeCaseBookOrg.Service
     {
         IEnumerable<ApplicationUser> GetUserInRole(string roleName);
         IEnumerable<IdentityRole> GetUserRoles();
+
+        ApplicationUser GetUser(string UserName);
     }
 }

@@ -14,10 +14,12 @@ namespace AmeCaseBookOrg.Controllers
     {
 
         private readonly ICommunityService communityService;
+        private readonly IMemberService memberService;
 
-        public CommunityController(ICommunityService communityService)
+        public CommunityController(ICommunityService communityService, IMemberService memberService)
         {
             this.communityService = communityService;
+            this.memberService = memberService;
         }
         // GET: Community
         public ActionResult Index()
@@ -66,14 +68,18 @@ namespace AmeCaseBookOrg.Controllers
 
             var topic = communityService.GetTopic(id);
 
+
             if (topic == null)
             {
                 return HttpNotFound();
             }
+
+            topic.Hit = topic.Hit + 1;
             return View(topic);
         }
 
         [HttpPost]
+        [Authorize]
         public ActionResult Comment(int topic, string comment)
         {
             if(topic == 0)
@@ -82,9 +88,32 @@ namespace AmeCaseBookOrg.Controllers
             }
 
 
+            var cTopic = communityService.GetTopic(topic);
+            if(cTopic == null)
+            {
+                return HttpNotFound();
+            }
 
+            if (String.IsNullOrEmpty(comment))
+            {
+                return View("View", cTopic);
+            }
 
-            return View();
+            ApplicationUser user = memberService.GetUser(User.Identity.Name);
+            
+
+            CommuityTopicComment commentTopic = new CommuityTopicComment
+            {
+                Content = comment,
+                ComemmentTime = DateTime.Now,
+                CommentUserId = user.Id,
+                CommunityTopicID = topic
+            };
+
+            communityService.CreateComment(commentTopic);
+            communityService.SaveTopic(cTopic);
+
+            return View("View", cTopic);
         }
     }
 }

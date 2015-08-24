@@ -17,6 +17,12 @@ namespace AmeCaseBookOrg.Service
             context = dbFactory.Init();
         }
 
+        public ApplicationUser GetUser(string UserName)
+        {
+            var user = this.context.Users.Where(u => u.UserName == UserName).FirstOrDefault();
+            return user;
+        }
+
         public IEnumerable<ApplicationUser> GetUserInRole(string roleName)
         {
             var role = context.Roles.SingleOrDefault(m => m.Name == roleName);
