@@ -264,6 +264,7 @@
     <Compile Include="Models\MainMenu.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\MemberRoles.cs" />
+    <Compile Include="Models\MemberSearchFilter.cs" />
     <Compile Include="Models\SubCategory.cs" />
     <Compile Include="Models\SubMenu.cs" />
     <Compile Include="Models\UserViewModel.cs" />
