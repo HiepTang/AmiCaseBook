@@ -20,6 +20,11 @@ namespace AmeCaseBookOrg.Service
             context.Announcements.Add(announcement);
         }
 
+        public Announcement GetAnnouncement(int id)
+        {
+            return this.context.Announcements.Find(id);
+        }
+
         public IEnumerable<Announcement> GetAnnouncements()
         {
             return context.Announcements;
@@ -28,6 +33,19 @@ namespace AmeCaseBookOrg.Service
         public void SaveAnnouncement()
         {
             context.SaveChanges();
+        }
+
+        public IEnumerable<Announcement> Search(AnnouncementSearchFilter filter, string sortColumn, string sortOrder, int pageSize, int pageIndex, out int totalRecords)
+        {
+            IEnumerable<Announcement> anns = context.Announcements;
+
+
+            if (!string.IsNullOrEmpty(filter.Title))
+            {
+                anns = anns.Where(t => t.Title.ToLower().Contains(filter.Title.ToLower()));
+            }
+            totalRecords = anns.Count();
+            return anns.OrderByDescending(item => item.InsertDate).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
         }
     }
 }

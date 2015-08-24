@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace AmeCaseBookOrg.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
         // GET: Admin

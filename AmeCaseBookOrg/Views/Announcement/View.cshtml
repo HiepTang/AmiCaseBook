@@ -1,0 +1,43 @@
+﻿@model AmeCaseBookOrg.Models.Announcement
+@{
+    ViewBag.Title = "Announcements";
+}
+<div id="sub_tit">
+    <ul>
+        <li>Announcements</li>
+
+    </ul>
+
+</div>
+<div id="contents">
+    @if (Request.IsAuthenticated && User.IsInRole("Admin"))
+    {
+        <div class="navi">
+            @Html.ActionLink("Home", "Index", "Home") >@Html.ActionLink("Admin", "Index", "Admin") > <a href="~/Announcement/Index" class="ali">Announcements Management</a> > <span>@Model.Title</span>
+        </div>
+    }
+    else
+    {
+        <div class="navi">
+            @Html.ActionLink("Home", "Index", "Home") ><a href="~/Communication/Index/0/0" class="ali">Communication</a>   > <a href="~/Announcement/Index" class="ali">Announcements</a> > <span>@Model.Title</span>
+        </div>
+    }
+
+    <div class="datail_v">
+        <h1>@Model.Title</h1>
+        <ul class="da_text">
+            <li style="float:left;text-align:left;width:850px;padding:50px;">
+                @Html.Raw(Model.Content)
+            </li>
+
+            <li style="float:left;width:960px;border-bottom:1px double #ccc;color:#F60">
+                <i class="fa fa-file"></i>  attached file :
+                @foreach (var file in Model.AttachmentFiles)
+            {
+                    <a href="~/File?id=@file.FileId"> @file.FileName</a>
+                }
+            </li>
+
+        </ul>
+    </div>
+</div>

@@ -75,6 +75,8 @@ namespace AmeCaseBookOrg.Controllers
             }
 
             topic.Hit = topic.Hit + 1;
+            communityService.SaveTopic(topic);
+
             return View(topic);
         }
 
