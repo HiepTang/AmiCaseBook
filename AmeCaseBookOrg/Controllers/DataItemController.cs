@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using AmeCaseBookOrg.Models;
 using AmeCaseBookOrg.Service;
+using MvcJqGrid;
 
 namespace AmeCaseBookOrg.Controllers
 {
@@ -76,7 +77,44 @@ namespace AmeCaseBookOrg.Controllers
             }
             return View(dataItems);
         }
+        public JsonResult searchListItem(string userName , GridSettings gridSettings)
+        {
+            DataItemSearchFilter filter = new DataItemSearchFilter();
+            filter.AuthorName = userName;
+            if (gridSettings.IsSearch)
+            {
+                filter.Title = gridSettings.Where.rules.Any(r => r.field == "Title") ?
+                        gridSettings.Where.rules.FirstOrDefault(r => r.field == "Title").data : string.Empty;
 
+                filter.AuthorName = gridSettings.Where.rules.Any(r => r.field == "Author") ?
+                        gridSettings.Where.rules.FirstOrDefault(r => r.field == "Author").data : string.Empty;
+            }
+            int totalRecords = 0;
+            var items = dataItemService.Search(filter, gridSettings.SortColumn, gridSettings.SortOrder, gridSettings.PageSize, gridSettings.PageIndex, out totalRecords);
+
+            var jsonData = new
+            {
+                total = totalRecords / gridSettings.PageSize + 1,
+                page = gridSettings.PageIndex,
+                records = totalRecords,
+                rows = (
+                    from a in items
+                    select new
+                    {
+                        ID = a.ID,
+                        Title = a.Title,
+                        SubMenuName = a.MainMenu.CodeName + " > " + a.SubCategory.CodeName,
+                        Country = a.Country.CodeName,
+                        InsertDate = a.CreatedDate,
+                        EditDate = a.LastUpdatedDate,
+                        Author = a.CreatedUser.FullName
+                    }
+                )
+            };
+
+            JsonResult result = Json(jsonData);
+            return result;
+        }
         public ActionResult View(int id)
         {
             if(id == 0)

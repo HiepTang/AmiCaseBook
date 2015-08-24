@@ -112,6 +112,14 @@ namespace AmeCaseBookOrg.Service
                     }
 
                 }
+                else
+                {
+                    var user = this.context.Users.Where(u => u.UserName == filter.AuthorName).FirstOrDefault();
+                    if (user != null)
+                    {
+                        items = items.Where(t => t.CreatedUserID == user.Id);
+                    }
+                }
 
             }
 
