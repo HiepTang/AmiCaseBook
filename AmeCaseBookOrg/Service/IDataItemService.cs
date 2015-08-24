@@ -17,6 +17,8 @@ namespace AmeCaseBookOrg.Service
 
         IEnumerable<DataItem> GetDataItemsByCountry(int countryCode);
 
+        IEnumerable<DataItem> Search(DataItemSearchFilter filter, string sortColumn, string sortOrder, int pageSize, int pageIndex, out int totalRecords);
+
         DataItem GetDataItem(int ID);
 
         void CreateDataItem(DataItem dataItem);

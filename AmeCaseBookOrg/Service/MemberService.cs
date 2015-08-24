@@ -34,5 +34,10 @@ namespace AmeCaseBookOrg.Service
         {
             return context.Roles;
         }
+
+        public IEnumerable<ApplicationUser> GetUsers()
+        {
+            return context.Users;
+        }
     }
 }
