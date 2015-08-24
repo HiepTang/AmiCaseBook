@@ -47,11 +47,16 @@ namespace AmeCaseBookOrg.Models
 
         [Display(Name = "Introduction")]
         public string Introduction { get; set; }
+        [Display (Name = "Address")]
+        public string Address { get; set; }
 
         [Display(Name = "Link In")]
         public string LinkIn { get; set; }
 
         [Display(Name = "Admin")]
-        public bool IsAdmin;
+        public bool IsAdmin
+        {
+            get; set;
+        }
     }
 }

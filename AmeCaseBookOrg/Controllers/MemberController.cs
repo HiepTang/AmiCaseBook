@@ -21,15 +21,17 @@ namespace AmeCaseBookOrg.Controllers
         private ApplicationUserManager _userManager;
         private readonly ICategoryService categoryService;
         private readonly IFileService _fileService;
+        private readonly IMemberService _memberService;
         public MemberController()
         {
 
         }
 
-        public MemberController(ICategoryService categoryService, IFileService fileService)
+        public MemberController(ICategoryService categoryService, IFileService fileService, IMemberService memberService)
         {
             _fileService = fileService;
             this.categoryService = categoryService;
+            this._memberService = memberService;
         }
 
         public ApplicationUserManager UserManager
@@ -53,8 +55,16 @@ namespace AmeCaseBookOrg.Controllers
 
         public JsonResult Search(GridSettings gridSettings)
         {
-            var applicationUsers = UserManager.Users;
-            int totalRecords = applicationUsers.Count();
+            MemberSearchFilter filter = new MemberSearchFilter();
+            if (gridSettings.IsSearch)
+            {
+                filter.Email = gridSettings.Where.rules.Any(r => r.field == "Email") ?
+                        gridSettings.Where.rules.FirstOrDefault(r => r.field == "Email").data : string.Empty;
+                filter.UserName = gridSettings.Where.rules.Any(r => r.field == "FullName") ?
+                        gridSettings.Where.rules.FirstOrDefault(r => r.field == "FullName").data : string.Empty;
+            }
+            int totalRecords = 0;
+            var applicationUsers = _memberService.searchMember(filter, gridSettings.SortColumn, gridSettings.SortOrder, gridSettings.PageSize, gridSettings.PageIndex, out totalRecords);
             var jsonData = new
             {
                 total = totalRecords / gridSettings.PageSize + 1,
@@ -65,9 +75,10 @@ namespace AmeCaseBookOrg.Controllers
                     select new
                     {
                         Id = a.Id,
-                        FullName = a.FirstName,
+                        FullName = a.LastName + ", " + a.FirstName,
                         Email = a.Email,
                         PhoneNumber = a.PhoneNumber,
+                        Address = a.Address,
                         Country = a.Country.CodeName
                     }
                 )
@@ -146,7 +157,8 @@ namespace AmeCaseBookOrg.Controllers
                 {
                     AddErrors(result);
                 }
-            }  
+            }
+            ViewBag.CountryId = new SelectList(categoryService.GetCountries(), "Code", "CodeName");
             return View(model);
         }
         private void AddErrors(IdentityResult result)
@@ -168,7 +180,11 @@ namespace AmeCaseBookOrg.Controllers
             {
                 return HttpNotFound();
             }
-            return View(applicationUser);
+            ViewBag.CountryId = new SelectList(categoryService.GetCountries(), "Code", "CodeName", applicationUser.CountryId);
+            UserViewModel model = Mapper.Map<UserViewModel>(applicationUser);
+            var adminRole = _memberService.GetUserRoles().SingleOrDefault(r => r.Name == MemberRoles.Admin.ToString());
+            model.IsAdmin = applicationUser.Roles.Any(r => r.RoleId == adminRole.Id);
+            return View(model);
         }
 
         // POST: Member/Edit/5
@@ -176,18 +192,59 @@ namespace AmeCaseBookOrg.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,LastName,FirstName,Affiliation,Introduction,LinkIn,FileId,CountryId,Email,EmailConfirmed,PasswordHash,SecurityStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEndDateUtc,LockoutEnabled,AccessFailedCount,UserName")] ApplicationUser applicationUser)
+        public ActionResult Edit(UserViewModel model, HttpPostedFileBase upload)
         {
             if (ModelState.IsValid)
             {
-                return RedirectToAction("Index");
-            }
-            //ViewBag.CountryId = new SelectList(db.Categories, "Code", "CodeName", applicationUser.CountryId);
-           //viewBag.FileId = new SelectList(db.Files, "FileId", "FileName", applicationUser.FileId);
-            return View(applicationUser);
+                var applicationUser = UserManager.FindByName(model.Email);
+                applicationUser = Mapper.Map<UserViewModel, ApplicationUser>(model, applicationUser);
+         
+                if (upload != null && upload.ContentLength > 0)
+                {
+                    using (var reader = new System.IO.BinaryReader(upload.InputStream))
+                    {
+                        var avatar = new File
+                        {
+                            FileName = upload.FileName,
+                            FileType = FileType.Avatar,
+                            ContentType = upload.ContentType,
+                            Content = reader.ReadBytes(upload.ContentLength)
+                        };
+                        File outFile = _fileService.addFile(avatar);
+                        applicationUser.UploadImage = outFile;
+                    };
+
+
+                }
+                applicationUser.Roles.Clear();
+                var result = UserManager.Update(applicationUser);
+                if (result.Succeeded)
+                {
+                    if (model.IsAdmin)
+                    {
+                        result = UserManager.AddToRole(applicationUser.Id, MemberRoles.Admin.ToString());
+                    }
+                    else
+                    {
+                        result = UserManager.AddToRole(applicationUser.Id, MemberRoles.Contributor.ToString());
+                    }
+                    if (result.Succeeded)
+                    {
+                        return RedirectToAction("Index");
+                    }
+
+                }
+                else
+                {
+                    AddErrors(result);
+                }
+            }           
+            ViewBag.CountryId = new SelectList(categoryService.GetCountries(), "Code", "CodeName", model.CountryId);
+            return View(model);
         }
 
         // GET: Member/Delete/5
+        [HttpPost]
         public ActionResult Delete(string id)
         {
             if (id == null)
@@ -199,6 +256,7 @@ namespace AmeCaseBookOrg.Controllers
             {
                 return HttpNotFound();
             }
+            IdentityResult result = UserManager.Delete(applicationUser);
             return View(applicationUser);
         }
 

@@ -120,7 +120,7 @@ namespace AmeCaseBookOrg.Controllers
                     select new
                     {
                         Id = a.Id,
-                        FullName = a.FirstName,
+                        FullName = a.FullName,
                         Email = a.Email,
                         PhoneNumber = a.PhoneNumber,
                         Country = a.Country.CodeName
