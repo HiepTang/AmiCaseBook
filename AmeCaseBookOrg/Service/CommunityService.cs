@@ -16,6 +16,11 @@ namespace AmeCaseBookOrg.Service
             this.context = dbFactory.Init();
         }
 
+        public void CreateComment(CommuityTopicComment comment)
+        {
+            this.context.CommuityTopicComments.Add(comment);
+        }
+
         public void CreateTopic(CommunityTopic topic)
         {
             this.context.CommunityTopics.Add(topic);

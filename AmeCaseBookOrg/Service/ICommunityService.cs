@@ -18,6 +18,8 @@ namespace AmeCaseBookOrg.Service
 
         void CreateTopic(CommunityTopic topic);
 
+        void CreateComment(CommuityTopicComment comment);
+
         void SaveTopic(CommunityTopic topic);
     }
 }

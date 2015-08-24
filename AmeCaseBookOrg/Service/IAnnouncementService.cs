@@ -13,6 +13,10 @@ namespace AmeCaseBookOrg.Service
 
         IEnumerable<Announcement> GetAnnouncements();
 
+        IEnumerable<Announcement> Search(AnnouncementSearchFilter filter, string sortColumn, string sortOrder, int pageSize, int pageIndex, out int totalRecords);
+
+        Announcement GetAnnouncement(int id);
+
         void CreateAnnouncement(Announcement announcement);
 
         void SaveAnnouncement();

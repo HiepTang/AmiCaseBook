@@ -189,6 +189,7 @@
     <Compile Include="Controllers\AboutController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Controllers\AnnouncementController.cs" />
     <Compile Include="Controllers\CommunicationController.cs" />
     <Compile Include="Controllers\CommunityController.cs" />
     <Compile Include="Controllers\DataItemController.cs" />
@@ -243,6 +244,7 @@
     <Compile Include="ModelMaper\ViewModelToDomainMappingProfile.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Announcement.cs" />
+    <Compile Include="Models\AnnouncementSearchFilter.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\Comment.cs" />
@@ -494,6 +496,8 @@
     <Content Include="Views\Communication\Index.cshtml" />
     <Content Include="Views\Community\Index.cshtml" />
     <Content Include="Views\Community\View.cshtml" />
+    <Content Include="Views\Announcement\Index.cshtml" />
+    <Content Include="Views\Announcement\View.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
