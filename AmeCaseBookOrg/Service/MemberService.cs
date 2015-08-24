@@ -37,7 +37,7 @@ namespace AmeCaseBookOrg.Service
 
         public IEnumerable<ApplicationUser> searchMember(MemberSearchFilter filter, string sortColumn, string sortOrder, int pageSize, int pageIndex, out int totalRecords)
         {
-            IEnumerable<ApplicationUser> users = context.Users;
+            IEnumerable<ApplicationUser> users = context.Users.ToList();
             if (!string.IsNullOrEmpty(filter.Email))
             {
                 users = users.Where(u => u.Email.ToLower().Contains(filter.Email.ToLower()));

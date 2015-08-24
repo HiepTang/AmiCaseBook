@@ -67,18 +67,19 @@ namespace AmeCaseBookOrg.Controllers
         }
 
         // GET: Country/Edit/5
-        public ActionResult Edit(int? id)
+        public ActionResult EditMainCode(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Country country = _categoryService.GetCountries().Where(c => c.Code == id) as Country;
+            MainCategory country = _categoryService.GetCategory(id.Value) as MainCategory;
             if (country == null)
             {
                 return HttpNotFound();
             }
-            return View(country);
+            CategoryViewModel model = Mapper.Map<CategoryViewModel>(country);
+            return View(model);
         }
 
         // POST: Country/Edit/5
@@ -86,16 +87,50 @@ namespace AmeCaseBookOrg.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "CountryId,CountryName,SortOrder")] Country country)
+        public ActionResult EditMainCode(CategoryViewModel viewModel)
         {
             if (ModelState.IsValid)
             {
-                
+                MainCategory mainCategory = _categoryService.GetCategory(viewModel.Code) as MainCategory;
+                mainCategory = Mapper.Map<CategoryViewModel, MainCategory>(viewModel, mainCategory);
+                _categoryService.SaveCategory();
+
                 return RedirectToAction("Index");
             }
-            return View(country);
+            return View(viewModel);
+        }
+        public ActionResult EditSubCode(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            SubCategory country = _categoryService.GetCategory(id.Value) as SubCategory;
+            if (country == null)
+            {
+                return HttpNotFound();
+            }
+            CategoryViewModel model = Mapper.Map<CategoryViewModel>(country);
+            return View(model);
         }
 
+        // POST: Country/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditSubCode(CategoryViewModel viewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                SubCategory subCategory = _categoryService.GetCategory(viewModel.Code) as SubCategory;
+                subCategory = Mapper.Map<CategoryViewModel, SubCategory>(viewModel, subCategory);
+                _categoryService.SaveCategory();
+
+                return RedirectToAction("Index");
+            }
+            return View(viewModel);
+        }
         // GET: Country/Delete/5
         public ActionResult Delete(int? id)
         {

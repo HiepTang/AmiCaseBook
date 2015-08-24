@@ -108,8 +108,17 @@ namespace AmeCaseBookOrg.Controllers
         }
         public JsonResult SearchMember(GridSettings gridSettings)
         {
-            var applicationUsers = _memberService.GetUserInRole(MemberRoles.Contributor.ToString()).ToList();
-            int totalRecords = applicationUsers.Count();
+            MemberSearchFilter filter = new MemberSearchFilter();
+            if (gridSettings.IsSearch)
+            {
+                filter.Email = gridSettings.Where.rules.Any(r => r.field == "Email") ?
+                        gridSettings.Where.rules.FirstOrDefault(r => r.field == "Email").data : string.Empty;
+                filter.UserName = gridSettings.Where.rules.Any(r => r.field == "FullName") ?
+                        gridSettings.Where.rules.FirstOrDefault(r => r.field == "FullName").data : string.Empty;
+            }
+            filter.Role = MemberRoles.Contributor;
+            int totalRecords = 0;
+            var applicationUsers = _memberService.searchMember(filter, gridSettings.SortColumn, gridSettings.SortOrder, gridSettings.PageSize, gridSettings.PageIndex, out totalRecords);
             var jsonData = new
             {
                 total = totalRecords / gridSettings.PageSize + 1,

@@ -14,15 +14,15 @@
     var mainCategoryGrid = { demo: {} };
 
     mainCategoryGrid.demo.buttonize = function (cellvalue, options, rowobject) {
-        return '<a onclick="return mainCategoryGrid.demo.edit(' + options.rowId + ')" href="#"><div class="ui-icon ui-icon-pencil" style="display:inline-block"></div></a>' +
+        return '<a onclick="return mainCategoryGrid.demo.edit(' + options.rowId + ')" href="/MenuAdmin/EditMainMenu?id=' + options.rowId + '"><div class="ui-icon ui-icon-pencil" style="display:inline-block"></div></a>' +
                '<a onclick="return mainCategoryGrid.demo.delete(' + options.rowId + ')" href="#"><div class="ui-icon ui-icon-trash" style="display:inline-block"></div></a>';
 
     }
 
-    mainCategoryGrid.demo.edit = function (id) {
-        alert("Edit for  " + id);
-        return false;
-    }
+    //mainCategoryGrid.demo.edit = function (id) {
+    //    alert("Edit for  " + id);
+    //    return false;
+    //}
 
     mainCategoryGrid.demo.delete = function (id) {
         alert("Delete for  " + id);
@@ -37,15 +37,15 @@
     var subCategoryGrid = { demo: {} };
 
     subCategoryGrid.demo.buttonize = function (cellvalue, options, rowobject) {
-        return '<a onclick="return subCategoryGrid.demo.edit(' + options.rowId + ')" href="#"><div class="ui-icon ui-icon-pencil" style="display:inline-block"></div></a>' +
+        return '<a onclick="return subCategoryGrid.demo.edit(' + options.rowId + ')" href="/MenuAdmin/EditSubMenu?id=' + options.rowId + '"><div class="ui-icon ui-icon-pencil" style="display:inline-block"></div></a>' +
                '<a onclick="return subCategoryGrid.demo.delete(' + options.rowId + ')" href="#"><div class="ui-icon ui-icon-trash" style="display:inline-block"></div></a>';
 
     }
 
-    subCategoryGrid.demo.edit = function (id) {
-        alert("Edit for  " + id);
-        return false;
-    }
+    //subCategoryGrid.demo.edit = function (id) {
+    //    alert("Edit for  " + id);
+    //    return false;
+    //}
 
     subCategoryGrid.demo.delete = function (id) {
         alert("Delete for  " + id);

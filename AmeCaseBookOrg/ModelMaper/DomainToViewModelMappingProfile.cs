@@ -17,6 +17,7 @@ namespace AmeCaseBookOrg.ModelMapper
         protected override void Configure()
         {
             Mapper.CreateMap<ApplicationUser, UserViewModel>();
+            Mapper.CreateMap<Category, CategoryViewModel>();
         }
     }
 }

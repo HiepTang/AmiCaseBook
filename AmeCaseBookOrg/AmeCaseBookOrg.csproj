@@ -247,6 +247,7 @@
     <Compile Include="Models\AnnouncementSearchFilter.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
     <Compile Include="Models\Category.cs" />
+    <Compile Include="Models\CategoryViewModel.cs" />
     <Compile Include="Models\Comment.cs" />
     <Compile Include="Models\CommuityTopicComment.cs" />
     <Compile Include="Models\CommunityTopic.cs" />
@@ -470,7 +471,7 @@
     <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\CommonCode\Delete.cshtml" />
     <Content Include="Views\CommonCode\Details.cshtml" />
-    <Content Include="Views\CommonCode\Edit.cshtml" />
+    <Content Include="Views\CommonCode\EditMainCode.cshtml" />
     <Content Include="Views\CommonCode\Index.cshtml" />
     <Content Include="Views\Member\Create.cshtml" />
     <Content Include="Views\Member\Delete.cshtml" />
@@ -498,6 +499,9 @@
     <Content Include="Views\Community\View.cshtml" />
     <Content Include="Views\Announcement\Index.cshtml" />
     <Content Include="Views\Announcement\View.cshtml" />
+    <Content Include="Views\CommonCode\EditSubCode.cshtml" />
+    <Content Include="Views\MenuAdmin\EditMainMenu.cshtml" />
+    <Content Include="Views\MenuAdmin\EditSubMenu.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

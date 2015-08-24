@@ -8,6 +8,8 @@ using AmeCaseBookOrg.Service;
 using Microsoft.AspNet.Identity.Owin;
 using MvcJqGrid;
 using AmeCaseBookOrg.Common;
+using System.Net;
+using AutoMapper;
 
 namespace AmeCaseBookOrg.Controllers
 {
@@ -153,6 +155,70 @@ namespace AmeCaseBookOrg.Controllers
 
             }
             return View(model);
+        }
+        public ActionResult EditMainMenu(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            MainMenu country = _categoryService.GetCategory(id.Value) as MainMenu;
+            if (country == null)
+            {
+                return HttpNotFound();
+            }
+            CategoryViewModel model = Mapper.Map<CategoryViewModel>(country);
+            return View(model);
+        }
+
+        // POST: Country/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditMainMenu(CategoryViewModel viewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                MainMenu mainCategory = _categoryService.GetCategory(viewModel.Code) as MainMenu;
+                mainCategory = Mapper.Map<CategoryViewModel, MainMenu>(viewModel, mainCategory);
+                _categoryService.SaveCategory();
+
+                return RedirectToAction("Index");
+            }
+            return View(viewModel);
+        }
+        public ActionResult EditSubMenu(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            SubMenu country = _categoryService.GetCategory(id.Value) as SubMenu;
+            if (country == null)
+            {
+                return HttpNotFound();
+            }
+            CategoryViewModel model = Mapper.Map<CategoryViewModel>(country);
+            return View(model);
+        }
+
+        // POST: Country/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditSubMenu(CategoryViewModel viewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                SubMenu mainCategory = _categoryService.GetCategory(viewModel.Code) as SubMenu;
+                mainCategory = Mapper.Map<CategoryViewModel, SubMenu>(viewModel, mainCategory);
+                _categoryService.SaveCategory();
+
+                return RedirectToAction("Index");
+            }
+            return View(viewModel);
         }
     }
 }

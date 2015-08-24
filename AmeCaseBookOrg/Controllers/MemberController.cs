@@ -181,6 +181,11 @@ namespace AmeCaseBookOrg.Controllers
                 return HttpNotFound();
             }
             ViewBag.CountryId = new SelectList(categoryService.GetCountries(), "Code", "CodeName", applicationUser.CountryId);
+            if(applicationUser.FileId != null)
+            {
+                ViewBag.FileName = _fileService.getFile(applicationUser.FileId.Value).FileName;
+            }
+            
             UserViewModel model = Mapper.Map<UserViewModel>(applicationUser);
             var adminRole = _memberService.GetUserRoles().SingleOrDefault(r => r.Name == MemberRoles.Admin.ToString());
             model.IsAdmin = applicationUser.Roles.Any(r => r.RoleId == adminRole.Id);
@@ -238,8 +243,12 @@ namespace AmeCaseBookOrg.Controllers
                 {
                     AddErrors(result);
                 }
+                if (applicationUser.FileId != null)
+                {
+                    ViewBag.FileName = _fileService.getFile(applicationUser.FileId.Value).FileName;
+                }
             }           
-            ViewBag.CountryId = new SelectList(categoryService.GetCountries(), "Code", "CodeName", model.CountryId);
+            ViewBag.CountryId = new SelectList(categoryService.GetCountries(), "Code", "CodeName", model.CountryId);         
             return View(model);
         }
 

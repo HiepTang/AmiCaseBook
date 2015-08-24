@@ -12,6 +12,12 @@
     </ul>
 </div>
 <script type="text/javascript">
+    function onGridLoadCompleted() {
+        var grid = jQuery("#memberGrid"),
+         ids = grid.jqGrid("getDataIDs");
+        if (ids && ids.length > 0)
+            grid.jqGrid("setSelection", ids[0]);
+    }
     function onMainRowSelected(rowid, status) {
         $("#UserName").val(rowid);
        
@@ -62,16 +68,16 @@
     }
 </script>
 <div id="contents">
-    <div class="navi"> Home > Admin > <span>Permission Management</span> </div>
+    <div class="navi"> @Html.ActionLink("Home", "Index", "Home") > @Html.ActionLink("Admin", "Index", "Admin") <span>Permission Management</span> </div>
     <div style="width:960px;margin:0 auto;">
         <div class="myinfo_t2" style="width:450px;float:left;padding-right:10px;border-right:1px dotted #999;">
             @(Html.Grid("memberGrid")
             .SetRequestType(RequestType.Post)
             .SetJsonReader(new MvcJqGrid.DataReaders.JsonReader { Id = "Email", RepeatItems = false })
             .SetRowNumbers(true)
-            .AddColumn(new Column("FullName").SetLabel("Name"))
-            .AddColumn(new Column("Email").SetLabel("Email"))
-            .AddColumn(new Column("Country").SetLabel("Country"))
+            .AddColumn(new Column("FullName").SetLabel("Name").SetSearch(true))
+            .AddColumn(new Column("Email").SetLabel("Email").SetSearch(true))
+            .AddColumn(new Column("Country").SetLabel("Country").SetSearch(false))
 
             .SetUrl(Url.Action("SearchMember", "Permission"))
             .SetAutoWidth(true)
@@ -79,15 +85,16 @@
             .SetRowList(new[] { 10, 15, 20, 50 })
             .SetViewRecords(true)
             .SetPager("pager")
-            .SetSearchToolbar(false).SetSearchOnEnter(false)
+            .SetSearchToolbar(true).SetSearchOnEnter(true)
             .OnSelectRow("onMainRowSelected(rowid, status)")
+            .OnLoadComplete("onGridLoadCompleted()")
             )
 
         </div>
         <div class="myinfo_t2" style="width:450px;float:left;padding-left:10px;">
             <h1 style="font-size:15px;">Select member : Remy Garaude Verdier</h1>
-            <form id="frmPermission">
-                <label style="color:#9d9d9d;">※ Common Code > Sub code of “Top Menu” <span style="float:right;padding-right:10px;"> <input type="button" class="bt_blue_t" onclick="onSavePermission()" value="Save"/></span></label>
+            <form id="frmPermission">               
+                <label style="color:#9d9d9d;">※ Common Code &gt; Sub code of “Top Menu” <span style="float:right;padding-right:10px;"> <a class="bt_blue_t" href="#" onclick="onSavePermission()"> <i class="fa fa-floppy-o"></i> Save </a></span></label>
                 <input type="hidden" id="UserName" name="UserName" />
                 <div class="select_li" id="divSubMenu">
 

@@ -1,0 +1,72 @@
+﻿@model AmeCaseBookOrg.Models.CategoryViewModel
+
+@{
+    ViewBag.Title = "CreateMainMenu";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="sub_tit">
+    <ul>
+        <li>Edit sub code</li>
+
+    </ul>
+
+</div>
+<div id="contents">
+    <div class="navi">
+        @Html.ActionLink("Home", "Index", "Home") > @Html.ActionLink("Admin", "Index", "Admin") > @Html.ActionLink("Common Code", "Index", "CommonCode") >
+        <span>Edit main code</span>
+
+    </div>
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        <div class="datail_v">
+            @Html.ValidationSummary("", new { @class = "text-danger" })
+            <div class="myinfo_add_ta">
+                <table>
+                    <tr>
+                        <th><i class="fa fa-chevron-circle-right"> </i> Code</th>
+                        <td colspan="3">
+                            @Html.EditorFor(model => model.Code, new { htmlAttributes = new { @class = "re_input", @style = "width:300px;text-align:left;padding-left:10px;", @readonly = "readonly" } })
+                            @Html.ValidationMessageFor(model => model.Code, "", new { @class = "text-danger" })
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><i class="fa fa-chevron-circle-right"> </i> Code Name</th>
+                        <td colspan="3">
+                            @Html.EditorFor(model => model.CodeName, new { htmlAttributes = new { @class = "re_input", @style = "width:300px;text-align:left;padding-left:10px;" } })
+                            @Html.ValidationMessageFor(model => model.CodeName, "", new { @class = "text-danger" })
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><i class="fa fa-chevron-circle-right"> </i> URL</th>
+                        <td colspan="3">
+                            @Html.EditorFor(model => model.URL, new { htmlAttributes = new { @class = "re_input", @style = "width:300px;text-align:left;padding-left:10px;" } })
+                            @Html.ValidationMessageFor(model => model.URL, "", new { @class = "text-danger" })
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><i class="fa fa-chevron-circle-right"> </i> Memo</th>
+                        <td colspan="3">
+                            @Html.EditorFor(model => model.Memo, new { htmlAttributes = new { @class = "re_input", @style = "width:300px;text-align:left;padding-left:10px;" } })
+                            @Html.ValidationMessageFor(model => model.Memo, "", new { @class = "text-danger" })
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3" rowspan="5" style="height:80px;border:0px;">
+                            <ul class="bt_blue" style="padding-right:10px;">
+                                <li>
+                                    <input type="submit" value="Save" class="bt_blue_button" style="color:#fff;" />
+
+                                </li>
+
+                            </ul>
+                        </td>
+                    </tr>
+                </table>
+
+            </div>
+        </div>
+    }
+</div>
