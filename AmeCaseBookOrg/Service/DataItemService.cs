@@ -119,5 +119,17 @@ namespace AmeCaseBookOrg.Service
             return items.OrderByDescending(item => item.CreatedDate).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
 
         }
+
+        public IEnumerable<DataItem> GetDataItemsBySubMenu(int subMenuCode)
+        {
+            var dataItems = this.context.DataItems.Where(d => d.SubCategoryID == subMenuCode);
+            return dataItems;
+        }
+
+        public IEnumerable<DataItem> GetRelatedDataItems(DataItem dataItem)
+        {
+            var dataItems = this.context.DataItems.Where(d => d.SubCategoryID == dataItem.SubCategoryID && d.ID != dataItem.ID);
+            return dataItems.OrderByDescending(d => d.CreatedDate).Take(3);
+        }
     }
 }

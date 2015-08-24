@@ -1,0 +1,41 @@
+﻿@model AmeCaseBookOrg.Models.DataItem
+@{
+    ViewBag.Title = "Data Management - Detail View";
+}
+<div id="contents">
+    <div id="sub_tit">
+        <ul>
+            <li>Data Management</li>
+        </ul>
+    </div>
+
+    @if (Request.IsAuthenticated && User.IsInRole("Admin"))
+    {
+        <div class="navi">
+            @Html.ActionLink("Home", "Index", "Home") >@Html.ActionLink("Admin", "Index", "Admin")  > @Html.ActionLink("Data Management", "Index", "DataManagement") > <span>Detail View</span>
+        </div>
+    }
+    else
+    {
+        <div class="navi">
+            @Html.ActionLink("Home", "Index", "Home") > @Html.ActionLink("Search", "Index", "DataManagement") > <span>Detail View</span>
+        </div>
+    }
+    <div class="datail_v">
+        <label>
+            <a href="#" class="bt_blue_t" onclick="location.href='admin05_a.html';"> <i class="fa fa-pencil-square-o"> </i> Edit </a>
+            <a href="~/DataManagement/Index" class="bt_blue_t"> <i class="fa fa-list"></i> </i> List </a>
+        </label>
+        <h1>@Model.Title</h1>
+        <ul class="da_text">
+            <li class="t_lef bold"><i class="fa fa-chevron-circle-right"></i> Category <span style="float:right;">:</span> </li>
+            <li class="t_rig"> @Model.MainMenu.CodeName / @Model.SubCategory.CodeName</li>
+            <li class="t_lef bold"> <i class="fa fa-chevron-circle-right"></i> Country <span style="float:right;">:</span> </li>
+            <li class="t_rig"> @Model.Country.CodeName</li>
+            <li class="t_lef bold"> <i class="fa fa-chevron-circle-right"></i> Author </li>
+            <li class="t_rig"> @Model.CreatedUser.FullName</li>
+         </ul>
+</div>
+
+
+    </div>

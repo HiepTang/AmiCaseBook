@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using AmeCaseBookOrg.Models;
 using AmeCaseBookOrg.Service;
 using MvcJqGrid;
+using System.Net;
 
 namespace AmeCaseBookOrg.Controllers
 {
@@ -20,6 +21,26 @@ namespace AmeCaseBookOrg.Controllers
             this.categoryService = categoryService;
             this.dataItemService = dataItemService;
             this.memberService = memberService;
+        }
+
+        public ActionResult View(int id)
+        {
+            if (id == 0)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            var dataItem = dataItemService.GetDataItem(id);
+
+            if (dataItem == null)
+            {
+                return HttpNotFound();
+            }
+
+            var relatedItems = dataItemService.GetRelatedDataItems(dataItem);
+            ViewBag.RelatedItems = relatedItems;
+
+            return View(dataItem);
         }
 
         // GET: DataManagement
