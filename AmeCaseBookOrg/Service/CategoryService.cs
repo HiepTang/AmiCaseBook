@@ -118,5 +118,10 @@ namespace AmeCaseBookOrg.Service
         {
             appContext.SaveChanges();
         }
+
+        public IEnumerable<SubMenu> GetSubMenus()
+        {
+          return appContext.SubMenus;
+        }
     }
 }

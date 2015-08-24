@@ -193,6 +193,7 @@
     <Compile Include="Controllers\CommunicationController.cs" />
     <Compile Include="Controllers\CommunityController.cs" />
     <Compile Include="Controllers\DataItemController.cs" />
+    <Compile Include="Controllers\DataManagementController.cs" />
     <Compile Include="Controllers\MenuAdminController.cs" />
     <Compile Include="Controllers\CommonCodeController.cs" />
     <Compile Include="Controllers\FileController.cs" />
@@ -255,6 +256,7 @@
     <Compile Include="Models\CommunityTopicSearchResult.cs" />
     <Compile Include="Models\Country.cs" />
     <Compile Include="Models\DataItem.cs" />
+    <Compile Include="Models\DataItemSearchFilter.cs" />
     <Compile Include="Models\File.cs" />
     <Compile Include="Models\FileType.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -502,6 +504,8 @@
     <Content Include="Views\CommonCode\EditSubCode.cshtml" />
     <Content Include="Views\MenuAdmin\EditMainMenu.cshtml" />
     <Content Include="Views\MenuAdmin\EditSubMenu.cshtml" />
+    <Content Include="Views\DataManagement\Index.cshtml" />
+    <Content Include="Views\DataManagement\View.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

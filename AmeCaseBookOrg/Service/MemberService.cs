@@ -35,6 +35,11 @@ namespace AmeCaseBookOrg.Service
             return context.Roles;
         }
 
+
+        public IEnumerable<ApplicationUser> GetUsers()
+        {
+            return context.Users;
+        }
         public IEnumerable<ApplicationUser> searchMember(MemberSearchFilter filter, string sortColumn, string sortOrder, int pageSize, int pageIndex, out int totalRecords)
         {
             IEnumerable<ApplicationUser> users = context.Users.ToList();
@@ -53,6 +58,7 @@ namespace AmeCaseBookOrg.Service
             }
             totalRecords = users.Count();
             return users.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
+
         }
     }
 }

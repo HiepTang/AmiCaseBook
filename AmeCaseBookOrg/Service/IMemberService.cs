@@ -6,6 +6,8 @@ namespace AmeCaseBookOrg.Service
 {
     public interface IMemberService
     {
+        IEnumerable<ApplicationUser> GetUsers();
+
         IEnumerable<ApplicationUser> GetUserInRole(string roleName);
         IEnumerable<IdentityRole> GetUserRoles();
         IEnumerable<ApplicationUser> searchMember(MemberSearchFilter filter, string sortColumn, string sortOrder, int pageSize, int pageIndex, out int totalRecords);

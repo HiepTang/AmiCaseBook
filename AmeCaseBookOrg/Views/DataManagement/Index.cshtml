@@ -1,0 +1,57 @@
+﻿@using MvcJqGrid
+@using MvcJqGrid.Enums
+
+@{
+    ViewBag.Title = "Search";
+    Layout = "~/Views/Shared/_LayoutJQGrid.cshtml";
+}
+<script type="text/javascript">
+
+    function FormatViewLink(cellValue, options, rowObject) {
+        var linkHtml = '<a href="/DataManagement/View?id=' + options.rowId + '">' + cellValue + '</a>';
+
+       return linkHtml;
+    }
+</script>
+<div id="sub_tit">
+    <ul>
+        <li>Search</li>
+
+    </ul>
+
+</div>
+@if (Request.IsAuthenticated && User.IsInRole("Admin"))
+{
+    <div class="navi">
+        @Html.ActionLink("Home", "Index", "Home") >@Html.ActionLink("Admin", "Index", "Admin")  > <span>Data Management</span>
+    </div>
+}
+else
+{
+    <div class="navi">
+        @Html.ActionLink("Home", "Index", "Home") > <span>Search</span>
+    </div>
+}
+
+<div class="myinfo_t2" style="width: 960px">
+    @(Html.Grid("datagrid")
+        .SetRequestType(RequestType.Post)
+        .SetJsonReader(new MvcJqGrid.DataReaders.JsonReader { Id = "ID", RepeatItems = false })
+        .AddColumn(new Column("SubMenuName").SetSortable(false).SetLabel("Category").SetSearch(true).SetSearchType(Searchtype.Select).SetSearchTerms((string[])ViewBag.SubMenus))
+        .AddColumn(new Column("Country").SetSortable(false).SetLabel("Country").SetSearch(true).SetSearchType(Searchtype.Select).SetSearchTerms((string[])ViewBag.Countries))
+        .AddColumn(new Column("Title").SetSortable(false).SetLabel("Title").SetSearch(true).SetCustomFormatter("FormatViewLink"))
+        .AddColumn(new Column("InsertDate").SetFormatter(Formatters.Date).SetSortable(false).SetLabel("Insert Date").SetSearch(false))
+        .AddColumn(new Column("EditDate").SetFormatter(Formatters.Date).SetSortable(false).SetLabel("Edit Date").SetSearch(false))
+        .AddColumn(new Column("Author").SetSortable(false).SetLabel("Author").SetSearch(true).SetSearchType(Searchtype.Select).SetSearchTerms((string[])ViewBag.Authors))
+
+    .SetUrl(Url.Action("Search", "DataManagement"))
+    .SetAutoWidth(true)
+    .SetRowNum(15)
+    .SetRowNumbers(true)
+    .SetRowList(new[] { 15, 30, 50 })
+    .SetViewRecords(true)
+    .SetPager("pager")
+    .SetSearchToolbar(true).SetSearchOnEnter(true)
+
+    )
+</div>

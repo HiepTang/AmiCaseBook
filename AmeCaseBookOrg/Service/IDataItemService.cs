@@ -11,11 +11,17 @@ namespace AmeCaseBookOrg.Service
     {
         IEnumerable<DataItem> GetDataItems();
 
+        IEnumerable<DataItem> GetRelatedDataItems(DataItem dataItem);
+
+        IEnumerable<DataItem> GetDataItemsBySubMenu(int subMenuCode);
+
         IEnumerable<DataItem> GetDataItemsByMainCategory(int mainMenuID);
 
         IEnumerable<DataItem> GetDataItemsByCountry(int mainMenuID, int countryCode);
 
         IEnumerable<DataItem> GetDataItemsByCountry(int countryCode);
+
+        IEnumerable<DataItem> Search(DataItemSearchFilter filter, string sortColumn, string sortOrder, int pageSize, int pageIndex, out int totalRecords);
 
         DataItem GetDataItem(int ID);
 
