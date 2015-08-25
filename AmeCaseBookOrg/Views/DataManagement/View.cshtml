@@ -1,6 +1,7 @@
 ﻿@model AmeCaseBookOrg.Models.DataItem
 @{
     ViewBag.Title = "Data Management - Detail View";
+    IEnumerable<AmeCaseBookOrg.Models.DataItem> relatedPosts = ViewBag.RelatedItems;
 }
 <div id="contents">
     <div id="sub_tit">
@@ -34,7 +35,65 @@
             <li class="t_rig"> @Model.Country.CodeName</li>
             <li class="t_lef bold"> <i class="fa fa-chevron-circle-right"></i> Author </li>
             <li class="t_rig"> @Model.CreatedUser.FullName</li>
-         </ul>
+            <li style="float:left;text-align:left;width:850px;padding:50px;">
+                @foreach (var image in Model.Images)
+                {
+                    <img src="~/File?id=@image.FileId" style="width:800px;" /><br />
+                }
+                @Html.Raw(Model.Content)
+            </li>
+            <li>
+                <div class="social-share"> <span class='st_facebook_hcount' displayText='Facebook'></span> <span class='st_twitter_hcount' displayText='Tweet'></span> <span class='st_googleplus_hcount' displayText='Google +'></span> </div>
+            </li>
+            <li style="width:130px;" class="bold t_lef"> <i class="fa fa-chevron-circle-right"></i> Related Posts </li>
+            <li class="t_rig" style="width:960px;border-bottom:1px double #ccc;padding-bottom:10px;">
+                 @if (relatedPosts != null)
+                 {
+                     foreach (var post in relatedPosts)
+                     {
+                        <ul class="re_p">
+                            <li><img src="~/File?id=@post.Images.FirstOrDefault().FileId" /></li>
+                            <li>
+                                <h3><a href="~/DataManagement/View?id=@post.ID">@post.Title</a></h3>
+                                <p style="font-size:12px;">@post.CreatedDate</p>
+                                
+                                <ul class="luxe-post-share">
+                                    <a href="http://www.facebook.com/sharer.php?u=http://amicasebook.org/?p=1268&t=Case 10. SPAIN" target="blank" title="Facebook" class="socialico-facebook"></a>
+                                    <a href="http://twitter.com/share?url=http://amicasebook.org/?p=1268&text=Case 10. SPAIN" target="blank" title="Twitter" class="socialico-twitter"></a>
+                                    <a href="https://plus.google.com/share?url=http://amicasebook.org/?p=1268" target="blank" title="GooglePlus" class="socialico-google"></a>
+                                </ul>
+                            </li>
+                        </ul>
+                     }
+                 }
+            </li>
+            <li style="float:left;width:960px;"><i class="fa fa-keyboard-o"></i> Leave a comment</li>
+             
+            <li style="float:left;width:960px;">
+                <ul class="reply">
+                    @foreach (var comment in Model.Comments)
+                    {
+                        <li>
+                            <span>@comment.Name (@comment.ComemmentTime): </span>@comment.Content
+                            <a href="#"><i class="fa fa-times" style="color:#F00"></i></a>
+                        </li>
+                    }
+                    <li style="padding-top:10px;">
+                        @using (Html.BeginForm("Comment", "DataManagement", new { topic = Model.ID }, FormMethod.Post, new { id = "commentForm" }))
+                        {
+
+                            @Html.TextBox("name", null, new { @class = "re_input", placeholder = "Name", style = "width:250px;" })
+                            @Html.TextBox("email", null, new { @class = "re_input", placeholder = "Your Email", style = "width:630px;" })
+                            @Html.TextArea("comment", null, new { @class = "fre_input", placeholder = "Comment", style = "width:870px;height:50px;margin-top:10px;padding:10px;" })
+                            <a href="javascript:document.getElementById('commentForm').submit()" class="bt_blue_t" style="float:right;margin:10px;"> <i class="fa fa-share"></i> Comment Save</a>
+
+                        }
+                    </li>
+                </ul>
+            </li>
+            
+            
+</ul>
 </div>
 
 
