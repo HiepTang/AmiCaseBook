@@ -22,7 +22,15 @@
             @Html.ActionLink("Home", "Index", "Home") ><a href="~/Communication/Index/0/0" class="ali">Communication</a>   > <a href="~/Announcement/Index" class="ali">Announcements</a> > <span>@Model.Title</span>
         </div>
     }
-
+    @using (Html.BeginForm("Edit", "Announcement", FormMethod.Get))
+    {
+        <ul class="bt_blue" style="padding-right:10px;">
+            <li>
+                @Html.HiddenFor( m => m.ID)
+                <input type="submit" value="Edit" class="bt_blue_button_small" style="color:#fff;"/>
+            </li>
+        </ul>
+    }
     <div class="datail_v">
         <h1>@Model.Title</h1>
         <ul class="da_text">

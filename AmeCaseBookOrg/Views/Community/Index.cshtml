@@ -9,7 +9,7 @@
 <script type="text/javascript">
 
     function FormatViewLink(cellValue, options, rowObject) {
-        var linkHtml = '<a href="View?id=' + options.rowId + '">' + cellValue + '</a>';
+        var linkHtml = '<a href="/Community/View/' + options.rowId + '">' + cellValue + '</a>';
         return linkHtml;
     }
 </script>
@@ -26,6 +26,7 @@
 
 </div>
 <div class="myinfo_t2" style="width: 960px">
+    @Html.ActionLink("Add Record", "Create", new { controller = "Community" }, new { @class = "bt_green" })
     @(Html.Grid("communityGrid")
         .SetRequestType(RequestType.Post)
         .SetJsonReader(new MvcJqGrid.DataReaders.JsonReader { Id = "ID", RepeatItems = false })

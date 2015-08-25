@@ -14,10 +14,14 @@ namespace AmeCaseBookOrg.Controllers
     {
 
         private readonly IAnnouncementService announcementService;
+        private readonly IMemberService memberService;
+        private readonly IFileService fileService;
 
-        public AnnouncementController(IAnnouncementService announcementService)
+        public AnnouncementController(IAnnouncementService announcementService, IMemberService memberService, IFileService fileService)
         {
             this.announcementService = announcementService;
+            this.memberService = memberService;
+            this.fileService = fileService;
         }
         // GET: Announcement
         public ActionResult Index()
@@ -75,6 +79,95 @@ namespace AmeCaseBookOrg.Controllers
 
         
             return View(ann);
+        }
+        public ActionResult Create()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult Create(Announcement model, HttpPostedFileBase upload)
+        {
+            if (ModelState.IsValid)
+            {
+                if (upload != null && upload.ContentLength > 0)
+                {
+                    String fileName = System.IO.Path.GetFileName(upload.FileName);
+                    String contentType = upload.ContentType;
+                    using (var reader = new System.IO.BinaryReader(upload.InputStream))
+                    {
+                        var avatar = new File
+                        {
+                            FileName = fileName,
+                            FileType = FileType.Avatar,
+                            ContentType = contentType,
+                            Content = reader.ReadBytes(upload.ContentLength)
+                        };
+                        File outFile = fileService.addFile(avatar);
+                        model.AttachmentFiles = new List<File>();
+                        model.AttachmentFiles.Add(outFile);                   
+                    }
+                }
+                model.InsertDate = DateTime.UtcNow;
+                model.LastUpdatedDate = DateTime.UtcNow;
+                ApplicationUser user = memberService.GetUser(User.Identity.Name);
+                model.AuthorUserID = user.Id;
+                model.LastUpdatedUserID = user.Id;
+                announcementService.CreateAnnouncement(model);
+                announcementService.SaveAnnouncement();
+                return RedirectToAction("Index");
+            }
+            return View(model);
+        }
+        public ActionResult Edit(int id)
+        {
+            if (id == 0)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            var ann = announcementService.GetAnnouncement(id);
+
+
+            if (ann == null)
+            {
+                return HttpNotFound();
+            }
+            AnnouncementViewModel viewModel = AutoMapper.Mapper.Map<AnnouncementViewModel>(ann);
+
+            return View(viewModel);
+        }
+        [HttpPost]
+        public ActionResult Edit(AnnouncementViewModel model, HttpPostedFileBase upload)
+        {
+            if (ModelState.IsValid)
+            {
+                Announcement ann = announcementService.GetAnnouncement(model.ID);
+                ann = AutoMapper.Mapper.Map<AnnouncementViewModel, Announcement>(model, ann);
+                if (upload != null && upload.ContentLength > 0)
+                {
+                    String fileName = System.IO.Path.GetFileName(upload.FileName);
+                    String contentType = upload.ContentType;
+                    using (var reader = new System.IO.BinaryReader(upload.InputStream))
+                    {
+                        var avatar = new File
+                        {
+                            FileName = fileName,
+                            FileType = FileType.Avatar,
+                            ContentType = contentType,
+                            Content = reader.ReadBytes(upload.ContentLength)
+                        };
+                        //TODO Update File here
+                        
+                    }
+                }
+                ann.LastUpdatedDate = DateTime.UtcNow;
+                ApplicationUser user = memberService.GetUser(User.Identity.Name);
+                ann.AuthorUserID = user.Id;
+                ann.LastUpdatedUserID = user.Id;
+                announcementService.SaveAnnouncement();
+                return RedirectToAction("Index");
+            }
+            return View(model);
         }
     }
 }

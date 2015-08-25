@@ -15,16 +15,18 @@ namespace AmeCaseBookOrg.Controllers
 
         private readonly ICommunityService communityService;
         private readonly IMemberService memberService;
+        private readonly IFileService fileService;
 
-        public CommunityController(ICommunityService communityService, IMemberService memberService)
+        public CommunityController(ICommunityService communityService, IMemberService memberService, IFileService fileService)
         {
             this.communityService = communityService;
             this.memberService = memberService;
+            this.fileService = fileService;
         }
         // GET: Community
         public ActionResult Index()
         {
-            
+
             return View();
         }
 
@@ -38,7 +40,7 @@ namespace AmeCaseBookOrg.Controllers
             }
             int totalRecords = 0;
             var topics = communityService.Search(filter, gridSettings.SortColumn, gridSettings.SortOrder, gridSettings.PageSize, gridSettings.PageIndex, out totalRecords);
-            
+
             var jsonData = new
             {
                 total = totalRecords / gridSettings.PageSize + 1,
@@ -84,14 +86,14 @@ namespace AmeCaseBookOrg.Controllers
         [Authorize]
         public ActionResult Comment(int topic, string comment)
         {
-            if(topic == 0)
+            if (topic == 0)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
 
             var cTopic = communityService.GetTopic(topic);
-            if(cTopic == null)
+            if (cTopic == null)
             {
                 return HttpNotFound();
             }
@@ -102,7 +104,7 @@ namespace AmeCaseBookOrg.Controllers
             }
 
             ApplicationUser user = memberService.GetUser(User.Identity.Name);
-            
+
 
             CommuityTopicComment commentTopic = new CommuityTopicComment
             {
@@ -116,6 +118,95 @@ namespace AmeCaseBookOrg.Controllers
             communityService.SaveTopic(cTopic);
 
             return View("View", cTopic);
+        }
+        public ActionResult Create()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult Create(CommunityTopic model, HttpPostedFileBase upload)
+        {
+            if (ModelState.IsValid)
+            {
+                if (upload != null && upload.ContentLength > 0)
+                {
+                    String fileName = System.IO.Path.GetFileName(upload.FileName);
+                    String contentType = upload.ContentType;
+                    using (var reader = new System.IO.BinaryReader(upload.InputStream))
+                    {
+                        var avatar = new File
+                        {
+                            FileName = fileName,
+                            FileType = FileType.Avatar,
+                            ContentType = contentType,
+                            Content = reader.ReadBytes(upload.ContentLength)
+                        };
+                        File outFile = fileService.addFile(avatar);
+                        model.AttachmentFiles = new List<File>();
+                        model.AttachmentFiles.Add(outFile);
+                    }
+                }
+                model.InsertDate = DateTime.UtcNow;
+                model.LastUpdatedDate = DateTime.UtcNow;
+                ApplicationUser user = memberService.GetUser(User.Identity.Name);
+                model.AuthorUserID = user.Id;
+                model.LastUpdatedUserID = user.Id;
+                communityService.CreateTopic(model);
+                communityService.SaveTopic(model);
+                return RedirectToAction("Index");
+            }
+            return View(model);
+        }
+        public ActionResult Edit(int id)
+        {
+            if (id == 0)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            var ann = communityService.GetTopic(id);
+
+
+            if (ann == null)
+            {
+                return HttpNotFound();
+            }
+            CommunityTopicViewModel viewModel = AutoMapper.Mapper.Map<CommunityTopicViewModel>(ann);
+
+            return View(viewModel);
+        }
+        [HttpPost]
+        public ActionResult Edit(CommunityTopicViewModel model, HttpPostedFileBase upload)
+        {
+            if (ModelState.IsValid)
+            {
+                CommunityTopic ann = communityService.GetTopic(model.ID);
+                ann = AutoMapper.Mapper.Map<CommunityTopicViewModel, CommunityTopic>(model, ann);
+                if (upload != null && upload.ContentLength > 0)
+                {
+                    String fileName = System.IO.Path.GetFileName(upload.FileName);
+                    String contentType = upload.ContentType;
+                    using (var reader = new System.IO.BinaryReader(upload.InputStream))
+                    {
+                        var avatar = new File
+                        {
+                            FileName = fileName,
+                            FileType = FileType.Avatar,
+                            ContentType = contentType,
+                            Content = reader.ReadBytes(upload.ContentLength)
+                        };
+                        //TODO Update File here
+
+                    }
+                }
+                ann.LastUpdatedDate = DateTime.UtcNow;
+                ApplicationUser user = memberService.GetUser(User.Identity.Name);
+                ann.AuthorUserID = user.Id;
+                ann.LastUpdatedUserID = user.Id;
+                communityService.SaveTopic(ann);
+                return RedirectToAction("Index");
+            }
+            return View(model);
         }
     }
 }
