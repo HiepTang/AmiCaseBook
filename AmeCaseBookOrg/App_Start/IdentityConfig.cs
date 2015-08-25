@@ -11,6 +11,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using AmeCaseBookOrg.Models;
+using System.Net.Mail;
 
 namespace AmeCaseBookOrg
 {
@@ -18,7 +19,23 @@ namespace AmeCaseBookOrg
     {
         public Task SendAsync(IdentityMessage message)
         {
+            MailMessage mailMessage = new MailMessage
+            {
+                Subject = message.Subject,
+                IsBodyHtml = true,
+                Body = message.Body
+            };
+
+            mailMessage.To.Add(new MailAddress(message.Destination));
+
             // Plug in your email service here to send an email.
+            using (var smtp = new SmtpClient())
+            {
+
+                //smtp.SendMailAsync(mailMessage);
+                smtp.Send(mailMessage);
+
+            }
             return Task.FromResult(0);
         }
     }
