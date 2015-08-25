@@ -43,6 +43,41 @@ namespace AmeCaseBookOrg.Controllers
             return View(dataItem);
         }
 
+        [HttpPost]
+        public ActionResult Comment(int topic, string comment, string email, string name)
+        {
+            if (topic == 0)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+
+            var cTopic = dataItemService.GetDataItem(topic);
+            if (cTopic == null)
+            {
+                return HttpNotFound();
+            }
+
+            if (String.IsNullOrEmpty(comment) || String.IsNullOrEmpty(email) || String.IsNullOrEmpty(name))
+            {
+                return View("View", cTopic);
+            }
+
+            Comment commentTopic = new Comment
+            {
+                Content = comment,
+                Name = name,
+                Email = email,
+                ComemmentTime = DateTime.Now,
+                DataItemID = topic
+            };
+
+            dataItemService.CreateComment(commentTopic);
+            dataItemService.SaveDataItem();
+
+            return View("View", cTopic);
+        }
+
         // GET: DataManagement
         public ActionResult Index()
         {

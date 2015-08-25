@@ -29,6 +29,8 @@ namespace AmeCaseBookOrg.Service
 
         void SaveDataItem();
 
+        void CreateComment(Comment comment);
+
 
     }
 }

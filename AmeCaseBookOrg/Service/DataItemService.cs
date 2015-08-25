@@ -139,5 +139,10 @@ namespace AmeCaseBookOrg.Service
             var dataItems = this.context.DataItems.Where(d => d.SubCategoryID == dataItem.SubCategoryID && d.ID != dataItem.ID);
             return dataItems.OrderByDescending(d => d.CreatedDate).Take(3);
         }
+
+        public void CreateComment(Comment comment)
+        {
+            this.context.Comments.Add(comment);
+        }
     }
 }
