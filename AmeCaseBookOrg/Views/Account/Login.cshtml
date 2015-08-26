@@ -32,7 +32,10 @@
                         @Html.PasswordFor(m => m.Password, new { @class = "pw" })
                         @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
                     </li>
-                    <li class="f_pw"> <a href="pw.asp" style="color:#50aada;">forgot password?</a></li>
+                    <li class="f_pw">
+                        @Html.ActionLink("Forgot password?", "ForgotPassword", null, new { style = "color:#50aada;" }) 
+                       
+                    </li>
                     <li style="float:left;width:300px;line-height:30px;text-align:right;font-size:14px;">
                         @Html.CheckBoxFor(m => m.RememberMe) Keep me logged in
                     </li>
