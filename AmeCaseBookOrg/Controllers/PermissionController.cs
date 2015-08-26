@@ -65,7 +65,7 @@ namespace AmeCaseBookOrg.Controllers
                     select new
                     {
                         Code = m.Code,
-                        CodeName = m.ParentCategory.CodeName + ">" + m.CodeName,
+                        CodeName = m.ParentCategory.CodeName + " > " + m.CodeName,
                         IsSelected = (currentSubMenus.Count(a => a.Code == m.Code) > 0)
                     }
                 )

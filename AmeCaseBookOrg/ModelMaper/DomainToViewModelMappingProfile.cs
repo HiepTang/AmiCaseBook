@@ -18,6 +18,8 @@ namespace AmeCaseBookOrg.ModelMapper
         {
             Mapper.CreateMap<ApplicationUser, UserViewModel>();
             Mapper.CreateMap<Category, CategoryViewModel>();
+            Mapper.CreateMap<Announcement, AnnouncementViewModel>();
+            Mapper.CreateMap<CommunityTopic, CommunityTopicViewModel>();
         }
     }
 }

@@ -1,0 +1,83 @@
+﻿@model AmeCaseBookOrg.Models.CommunityTopicViewModel
+
+@{
+    Layout = "~/Views/Shared/_LayoutJQGrid.cshtml";
+}
+
+<div id="sub_tit">
+    <ul>
+        <li>Edit Community Topic</li>
+
+    </ul>
+
+</div>
+@Scripts.Render("~/bundles/tinymce")
+<script type="text/javascript">
+    tinyMCE.init({
+        selector: "textarea",
+        theme: "modern",
+        plugins: [
+            "advlist autolink lists link image charmap print preview hr anchor pagebreak",
+            "searchreplace wordcount visualblocks visualchars code fullscreen",
+            "insertdatetime media nonbreaking save table contextmenu directionality",
+            "emoticons template paste textcolor colorpicker textpattern imagetools"
+        ],
+        toolbar1: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
+        toolbar2: "print preview media | forecolor backcolor emoticons",
+        image_advtab: true,
+        templates: [
+            { title: 'Test template 1', content: 'Test 1' },
+            { title: 'Test template 2', content: 'Test 2' }
+        ]
+    });
+</script>
+<div class="navi">
+@Html.ActionLink("Home", "Index", "Home") ><a href="~/Communication/Index/0/0" class="ali">Communication</a>   > <span>Edit Community</span>
+</div>
+<div id="contents">
+    @using (Html.BeginForm("Edit", "Community", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        <div class="datail_v">
+            @Html.ValidationSummary("", new { @class = "text-danger" })
+            <div class="myinfo_add_ta">
+                <table>
+                    <tr>
+                        <th><i class="fa fa-chevron-circle-right"> </i> Title</th>
+                        <td colspan="3">
+                            @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "re_input", @style = "width:300px;text-align:left;padding-left:10px;" } })
+                            @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            @Html.TextAreaFor(model => model.Content, new { htmlAttributes = new { @style = "width:100% ; height:500px" } })
+                        </td>
+                    </tr>
+                    <tr>
+                        <th><i class="fa fa-chevron-circle-right"> </i> Attached files</th>
+                        <td>
+                            <input type="file" id="Avatar" name="upload" class="re_input" style="width:300px;text-align:left;" />
+
+                        </td>
+
+                    </tr>
+                </table>
+
+                <ul class="bt_blue" style="padding-right:10px;">
+                    <li>
+                        @Html.HiddenFor( m => m.ID)
+                        <input type="submit" value="Save" class="bt_blue_button" style="color:#fff;" />
+
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    }
+</div>
+
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }

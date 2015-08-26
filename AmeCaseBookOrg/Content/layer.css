@@ -58,6 +58,7 @@
 .bt_blue a:visited {color:#fff;}
 .bt_blue a:hover{background:#3c7ea2;color:#fff;}
 .bt_blue_button {display:block;float:left;width:250px;line-height:50px;background:#52b4de;color:#fff;font-size:20px; text-decoration:none; border-radius:10px;}
+.bt_blue_button_small {display:block;float:left;width:120px;line-height:40px;background:#52b4de;color:#fff;font-size:20px; text-decoration:none; border-radius:10px;}
 .myinfo_t2 {width:950px;margin:0 auto;}
 
 
