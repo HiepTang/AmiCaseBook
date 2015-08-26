@@ -676,6 +676,7 @@
     <Content Include="Views\Announcement\Edit.cshtml" />
     <Content Include="Views\Community\Create.cshtml" />
     <Content Include="Views\Community\Edit.cshtml" />
+    <Content Include="Views\DataManagement\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

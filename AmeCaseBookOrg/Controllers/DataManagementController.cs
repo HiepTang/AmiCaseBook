@@ -145,5 +145,26 @@ namespace AmeCaseBookOrg.Controllers
             JsonResult result = Json(jsonData);
             return result;
         }
+        // GET: DataManagement
+        public ActionResult Create()
+        {
+            // Get Countries
+            ViewBag.CountryId = new SelectList(categoryService.GetCountries(), "Code", "CodeName");
+
+            // get submenu list
+            var subMenus = categoryService.GetSubMenus().ToList();
+            List<SubMenu> subMenuFullNames = new List<SubMenu>();
+            foreach (var subMenu in subMenus)
+            {
+                string subMenuName = subMenu.GetMainMenu().CodeName + " > " + subMenu.CodeName;
+                SubMenu viewModel = new SubMenu();
+                viewModel.Code = subMenu.Code;
+                viewModel.CodeName = subMenuName;
+                subMenuFullNames.Add(viewModel);
+            }
+            ViewBag.SubMenus = new SelectList(subMenuFullNames,"Code","CodeName");
+
+            return View();
+        }
     }
 }
