@@ -20,6 +20,7 @@ namespace AmeCaseBookOrg.ModelMapper
             Mapper.CreateMap<Category, CategoryViewModel>();
             Mapper.CreateMap<Announcement, AnnouncementViewModel>();
             Mapper.CreateMap<CommunityTopic, CommunityTopicViewModel>();
+            Mapper.CreateMap<DataItem, DataItemViewModel>();
         }
     }
 }

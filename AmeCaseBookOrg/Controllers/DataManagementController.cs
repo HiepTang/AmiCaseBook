@@ -15,12 +15,14 @@ namespace AmeCaseBookOrg.Controllers
         private readonly ICategoryService categoryService;
         private readonly IDataItemService dataItemService;
         private readonly IMemberService memberService;
+        private readonly IFileService fileService;
         
-        public DataManagementController(ICategoryService categoryService, IDataItemService dataItemService, IMemberService memberService)
+        public DataManagementController(ICategoryService categoryService, IDataItemService dataItemService, IMemberService memberService, IFileService fileService)
         {
             this.categoryService = categoryService;
             this.dataItemService = dataItemService;
             this.memberService = memberService;
+            this.fileService = fileService;
         }
 
         public ActionResult View(int id)
@@ -162,9 +164,152 @@ namespace AmeCaseBookOrg.Controllers
                 viewModel.CodeName = subMenuName;
                 subMenuFullNames.Add(viewModel);
             }
-            ViewBag.SubMenus = new SelectList(subMenuFullNames,"Code","CodeName");
+            ViewBag.SubCategoryID = new SelectList(subMenuFullNames,"Code","CodeName");
 
             return View();
+        }
+        [HttpPost]
+        public ActionResult Create(DataItem model, HttpPostedFileBase upload)
+        {
+            if (ModelState.IsValid)
+            {
+                if (upload != null && upload.ContentLength > 0)
+                {
+                    String fileName = System.IO.Path.GetFileName(upload.FileName);
+                    String contentType = upload.ContentType;
+                    using (var reader = new System.IO.BinaryReader(upload.InputStream))
+                    {
+                        var avatar = new File
+                        {
+                            FileName = fileName,
+                            FileType = FileType.Avatar,
+                            ContentType = contentType,
+                            Content = reader.ReadBytes(upload.ContentLength)
+                        };
+                        File outFile = fileService.addFile(avatar);
+                        model.Images = new List<File>();
+                        model.Images.Add(outFile);
+                    }
+                }
+                model.LastUpdatedDate=DateTime.UtcNow;
+                var user = memberService.GetUser(User.Identity.Name);
+                model.LastUpdatedUserID = user.Id;
+                model.CreatedDate = model.LastUpdatedDate;
+                model.CreatedUserID = user.Id;
+                dataItemService.CreateDataItem(model);
+                SubMenu subMenu = categoryService.GetCategory(model.SubCategoryID) as SubMenu;
+                if (subMenu != null)
+                {
+                    model.MainMenuID = subMenu.GetMainMenu().Code;
+                }
+                
+                dataItemService.SaveDataItem();
+                return RedirectToAction("Index");
+            }
+            // Get Countries
+            ViewBag.CountryId = new SelectList(categoryService.GetCountries(), "Code", "CodeName");
+
+            // get submenu list
+            var subMenus = categoryService.GetSubMenus().ToList();
+            List<SubMenu> subMenuFullNames = new List<SubMenu>();
+            foreach (var subMenu in subMenus)
+            {
+                string subMenuName = subMenu.GetMainMenu().CodeName + " > " + subMenu.CodeName;
+                SubMenu viewModel = new SubMenu();
+                viewModel.Code = subMenu.Code;
+                viewModel.CodeName = subMenuName;
+                subMenuFullNames.Add(viewModel);
+            }
+            ViewBag.SubMenus = new SelectList(subMenuFullNames, "Code", "CodeName");
+
+            return View();
+        }
+        // GET: DataManagement
+        public ActionResult Edit(int id)
+        {
+            if (id == 0)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            var ann = dataItemService.GetDataItem(id);
+
+
+            if (ann == null)
+            {
+                return HttpNotFound();
+            }
+            // Get Countries
+            ViewBag.CountryId = new SelectList(categoryService.GetCountries(), "Code", "CodeName", ann.CountryID);
+
+            // get submenu list
+            var subMenus = categoryService.GetSubMenus().ToList();
+            List<SubMenu> subMenuFullNames = new List<SubMenu>();
+            foreach (var subMenu in subMenus)
+            {
+                string subMenuName = subMenu.GetMainMenu().CodeName + " > " + subMenu.CodeName;
+                SubMenu SubMenuViewModel = new SubMenu();
+                SubMenuViewModel.Code = subMenu.Code;
+                SubMenuViewModel.CodeName = subMenuName;
+                subMenuFullNames.Add(SubMenuViewModel);
+            }
+            ViewBag.SubCategoryID = new SelectList(subMenuFullNames, "Code", "CodeName", ann.SubCategoryID);
+            DataItemViewModel viewModel = AutoMapper.Mapper.Map<DataItemViewModel>(ann);
+            return View(viewModel);
+        }
+        [HttpPost]
+        public ActionResult Edit(DataItemViewModel viewModel, HttpPostedFileBase upload)
+        {
+            if (ModelState.IsValid)
+            {
+                DataItem model = dataItemService.GetDataItem(viewModel.ID);
+                model = AutoMapper.Mapper.Map<DataItemViewModel, DataItem>(viewModel, model);
+                if (upload != null && upload.ContentLength > 0)
+                {
+                    String fileName = System.IO.Path.GetFileName(upload.FileName);
+                    String contentType = upload.ContentType;
+                    using (var reader = new System.IO.BinaryReader(upload.InputStream))
+                    {
+                        var avatar = new File
+                        {
+                            FileName = fileName,
+                            FileType = FileType.Avatar,
+                            ContentType = contentType,
+                            Content = reader.ReadBytes(upload.ContentLength)
+                        };
+                        File outFile = fileService.addFile(avatar);
+                        model.Images = new List<File>();
+                        model.Images.Add(outFile);
+                    }
+                }
+                model.LastUpdatedDate = DateTime.UtcNow;
+                var user = memberService.GetUser(User.Identity.Name);
+                model.LastUpdatedUserID = user.Id;
+                SubMenu subMenu = categoryService.GetCategory(model.SubCategoryID) as SubMenu;
+                if (subMenu != null)
+                {
+                    model.MainMenuID = subMenu.GetMainMenu().Code;
+                }
+                dataItemService.SaveDataItem();
+                return RedirectToAction("Index");
+            }
+            // Get Countries
+            ViewBag.CountryId = new SelectList(categoryService.GetCountries(), "Code", "CodeName", viewModel.CountryID);
+
+            // get submenu list
+            var subMenus = categoryService.GetSubMenus().ToList();
+            List<SubMenu> subMenuFullNames = new List<SubMenu>();
+            foreach (var subMenu in subMenus)
+            {
+                string subMenuName = subMenu.GetMainMenu().CodeName + " > " + subMenu.CodeName;
+                SubMenu SubMenuViewModel = new SubMenu();
+                SubMenuViewModel.Code = subMenu.Code;
+                SubMenuViewModel.CodeName = subMenuName;
+                subMenuFullNames.Add(SubMenuViewModel);
+            }
+            ViewBag.SubMenus = new SelectList(subMenuFullNames, "Code", "CodeName", viewModel.SubCategoryID);
+
+            return View(viewModel);
         }
     }
 }

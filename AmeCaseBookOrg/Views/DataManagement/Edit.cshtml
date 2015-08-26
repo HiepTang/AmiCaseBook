@@ -1,4 +1,4 @@
-﻿@model AmeCaseBookOrg.Models.DataItem
+﻿@model AmeCaseBookOrg.Models.DataItemViewModel
 
 @{
     Layout = "~/Views/Shared/_LayoutJQGrid.cshtml";
@@ -35,7 +35,7 @@
 @Html.ActionLink("Home", "Index", "Home") ><a href="~/Communication/Index/0/0" class="ali">Communication</a>   > <span>Create Community</span>
 </div>
 <div id="contents">
-    @using (Html.BeginForm("Create", "DataManagement", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    @using (Html.BeginForm("Edit", "DataManagement", FormMethod.Post, new { enctype = "multipart/form-data" }))
     {
         @Html.AntiForgeryToken()
         <div class="datail_v">
@@ -83,7 +83,8 @@
 
                 <ul class="bt_blue" style="padding-right:10px;">
                     <li>
-                        <input type="submit" value="Create" class="bt_blue_button" style="color:#fff;" />
+                        @Html.HiddenFor(m => m.ID)
+                        <input type="submit" value="Save" class="bt_blue_button" style="color:#fff;" />
 
                     </li>
 

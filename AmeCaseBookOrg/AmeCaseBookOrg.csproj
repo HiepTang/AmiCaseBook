@@ -246,6 +246,7 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Announcement.cs" />
     <Compile Include="Models\AnnouncementSearchFilter.cs" />
+    <Compile Include="Models\DataItemViewModel.cs" />
     <Compile Include="Models\AnnouncementViewModel.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
     <Compile Include="Models\Category.cs" />
@@ -677,6 +678,7 @@
     <Content Include="Views\Community\Create.cshtml" />
     <Content Include="Views\Community\Edit.cshtml" />
     <Content Include="Views\DataManagement\Create.cshtml" />
+    <Content Include="Views\DataManagement\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
