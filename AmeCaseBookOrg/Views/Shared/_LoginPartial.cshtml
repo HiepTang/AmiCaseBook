@@ -18,7 +18,7 @@ else
         @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
         {
             @Html.AntiForgeryToken()
-            <a href="javascript:document.getElementById('logoutForm').submit()" class="a_line">
+            <a href="~/Manage/ChangePassword" class="a_line">
                 <i class="fa fa-user"></i>@user.FullName <i class="fa fa-caret-down"></i>
             </a>
                                         <div>

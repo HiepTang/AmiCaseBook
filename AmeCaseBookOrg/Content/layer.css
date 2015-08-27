@@ -15,6 +15,11 @@
  .login {float:left;width:399px;;height:380px;border-right:1px solid #c7c7c7;}
  .login h1, h2 {float:left;width:399px;line-height:80px;background:#e0eeeb;text-align:center;font-size:24px;}
  .login h1 {border-right:1px solid #c7c7c7;}
+
+ #changepwd_wrap{margin:0 auto;width:800px;height:600px;background:#e9f6f4;border:1px solid #dcdcdc;box-shadow:5px 5px 5px #cccccc;}
+ .changepwd {float:left;width:399px;;height:600px;border-right:1px solid #c7c7c7;}
+ .changepwd h1, h2 {float:left;width:399px;line-height:80px;background:#e0eeeb;text-align:center;font-size:24px;}
+ .changepwd h1 {border-right:1px solid #c7c7c7;}
 	
 .login ul.log_w {float:left;width:360px;height:200px; border-top:1px solid #cad5d4;padding:20px;}	
  .login li.log_lef {float:left;width:100px;line-height:60px;}
