@@ -46,6 +46,14 @@ namespace AmeCaseBookOrg
                       "~/Content/jquery.jqGrid/ui.jqgrid.css",
                       "~/Content/themes/smoothness/jquery-ui-1.10.3.custom.min.css"));
 
+            bundles.Add(new StyleBundle("~/Content/jqgridcssstarttheme").Include(
+                      "~/Content/jquery.jqGrid/ui.jqgrid.css",
+                      "~/Content/themes/start/jquery-ui-1.11.4.custom.min.css"));
+
+            bundles.Add(new StyleBundle("~/Content/jqgridcssredmontheme").Include(
+                      "~/Content/jquery.jqGrid/ui.jqgrid.css",
+                      "~/Content/themes/start/jquery-ui-1.11.4.custom.min.css"));
+
             bundles.Add(new ScriptBundle("~/bundles/tinymce").Include(
                         "~/Scripts/tinymce/tinymce.min.js"));
         }
