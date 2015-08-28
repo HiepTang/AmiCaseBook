@@ -19,8 +19,8 @@ namespace AmeCaseBookOrg.Models
         [Required]
         [MaxLength(4000)]
         public String Content { get; set; }
-
-        public int SubCategoryID { get; set; }
+        [Required]
+        public int? SubCategoryID { get; set; }
 
         public int CountryID { get; set; }
     }

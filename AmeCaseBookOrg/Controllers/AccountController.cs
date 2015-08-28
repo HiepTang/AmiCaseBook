@@ -494,6 +494,11 @@ namespace AmeCaseBookOrg.Controllers
             var applicationUsers = UserManager.Users.Include(a => a.Country).Include(a => a.UploadImage);
             return View(applicationUsers.First(u => u.UserName == User.Identity.Name));
         }
+        public ActionResult MyCase()
+        {
+            var applicationUsers = UserManager.Users.Include(a => a.Country).Include(a => a.UploadImage);
+            return View(applicationUsers.First(u => u.UserName == User.Identity.Name));
+        }
         // GET: MyInformation/Edit/5
         public ActionResult EditAccount()
         {

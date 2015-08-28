@@ -14,7 +14,7 @@ namespace AmeCaseBookOrg.Models
         public int ID { get; set; }
 
         public int MainMenuID { get; set; }
-
+        [Required]
         public int SubCategoryID { get; set; }
 
         public int CountryID { get; set; }
