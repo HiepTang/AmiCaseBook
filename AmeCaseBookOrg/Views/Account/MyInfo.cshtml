@@ -79,7 +79,7 @@
         .AddColumn(new Column("EditDate").SetLabel("Edit date").SetFormatter(Formatters.Date).SetSearch(false))
         .AddColumn(new Column("Author").SetLabel("Author").SetSearch(false))
 
-    .SetUrl(Url.Action("searchListItem", "DataItem", new { userId = Model.UserName }))
+    .SetUrl(Url.Action("searchListItem", "DataItem", new { userName = Model.UserName }))
     .SetRowNumbers(true)
     .SetAutoWidth(true)
     .SetRowNum(10)

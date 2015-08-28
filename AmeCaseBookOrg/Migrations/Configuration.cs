@@ -20,6 +20,7 @@ namespace AmeCaseBookOrg.Migrations
         }
         //string imageFolder = "D:\\Working\\Project\\Amicasebook\\AmiCaseBook\\AmeCaseBookOrg\\img\\";
         string imageFolder = "D:\\Working\\AmiCaseBook\\Source\\AmiCaseBook\\AmeCaseBookOrg\\img\\";
+        //string imageFolder = "C:\\Working\\Amicasebook\\Source\\AmeCaseBookOrg\\img\\";
         protected override void Seed(AmeCaseBookOrg.Models.ApplicationDbContext context)
         {
             List<File> memberImages = CreateMemberImages(context);
@@ -262,14 +263,23 @@ namespace AmeCaseBookOrg.Migrations
             };
             users.ForEach(u => userManager.Create(u));
             var newUsers = context.Users.ToList();
+            ApplicationUser user = newUsers.Find(u => u.UserName == "phuc0903@gmail.com");
+            userManager.AddToRole(user.Id, "Admin");
 
-            userManager.AddToRole(newUsers[0].Id, "Contributor");
-            userManager.AddToRole(newUsers[1].Id, "Contributor");
-            userManager.AddToRole(newUsers[2].Id, "Contributor");
-            userManager.AddToRole(newUsers[3].Id, "Contributor");
+            user = newUsers.Find(u => u.UserName == "tpthiep@gmail.com");
+            userManager.AddToRole(user.Id, "Admin");
 
-            userManager.AddToRole(newUsers[4].Id, "Admin");
-            userManager.AddToRole(newUsers[5].Id, "Admin");
+            user = newUsers.Find(u => u.UserName == "locitt@gmail.com");
+            userManager.AddToRole(user.Id, "Admin");
+
+            user = newUsers.Find(u => u.UserName == "jon.stromsather@gmail.com");
+            userManager.AddToRole(user.Id, "Contributor");
+
+            user = newUsers.Find(u => u.UserName == "laura.marretta@gmail.com");
+            userManager.AddToRole(user.Id, "Contributor");
+
+            user = newUsers.Find(u => u.UserName == "dong.joo.kang@gmail.com");
+            userManager.AddToRole(user.Id, "Contributor");
 
             return users;
         }

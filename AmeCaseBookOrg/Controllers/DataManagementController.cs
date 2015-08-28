@@ -154,7 +154,18 @@ namespace AmeCaseBookOrg.Controllers
             ViewBag.CountryId = new SelectList(categoryService.GetCountries(), "Code", "CodeName");
 
             // get submenu list
-            var subMenus = categoryService.GetSubMenus().ToList();
+            var adminRole = memberService.GetUserRoles().SingleOrDefault(r => r.Name == MemberRoles.Admin.ToString());
+            ApplicationUser currUser = memberService.GetUser(User.Identity.Name);
+            IEnumerable<SubMenu> subMenus = null;
+            if (currUser.Roles.Any(r =>r.RoleId == adminRole.Id))
+            {
+                subMenus = categoryService.GetSubMenus().ToList();
+            }
+            else
+            {
+                subMenus = categoryService.GetSubMenus(currUser) as IEnumerable<SubMenu>;
+            }
+            
             List<SubMenu> subMenuFullNames = new List<SubMenu>();
             foreach (var subMenu in subMenus)
             {
@@ -169,10 +180,11 @@ namespace AmeCaseBookOrg.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult Create(DataItem model, HttpPostedFileBase upload)
+        public ActionResult Create(DataItemViewModel viewModel, HttpPostedFileBase upload)
         {
             if (ModelState.IsValid)
             {
+                DataItem model = AutoMapper.Mapper.Map<DataItem>(viewModel);
                 if (upload != null && upload.ContentLength > 0)
                 {
                     String fileName = System.IO.Path.GetFileName(upload.FileName);
@@ -210,17 +222,27 @@ namespace AmeCaseBookOrg.Controllers
             ViewBag.CountryId = new SelectList(categoryService.GetCountries(), "Code", "CodeName");
 
             // get submenu list
-            var subMenus = categoryService.GetSubMenus().ToList();
+            var adminRole = memberService.GetUserRoles().SingleOrDefault(r => r.Name == MemberRoles.Admin.ToString());
+            ApplicationUser currUser = memberService.GetUser(User.Identity.Name);
+            IEnumerable<SubMenu> subMenus = null;
+            if (currUser.Roles.Any(r => r.RoleId == adminRole.Id))
+            {
+                subMenus = categoryService.GetSubMenus().ToList();
+            }
+            else
+            {
+                subMenus = categoryService.GetSubMenus(currUser) as IEnumerable<SubMenu>;
+            }
             List<SubMenu> subMenuFullNames = new List<SubMenu>();
             foreach (var subMenu in subMenus)
             {
                 string subMenuName = subMenu.GetMainMenu().CodeName + " > " + subMenu.CodeName;
-                SubMenu viewModel = new SubMenu();
-                viewModel.Code = subMenu.Code;
-                viewModel.CodeName = subMenuName;
-                subMenuFullNames.Add(viewModel);
+                SubMenu SubViewModel = new SubMenu();
+                SubViewModel.Code = subMenu.Code;
+                SubViewModel.CodeName = subMenuName;
+                subMenuFullNames.Add(SubViewModel);
             }
-            ViewBag.SubMenus = new SelectList(subMenuFullNames, "Code", "CodeName");
+            ViewBag.SubCategoryID = new SelectList(subMenuFullNames, "Code", "CodeName");
 
             return View();
         }
@@ -243,7 +265,17 @@ namespace AmeCaseBookOrg.Controllers
             ViewBag.CountryId = new SelectList(categoryService.GetCountries(), "Code", "CodeName", ann.CountryID);
 
             // get submenu list
-            var subMenus = categoryService.GetSubMenus().ToList();
+            var adminRole = memberService.GetUserRoles().SingleOrDefault(r => r.Name == MemberRoles.Admin.ToString());
+            ApplicationUser currUser = memberService.GetUser(User.Identity.Name);
+            IEnumerable<SubMenu> subMenus = null;
+            if (currUser.Roles.Any(r => r.RoleId == adminRole.Id))
+            {
+                subMenus = categoryService.GetSubMenus().ToList();
+            }
+            else
+            {
+                subMenus = categoryService.GetSubMenus(currUser) as IEnumerable<SubMenu>;
+            }
             List<SubMenu> subMenuFullNames = new List<SubMenu>();
             foreach (var subMenu in subMenus)
             {
@@ -297,7 +329,17 @@ namespace AmeCaseBookOrg.Controllers
             ViewBag.CountryId = new SelectList(categoryService.GetCountries(), "Code", "CodeName", viewModel.CountryID);
 
             // get submenu list
-            var subMenus = categoryService.GetSubMenus().ToList();
+            var adminRole = memberService.GetUserRoles().SingleOrDefault(r => r.Name == MemberRoles.Admin.ToString());
+            ApplicationUser currUser = memberService.GetUser(User.Identity.Name);
+            IEnumerable<SubMenu> subMenus = null;
+            if (currUser.Roles.Any(r => r.RoleId == adminRole.Id))
+            {
+                subMenus = categoryService.GetSubMenus().ToList();
+            }
+            else
+            {
+                subMenus = categoryService.GetSubMenus(currUser) as IEnumerable<SubMenu>;
+            }
             List<SubMenu> subMenuFullNames = new List<SubMenu>();
             foreach (var subMenu in subMenus)
             {
@@ -307,7 +349,7 @@ namespace AmeCaseBookOrg.Controllers
                 SubMenuViewModel.CodeName = subMenuName;
                 subMenuFullNames.Add(SubMenuViewModel);
             }
-            ViewBag.SubMenus = new SelectList(subMenuFullNames, "Code", "CodeName", viewModel.SubCategoryID);
+            ViewBag.SubCategoryID = new SelectList(subMenuFullNames, "Code", "CodeName", viewModel.SubCategoryID);
 
             return View(viewModel);
         }
