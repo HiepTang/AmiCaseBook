@@ -85,26 +85,20 @@ namespace AmeCaseBookOrg.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult Create(Announcement model, HttpPostedFileBase upload)
+        public ActionResult Create(Announcement model, int[] upoadedfile)
         {
             if (ModelState.IsValid)
             {
-                if (upload != null && upload.ContentLength > 0)
+                if(upoadedfile != null)
                 {
-                    String fileName = System.IO.Path.GetFileName(upload.FileName);
-                    String contentType = upload.ContentType;
-                    using (var reader = new System.IO.BinaryReader(upload.InputStream))
+                    model.AttachmentFiles = new List<File>();
+                    foreach(int id in upoadedfile)
                     {
-                        var avatar = new File
+                        File file = fileService.getFile(id);
+                        if (file != null)
                         {
-                            FileName = fileName,
-                            FileType = FileType.Avatar,
-                            ContentType = contentType,
-                            Content = reader.ReadBytes(upload.ContentLength)
-                        };
-                        File outFile = fileService.addFile(avatar);
-                        model.AttachmentFiles = new List<File>();
-                        model.AttachmentFiles.Add(outFile);                   
+                            model.AttachmentFiles.Add(file);
+                        }
                     }
                 }
                 model.InsertDate = DateTime.UtcNow;

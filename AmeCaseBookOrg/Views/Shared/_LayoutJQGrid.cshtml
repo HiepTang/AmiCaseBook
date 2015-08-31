@@ -16,6 +16,8 @@
     @Scripts.Render("~/bundles/jqgrid")
     @Styles.Render("~/Content/amecss")
 
+    @Styles.Render("~/backload/blueimp/bootstrap/BasicPlusUI/css")
+
 </head>
 <body>
     <header>
@@ -58,6 +60,7 @@
 
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/slidesjs")
+   
     @RenderSection("scripts", required: false)
 
     <!-- SlidesJS Required: Initialize SlidesJS with a jQuery doc ready -->

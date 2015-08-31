@@ -1,4 +1,5 @@
-﻿using System.Web;
+﻿using Backload.Bundles;
+using System.Web;
 using System.Web.Optimization;
 
 namespace AmeCaseBookOrg
@@ -56,6 +57,8 @@ namespace AmeCaseBookOrg
 
             bundles.Add(new ScriptBundle("~/bundles/tinymce").Include(
                         "~/Scripts/tinymce/tinymce.min.js"));
+
+            BlueImpBundles.RegisterBundles(bundles);
         }
     }
 }
