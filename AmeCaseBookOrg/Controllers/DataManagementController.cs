@@ -147,6 +147,8 @@ namespace AmeCaseBookOrg.Controllers
             JsonResult result = Json(jsonData);
             return result;
         }
+
+        [Authorize]
         // GET: DataManagement
         public ActionResult Create()
         {
