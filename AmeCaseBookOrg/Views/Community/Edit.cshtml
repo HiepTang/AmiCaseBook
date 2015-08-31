@@ -60,8 +60,11 @@
                     <tr>
                         <th><i class="fa fa-chevron-circle-right"> </i> Attached files</th>
                         <td>
-                            <input type="file" id="Avatar" name="upload" class="re_input" style="width:300px;text-align:left;" />
-
+                            @foreach (var file in Model.AttachmentFiles)
+                            {
+                                <a href="~/File?id=@file.FileId"> @file.FileName</a>
+                            }
+                            @Html.Partial("UploadFile")
                         </td>
 
                     </tr>
@@ -79,7 +82,8 @@
         </div>
     }
 </div>
-
-    @section Scripts {
-        @Scripts.Render("~/bundles/jqueryval")
-    }
+@Scripts.Render("~/backload/blueimp/bootstrap/BasicPlusUI")
+<script type="text/javascript" src="/UploadImage/main.js"></script>
+<script>
+    initUploadFile($("#fileupload"), null);
+</script>

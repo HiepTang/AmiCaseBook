@@ -52,7 +52,10 @@
                      foreach (var post in relatedPosts)
                      {
                         <ul class="re_p">
-                            <li><img src="~/File?id=@post.Images.FirstOrDefault().FileId" /></li>
+                           
+                                <li><img src="~/File?id=@post.Images.FirstOrDefault().FileId" /></li>
+                            
+                            
                             <li>
                                 <h3><a href="~/DataManagement/View?id=@post.ID">@post.Title</a></h3>
                                 <p style="font-size:12px;">@post.CreatedDate</p>

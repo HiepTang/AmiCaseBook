@@ -30,9 +30,15 @@ namespace AmeCaseBookOrg.Service
             return result > 0;
         }
 
+        public File getFile(string fileName)
+        {
+            File file = dbContext.Files.Where(f => f.FileName == fileName).OrderByDescending(f => f.FileId).FirstOrDefault();
+            return file;
+        }
+
         public File getFile(int fileId)
         {
-            return dbContext.Files.First(f => f.FileId == fileId);
+            return dbContext.Files.FirstOrDefault(f => f.FileId == fileId);
         }
 
         public void saveFile()

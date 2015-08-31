@@ -18,7 +18,9 @@ namespace AmeCaseBookOrg.Models
         [AllowHtml]
         [Required]
         [MaxLength(4000)]
-        public String Content { get; set; }      
-        
+        public String Content { get; set; }
+
+        public virtual ICollection<File> AttachmentFiles { get; set; }
+
     }
 }

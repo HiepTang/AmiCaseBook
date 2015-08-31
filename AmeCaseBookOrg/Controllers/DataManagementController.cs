@@ -39,7 +39,7 @@ namespace AmeCaseBookOrg.Controllers
                 return HttpNotFound();
             }
 
-            var relatedItems = dataItemService.GetRelatedDataItems(dataItem);
+            var relatedItems = dataItemService.GetRelatedDataItems(dataItem).ToList();
             ViewBag.RelatedItems = relatedItems;
 
             return View(dataItem);
@@ -182,27 +182,21 @@ namespace AmeCaseBookOrg.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult Create(DataItemViewModel viewModel, HttpPostedFileBase upload)
+        public ActionResult Create(DataItemViewModel viewModel, int[] upoadedfile)
         {
             if (ModelState.IsValid)
             {
                 DataItem model = AutoMapper.Mapper.Map<DataItem>(viewModel);
-                if (upload != null && upload.ContentLength > 0)
+                if (upoadedfile != null)
                 {
-                    String fileName = System.IO.Path.GetFileName(upload.FileName);
-                    String contentType = upload.ContentType;
-                    using (var reader = new System.IO.BinaryReader(upload.InputStream))
+                    model.Images = new List<File>();
+                    foreach (int id in upoadedfile)
                     {
-                        var avatar = new File
+                        File file = fileService.getFile(id);
+                        if (file != null)
                         {
-                            FileName = fileName,
-                            FileType = FileType.Avatar,
-                            ContentType = contentType,
-                            Content = reader.ReadBytes(upload.ContentLength)
-                        };
-                        File outFile = fileService.addFile(avatar);
-                        model.Images = new List<File>();
-                        model.Images.Add(outFile);
+                            model.Images.Add(file);
+                        }
                     }
                 }
                 model.LastUpdatedDate=DateTime.UtcNow;
@@ -292,28 +286,21 @@ namespace AmeCaseBookOrg.Controllers
             return View(viewModel);
         }
         [HttpPost]
-        public ActionResult Edit(DataItemViewModel viewModel, HttpPostedFileBase upload)
+        public ActionResult Edit(DataItemViewModel viewModel, int[] upoadedfile)
         {
             if (ModelState.IsValid)
             {
                 DataItem model = dataItemService.GetDataItem(viewModel.ID);
                 model = AutoMapper.Mapper.Map<DataItemViewModel, DataItem>(viewModel, model);
-                if (upload != null && upload.ContentLength > 0)
+                if (upoadedfile != null && upoadedfile.Length > 0)
                 {
-                    String fileName = System.IO.Path.GetFileName(upload.FileName);
-                    String contentType = upload.ContentType;
-                    using (var reader = new System.IO.BinaryReader(upload.InputStream))
+                    foreach (int id in upoadedfile)
                     {
-                        var avatar = new File
+                        File file = fileService.getFile(id);
+                        if (file != null)
                         {
-                            FileName = fileName,
-                            FileType = FileType.Avatar,
-                            ContentType = contentType,
-                            Content = reader.ReadBytes(upload.ContentLength)
-                        };
-                        File outFile = fileService.addFile(avatar);
-                        model.Images = new List<File>();
-                        model.Images.Add(outFile);
+                            model.Images.Add(file);
+                        }
                     }
                 }
                 model.LastUpdatedDate = DateTime.UtcNow;

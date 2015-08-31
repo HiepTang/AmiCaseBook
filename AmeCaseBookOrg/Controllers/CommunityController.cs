@@ -124,26 +124,20 @@ namespace AmeCaseBookOrg.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult Create(CommunityTopic model, HttpPostedFileBase upload)
+        public ActionResult Create(CommunityTopic model, int[] upoadedfile)
         {
             if (ModelState.IsValid)
             {
-                if (upload != null && upload.ContentLength > 0)
+                if (upoadedfile != null)
                 {
-                    String fileName = System.IO.Path.GetFileName(upload.FileName);
-                    String contentType = upload.ContentType;
-                    using (var reader = new System.IO.BinaryReader(upload.InputStream))
+                    model.AttachmentFiles = new List<File>();
+                    foreach (int id in upoadedfile)
                     {
-                        var avatar = new File
+                        File file = fileService.getFile(id);
+                        if (file != null)
                         {
-                            FileName = fileName,
-                            FileType = FileType.Avatar,
-                            ContentType = contentType,
-                            Content = reader.ReadBytes(upload.ContentLength)
-                        };
-                        File outFile = fileService.addFile(avatar);
-                        model.AttachmentFiles = new List<File>();
-                        model.AttachmentFiles.Add(outFile);
+                            model.AttachmentFiles.Add(file);
+                        }
                     }
                 }
                 model.InsertDate = DateTime.UtcNow;
@@ -176,27 +170,21 @@ namespace AmeCaseBookOrg.Controllers
             return View(viewModel);
         }
         [HttpPost]
-        public ActionResult Edit(CommunityTopicViewModel model, HttpPostedFileBase upload)
+        public ActionResult Edit(CommunityTopicViewModel model, int[] upoadedfile)
         {
             if (ModelState.IsValid)
             {
                 CommunityTopic ann = communityService.GetTopic(model.ID);
                 ann = AutoMapper.Mapper.Map<CommunityTopicViewModel, CommunityTopic>(model, ann);
-                if (upload != null && upload.ContentLength > 0)
+                if (upoadedfile != null && upoadedfile.Length > 0)
                 {
-                    String fileName = System.IO.Path.GetFileName(upload.FileName);
-                    String contentType = upload.ContentType;
-                    using (var reader = new System.IO.BinaryReader(upload.InputStream))
+                    foreach (int id in upoadedfile)
                     {
-                        var avatar = new File
+                        File file = fileService.getFile(id);
+                        if (file != null)
                         {
-                            FileName = fileName,
-                            FileType = FileType.Avatar,
-                            ContentType = contentType,
-                            Content = reader.ReadBytes(upload.ContentLength)
-                        };
-                        //TODO Update File here
-
+                            ann.AttachmentFiles.Add(file);
+                        }
                     }
                 }
                 ann.LastUpdatedDate = DateTime.UtcNow;

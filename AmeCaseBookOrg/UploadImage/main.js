@@ -27,7 +27,7 @@ function initUploadFile( inputTag, url) {
                 data.context.each(function (index) {
                     var file = files[index] ||
                             { error: 'Empty file upload result' };
-                    $('<input name="upoadedfile[]" value="'+ file.id +'"/>').appendTo(document.body);
+                    $('<input name="upoadedfile[]" type="hidden" value="'+ file.id +'"/>').appendTo('#dvSelectFiles');
                     deferred = that._addFinishedDeferreds();
                     that._transition($(this)).done(
                         function () {

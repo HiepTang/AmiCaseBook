@@ -23,5 +23,7 @@ namespace AmeCaseBookOrg.Models
         public int? SubCategoryID { get; set; }
 
         public int CountryID { get; set; }
+
+        public virtual ICollection<File> Images { get; set; }
     }
 }

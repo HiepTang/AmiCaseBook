@@ -131,27 +131,21 @@ namespace AmeCaseBookOrg.Controllers
             return View(viewModel);
         }
         [HttpPost]
-        public ActionResult Edit(AnnouncementViewModel model, HttpPostedFileBase upload)
+        public ActionResult Edit(AnnouncementViewModel model, int[] upoadedfile)
         {
             if (ModelState.IsValid)
             {
                 Announcement ann = announcementService.GetAnnouncement(model.ID);
                 ann = AutoMapper.Mapper.Map<AnnouncementViewModel, Announcement>(model, ann);
-                if (upload != null && upload.ContentLength > 0)
+                if (upoadedfile != null && upoadedfile.Length > 0)
                 {
-                    String fileName = System.IO.Path.GetFileName(upload.FileName);
-                    String contentType = upload.ContentType;
-                    using (var reader = new System.IO.BinaryReader(upload.InputStream))
+                    foreach( int id in upoadedfile)
                     {
-                        var avatar = new File
+                        File file = fileService.getFile(id);
+                        if (file != null)
                         {
-                            FileName = fileName,
-                            FileType = FileType.Avatar,
-                            ContentType = contentType,
-                            Content = reader.ReadBytes(upload.ContentLength)
-                        };
-                        //TODO Update File here
-                        
+                            ann.AttachmentFiles.Add(file);
+                        }
                     }
                 }
                 ann.LastUpdatedDate = DateTime.UtcNow;

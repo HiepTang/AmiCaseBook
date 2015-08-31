@@ -65,13 +65,13 @@ namespace AmeCaseBookOrg.Controllers
                 var statuses = new List<ViewDataUploadFilesResult>();
                 var headers = Request.Headers;
 
-                if (string.IsNullOrEmpty(headers["X-File-Name"]))
+                if (string.IsNullOrEmpty(headers["Content-Range"]))
                 {
                     UploadWholeFile(Request, statuses);
                 }
                 else
                 {
-                    UploadPartialFile(headers["X-File-Name"], Request, statuses);
+                    UploadPartialFile(headers["Content-Range"], Request, statuses);
                 }
                 var jsonData = new
                 {
@@ -81,7 +81,7 @@ namespace AmeCaseBookOrg.Controllers
                                  id = s.id,
                                  name = s.name,
                                  url = s.url,
-                                 thumbnailUrl = s.thumbnail_url,
+                                 thumbnailUrl = "",
                                  deleteUrl = s.delete_url,
                                  deleteType = s.delete_type,
                                  size = s.size
@@ -97,46 +97,57 @@ namespace AmeCaseBookOrg.Controllers
         }
         //DONT USE THIS IF YOU NEED TO ALLOW LARGE FILES UPLOADS
         //Credit to i-e-b and his ASP.Net uploader for the bulk of the upload helper methods - https://github.com/i-e-b/jQueryFileUpload.Net
-        private void UploadPartialFile(string fileName, HttpRequestBase request, List<ViewDataUploadFilesResult> statuses)
+        private void UploadPartialFile( string contentRange, HttpRequestBase request, List<ViewDataUploadFilesResult> statuses)
         {
             if (request.Files.Count != 1) throw new HttpRequestValidationException("Attempt to upload chunked file containing more than one fragment per request");
-            var file = request.Files[0];
-            var inputStream = file.InputStream;
 
-            var fullName = Path.Combine(StorageRoot, Path.GetFileName(fileName));
+            string[] ranges = contentRange.Split(new char[] { ' ', '-', '/' });
 
-            using (var fs = new FileStream(fullName, FileMode.Append, FileAccess.Write))
+            var upload = request.Files[0];
+            if (upload != null && upload.ContentLength > 0)
             {
-                var buffer = new byte[1024];
-
-                var l = inputStream.Read(buffer, 0, 1024);
-                while (l > 0)
+                String fileName = System.IO.Path.GetFileName(upload.FileName);
+                String contentType = upload.ContentType;
+                Models.File currFile = null;
+                using (var reader = new System.IO.BinaryReader(upload.InputStream))
                 {
-                    fs.Write(buffer, 0, l);
-                    l = inputStream.Read(buffer, 0, 1024);
+                    byte[] content = reader.ReadBytes(upload.ContentLength);
+                    if (ranges.Length>1 && ranges[1] == "0")
+                    {
+                        //this is first part => create new file;
+                        var avatar = new Models.File
+                        {
+                            FileName = fileName,
+                            FileType = FileType.Avatar,
+                            ContentType = contentType,
+                            Content = content
+                        };
+                        currFile = fileService.addFile(avatar);
+                    }
+                    else
+                    {
+                        currFile = fileService.getFile(fileName);
+                        //append the file content
+                        byte[] newContent = new byte[currFile.Content.Length + content.Length];
+                        Array.Copy(currFile.Content, newContent, currFile.Content.Length);
+                        Array.Copy(content, 0, newContent, currFile.Content.Length, content.Length);
+                        currFile.Content = newContent;
+                        fileService.saveFile();
+                    }
+                   
+                    statuses.Add(new ViewDataUploadFilesResult()
+                    {
+                        id = currFile.FileId,
+                        name = upload.FileName,
+                        size = currFile.Content.Length,
+                        type = upload.ContentType,
+                        url = "/File/Download?id=" + currFile.FileId,
+                        delete_url = "/File/Delete?id=" + currFile.FileId,
+                        thumbnail_url = @"data:image/png;base64," + EncodeFile(currFile.Content),
+                        delete_type = "POST",
+                    });
                 }
-                fs.Flush();
-                fs.Close();
-            }
-            var avatar = new Models.File
-            {
-                FileName = fileName,
-                FileType = FileType.Avatar,
-                ContentType = file.ContentType,
-                Content = System.IO.File.ReadAllBytes(fullName)
-            };
-            Models.File fileModel = fileService.addFile(avatar);
-            statuses.Add(new ViewDataUploadFilesResult()
-            {
-                id = fileModel.FileId,
-                name = fileName,
-                size = file.ContentLength,
-                type = file.ContentType,
-                url = "/File/Download?id=" + fileModel.FileId,
-                delete_url = "/File/Delete?id=" + fileModel.FileId,
-                thumbnail_url = @"data:image/png;base64," + EncodeFile(fullName),
-                delete_type = "GET",
-            });
+            }  
         }
 
         //DONT USE THIS IF YOU NEED TO ALLOW LARGE FILES UPLOADS

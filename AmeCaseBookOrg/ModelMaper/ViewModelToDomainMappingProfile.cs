@@ -18,9 +18,9 @@ namespace AmeCaseBookOrg.ModelMapper
         {
             Mapper.CreateMap<UserViewModel, ApplicationUser>().ForMember(u => u.UserName , map => map.MapFrom( vm => vm.Email));
             Mapper.CreateMap<CategoryViewModel, Category>();
-            Mapper.CreateMap<AnnouncementViewModel, Announcement>();
-            Mapper.CreateMap<CommunityTopicViewModel, CommunityTopic> ();
-            Mapper.CreateMap<DataItemViewModel, DataItem>();
+            Mapper.CreateMap<AnnouncementViewModel, Announcement>().ForSourceMember(s => s.AttachmentFiles, y => y.Ignore()).ForMember( m => m.AttachmentFiles, n => n.Ignore());
+            Mapper.CreateMap<CommunityTopicViewModel, CommunityTopic> ().ForSourceMember(s => s.AttachmentFiles, y => y.Ignore()).ForMember(m => m.AttachmentFiles, n => n.Ignore());
+            Mapper.CreateMap<DataItemViewModel, DataItem>().ForSourceMember(s => s.Images, y => y.Ignore()).ForMember(m => m.Images, n => n.Ignore());
         }
     }
 }
