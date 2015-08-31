@@ -13,6 +13,7 @@
 </div>
 @Scripts.Render("~/bundles/tinymce")
 <script type="text/javascript">
+    tinyMCE.baseURL = "@Url.Content("~/Scripts/tinymce")";
     tinyMCE.init({
         selector: "textarea",
         theme: "modern",
