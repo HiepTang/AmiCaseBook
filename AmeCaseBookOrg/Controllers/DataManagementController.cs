@@ -10,6 +10,7 @@ using System.Net;
 
 namespace AmeCaseBookOrg.Controllers
 {
+    [Authorize]
     public class DataManagementController : Controller
     {
         private readonly ICategoryService categoryService;
@@ -46,23 +47,23 @@ namespace AmeCaseBookOrg.Controllers
         }
 
         [HttpPost]
-        public ActionResult Comment(int topic, string comment, string email, string name)
+        public JsonResult Comment(int topic, string comment, string email, string name)
         {
             if (topic == 0)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return Json(new { status = HttpStatusCode.BadRequest});
             }
 
 
             var cTopic = dataItemService.GetDataItem(topic);
             if (cTopic == null)
             {
-                return HttpNotFound();
+                return Json(new { status = HttpStatusCode.NotFound });
             }
 
             if (String.IsNullOrEmpty(comment) || String.IsNullOrEmpty(email) || String.IsNullOrEmpty(name))
             {
-                return View("View", cTopic);
+                return Json(new { status = HttpStatusCode.NoContent });
             }
 
             Comment commentTopic = new Comment
@@ -76,10 +77,33 @@ namespace AmeCaseBookOrg.Controllers
 
             dataItemService.CreateComment(commentTopic);
             dataItemService.SaveDataItem();
-
-            return View("View", cTopic);
+            var jsonData = new
+            {
+                status = HttpStatusCode.OK,
+                data = new
+                {
+                    Id = commentTopic.ID,
+                    Content = commentTopic.Content,
+                    Name = commentTopic.Name,
+                    Email = commentTopic.Email,
+                    ComemmentTime = commentTopic.ComemmentTime.ToString(),
+                    DataItemID = commentTopic.DataItemID
+                }
+            };
+            return Json(jsonData);
         }
-
+        [HttpPost]
+        [Authorize( Roles = "Admin")]
+        public JsonResult DeleteComment(int id)
+        {
+            Comment comment = dataItemService.GetComment(id);
+            if (comment != null)
+            {
+                dataItemService.DeleteComment(comment);
+                dataItemService.SaveDataItem();
+            }
+            return Json(new { status = HttpStatusCode.OK });
+        }
         // GET: DataManagement
         public ActionResult Index()
         {

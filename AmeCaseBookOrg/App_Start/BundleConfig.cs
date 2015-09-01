@@ -47,7 +47,7 @@ namespace AmeCaseBookOrg
                       "~/Content/jquery.jqGrid/ui.jqgrid.css",
                       "~/Content/themes/smoothness/jquery-ui-1.10.3.custom.min.css"));
 
-            bundles.Add(new StyleBundle("~/Content/jqgridcssstarttheme").Include(
+            bundles.Add(new StyleBundle("~/Content/themes/start/jqgridcssstarttheme").Include(
                       "~/Content/jquery.jqGrid/ui.jqgrid.css",
                       "~/Content/themes/start/jquery-ui-1.11.4.custom.min.css"));
 

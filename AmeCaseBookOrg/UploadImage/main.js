@@ -10,7 +10,7 @@ function initUploadFile( inputTag, url) {
     inputTag.fileupload({
         autoUpload : true,
         maxChunkSize: 10000000,                                          // Optional: file chunking with 10MB chunks
-        acceptFileTypes: /(jpg)|(jpeg)|(png)|(gif)|(txt)|(pdf)$/i,              // Allowed file types
+        acceptFileTypes: /(jpg)|(jpeg)|(png)|(gif)|(txt)|(doc)|(docx)|(ppt)|(pptx)|(xls)|(xlsx)|(zip)|(rar)|(7z)|(pdf)$/i,              // Allowed file types
         filesContainer: "#tbMainContainer",
         done: function (e, data) {
             if (e.isDefaultPrevented()) {

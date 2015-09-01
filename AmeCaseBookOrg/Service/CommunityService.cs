@@ -36,7 +36,7 @@ namespace AmeCaseBookOrg.Service
             return this.context.CommunityTopics;
         }
 
-        public void SaveTopic(CommunityTopic topic)
+        public void SaveTopic()
         {
             this.context.SaveChanges();
         }
@@ -52,6 +52,15 @@ namespace AmeCaseBookOrg.Service
             }
             totalRecords = topics.Count();
             return topics.OrderByDescending(item => item.InsertDate).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
+        }
+        public CommuityTopicComment GetComment(int id)
+        {
+            return this.context.CommuityTopicComments.FirstOrDefault(m => m.ID == id);
+        }
+
+        public void DeleteComment(CommuityTopicComment comment)
+        {
+            this.context.CommuityTopicComments.Remove(comment);
         }
     }
 }

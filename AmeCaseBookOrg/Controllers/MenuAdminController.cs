@@ -13,6 +13,7 @@ using AutoMapper;
 
 namespace AmeCaseBookOrg.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class MenuAdminController : Controller
     {
         private ApplicationUserManager _userManager;

@@ -14,6 +14,7 @@ using AmeCaseBookOrg.Common;
 
 namespace AmeCaseBookOrg.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class CommonCodeController : Controller
     {
         private readonly ICategoryService _categoryService;

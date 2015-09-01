@@ -128,5 +128,15 @@ namespace AmeCaseBookOrg.Service
         {
             this.context.Comments.Add(comment);
         }
+        
+        public void DeleteComment(Comment comment)
+        {
+            this.context.Comments.Remove(comment);
+        }
+
+        public Comment GetComment(int id)
+        {
+            return this.context.Comments.FirstOrDefault(m => m.ID == id);
+        }
     }
 }

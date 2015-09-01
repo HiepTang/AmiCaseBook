@@ -12,6 +12,7 @@ using System.Web.Mvc;
 
 namespace AmeCaseBookOrg.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class PermissionController : Controller
     {
         private ApplicationUserManager _userManager;

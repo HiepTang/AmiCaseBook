@@ -77,30 +77,30 @@ namespace AmeCaseBookOrg.Controllers
             }
 
             topic.Hit = topic.Hit + 1;
-            communityService.SaveTopic(topic);
+            communityService.SaveTopic();
 
             return View(topic);
         }
 
         [HttpPost]
         [Authorize]
-        public ActionResult Comment(int topic, string comment)
+        public JsonResult Comment(int topic, string comment)
         {
             if (topic == 0)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return Json(new { status = HttpStatusCode.BadRequest });
             }
 
 
             var cTopic = communityService.GetTopic(topic);
             if (cTopic == null)
             {
-                return HttpNotFound();
+                return Json(new { status = HttpStatusCode.NotFound });
             }
 
             if (String.IsNullOrEmpty(comment))
             {
-                return View("View", cTopic);
+                return Json(new { status = HttpStatusCode.NoContent });
             }
 
             ApplicationUser user = memberService.GetUser(User.Identity.Name);
@@ -115,9 +115,31 @@ namespace AmeCaseBookOrg.Controllers
             };
 
             communityService.CreateComment(commentTopic);
-            communityService.SaveTopic(cTopic);
-
-            return View("View", cTopic);
+            communityService.SaveTopic();
+            var jsonData = new
+            {
+                status = HttpStatusCode.OK,
+                data = new
+                {
+                    Id = commentTopic.ID,
+                    Content = commentTopic.Content,
+                    Name = commentTopic.CommentUser.FullName,                   
+                    ComemmentTime = commentTopic.ComemmentTime.ToString()
+                }
+            };
+            return Json(jsonData);
+        }
+        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        public JsonResult DeleteComment(int id)
+        {
+            CommuityTopicComment comment = this.communityService.GetComment(id);
+            if (comment != null)
+            {
+                communityService.DeleteComment(comment);
+                communityService.SaveTopic();
+            }
+            return Json(new { status = HttpStatusCode.OK });
         }
         public ActionResult Create()
         {
@@ -146,7 +168,7 @@ namespace AmeCaseBookOrg.Controllers
                 model.AuthorUserID = user.Id;
                 model.LastUpdatedUserID = user.Id;
                 communityService.CreateTopic(model);
-                communityService.SaveTopic(model);
+                communityService.SaveTopic();
                 return RedirectToAction("Index");
             }
             return View(model);
@@ -191,7 +213,7 @@ namespace AmeCaseBookOrg.Controllers
                 ApplicationUser user = memberService.GetUser(User.Identity.Name);
                 ann.AuthorUserID = user.Id;
                 ann.LastUpdatedUserID = user.Id;
-                communityService.SaveTopic(ann);
+                communityService.SaveTopic();
                 return RedirectToAction("Index");
             }
             return View(model);

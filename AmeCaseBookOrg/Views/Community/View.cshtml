@@ -36,36 +36,76 @@
                 
             </li>
         </ul>
-        <ul class="reply">
+        <ul class="reply"  id="lstComment">
             <li style="float:left;width:960px;border-bottom:1px double #ccc;line-height:40px;"> <i class="fa fa-twitch"></i> Comment </li>
             @foreach (var comment in Model.CommuityTopicComments)
             {
-                <li>
+                <li id="comment_@comment.ID">
                     <span>@comment.CommentUser.FullName (@comment.ComemmentTime): </span>
                     @comment.Content
-                    <a href="#"><i class="fa fa-times" style="color:#F00"></i></a>
+                    <a href="#" onclick="deleteComment(event,@comment.ID)"><i class="fa fa-times" style="color:#F00"></i></a>
                 </li>
             }
-           @if (!Request.IsAuthenticated)
-           {
-            <li style="padding-top:10px;">
-                <ul style="width:90%;padding:10px;margin:0 auto;" class="re_input">
-                    <li>You need login to leave a message here @Html.ActionLink("Login", "Login", "Account")</li>
-                </ul>
-            </li>
-           }
-           else
-           {
-               using (Html.BeginForm("Comment", "Community", new { topic = Model.ID }, FormMethod.Post, new { id = "commentForm" }))
-               {
-                <li style="padding-top:10px;">
-                    @Html.TextArea("comment", null, new { @class = "fre_input", placeholder = "Comment", style = "width:950px;height:50px;margin-top:10px;padding:10px;"  })
-                    <a href="javascript:document.getElementById('commentForm').submit()" class="bt_blue_t" style="float:right;margin:10px;"> <i class="fa fa-share"></i> Comment Save</a>
-                </li>
-               }
-
-           }
         </ul>
+        <ul class="reply">
+            @if (!Request.IsAuthenticated)
+            {
+                <li style="padding-top:10px;">
+                    <ul style="width:90%;padding:10px;margin:0 auto;" class="re_input">
+                        <li>You need login to leave a message here @Html.ActionLink("Login", "Login", "Account")</li>
+                    </ul>
+                </li>
+            }
+            else
+            {
+                using (Html.BeginForm("Comment", "Community", new { topic = Model.ID }, FormMethod.Post, new { id = "commentForm" }))
+                {
+                    <li style="padding-top:10px;">
+                        @Html.Hidden("topic", Model.ID, null)
+                        @Html.TextArea("comment", null, new { @class = "fre_input", placeholder = "Comment", style = "width:950px;height:50px;margin-top:10px;padding:10px;" })
+                        <a href="#" onclick="comment(event)" class="bt_blue_t" style="float:right;margin:10px;"> <i class="fa fa-share"></i> Comment Save</a>
+                    </li>
+                }                
+            }            
+        </ul>
+        <script type="text/javascript">
+                function comment(e) {
+                    e.preventDefault();
+                    var frmData = $("#commentForm").serialize();
+
+                    $.ajax({ url: "/Community/Comment", data: frmData, method: "POST" }).done(function (data) {
+                        if (data.status != 200) {
+                            alert("Cannot create a comment");
+                            return;
+                        }
+                        var html = "<li id='comment_"+data.data.Id+"'>";
+                        html += "<span>" + data.data.Name + "(" + data.data.ComemmentTime + "): </span>" + data.data.Content;
+                        html += "<a href='#' onclick='deleteComment(event,"+ data.data.Id +")'><i class='fa fa-times' style='color:#F00'></i></a>";
+                        html += "</li> ";
+                        $("#lstComment").append(html);
+                    })
+                }
+                function deleteComment(e, commentId) {
+                    e.preventDefault();
+                    var r = confirm("Are you sure you want to delete?");
+                    if (r == true) {
+                        $.ajax({ url: "/Community/DeleteComment", data: { id: commentId }, method: "POST" }).done(function (data) {
+                            if (data == "") {
+                                alert("You don't have permission to delete this comment!");
+                                return;
+                            }
+                            else if (data.status != 200) {
+                                alert("Cannot delete this comment");
+                                return;
+                            }
+                            $("#comment_" + commentId).remove();
+                        }).fail(function (data) {
+                            alert("You don't have permission to delete this comment!");
+                        })
+                    }
+
+                }
+        </script>
     </div>
 </div>
 

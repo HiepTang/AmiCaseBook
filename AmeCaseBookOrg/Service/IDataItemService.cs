@@ -31,6 +31,9 @@ namespace AmeCaseBookOrg.Service
 
         void CreateComment(Comment comment);
 
+        void DeleteComment(Comment comment);
+
+        Comment GetComment(int id);
 
     }
 }

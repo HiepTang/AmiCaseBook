@@ -20,6 +20,10 @@ namespace AmeCaseBookOrg.Service
 
         void CreateComment(CommuityTopicComment comment);
 
-        void SaveTopic(CommunityTopic topic);
+        CommuityTopicComment GetComment(int id);
+
+        void DeleteComment(CommuityTopicComment comment);
+
+        void SaveTopic();
     }
 }

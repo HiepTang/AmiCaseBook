@@ -71,7 +71,7 @@
     }
 </script>
 <div id="contents">
-    <div class="navi"> Home > Admin > <span>Common Code</span> </div>
+    <div class="navi">@Html.ActionLink("Home", "Index", "Home") > @Html.ActionLink("Admin", "Index", "Admin") > <span>Common Code</span> </div>
     <div style="width:960px;margin:0 auto;">
         <div class="myinfo_t2" style="width:450px;float:left;padding-right:10px;border-right:1px dotted #999;">
             <h1 style="font-size:15px;">Main Code</h1>
@@ -92,7 +92,7 @@
             .AddColumn(new Column("URL").SetLabel("URL"))
             .AddColumn(new Column("Memo").SetLabel("Memo"))
            .AddColumn(new Column("&nbsp;").SetSearch(false).SetCustomFormatter("mainCategoryGrid.demo.buttonize")
-                                        .SetWidth(55)
+                                        .SetWidth(65)
                                     .SetAlign(Align.Right))
             .SetUrl(Url.Action("SearchMainCode", "CommonCode"))
             .SetAutoWidth(true)
@@ -137,7 +137,7 @@
             .AddColumn(new Column("URL").SetLabel("URL"))
             .AddColumn(new Column("Memo").SetLabel("Memo"))
            .AddColumn(new Column("&nbsp;").SetSearch(false).SetCustomFormatter("subCategoryGrid.demo.buttonize")
-                                        .SetWidth(55)
+                                        .SetWidth(65)
                                     .SetAlign(Align.Right))
             .SetAutoWidth(true)
             .SetRowNum(10)
