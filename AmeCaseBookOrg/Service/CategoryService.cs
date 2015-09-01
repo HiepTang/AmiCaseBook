@@ -123,5 +123,16 @@ namespace AmeCaseBookOrg.Service
         {
           return appContext.SubMenus;
         }
+        public bool DeleteCategory(Category category)
+        {
+            if(category is SubMenu)
+            {
+                SubMenu subMenu = category as SubMenu;
+                if (subMenu.DataItems.Count > 0)
+                    return false;
+            }
+            appContext.Categories.Remove(category);
+            return true;
+        }
     }
 }

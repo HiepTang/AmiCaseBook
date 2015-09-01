@@ -1,21 +1,21 @@
 ﻿@model AmeCaseBookOrg.Models.MainCategory
 
 @{
-    ViewBag.Title = "CreateMainMenu";
+    ViewBag.Title = "Create Main Code";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <div id="sub_tit">
     <ul>
-        <li>Create Main Common Code</li>
+        <li>Create Main Code</li>
 
     </ul>
 
 </div>
 <div id="contents">
     <div class="navi">
-        @Html.ActionLink("Home", "Index", "Home") > @Html.ActionLink("Admin", "Index", "Admin") > @Html.ActionLink("Menu Management", "Index", "MenuAdmin") >
-        <span>Add new main common code</span>
+        @Html.ActionLink("Home", "Index", "Home") > @Html.ActionLink("Admin", "Index", "Admin") > @Html.ActionLink("Common Code", "Index", "CommonCode") >
+        <span>Create Main Code</span>
 
     </div>
     @using (Html.BeginForm())

@@ -271,6 +271,7 @@
     <Compile Include="Models\MemberSearchFilter.cs" />
     <Compile Include="Models\SubCategory.cs" />
     <Compile Include="Models\SubMenu.cs" />
+    <Compile Include="Models\UserCreateViewModel.cs" />
     <Compile Include="Models\UserViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\AnnouncementService.cs" />

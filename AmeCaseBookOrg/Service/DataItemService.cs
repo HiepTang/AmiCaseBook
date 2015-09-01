@@ -98,31 +98,15 @@ namespace AmeCaseBookOrg.Service
 
             if (!string.IsNullOrEmpty(filter.AuthorName))
             {
-                string[] names = filter.AuthorName.Split(',');
-                if (names.Count() > 1)
-                {
-                    string lastName = names[0].Trim();
-                    string firstName = names[1].Trim();
-
-                    var user = this.context.Users.Where(u => u.FirstName.Contains(firstName.ToLower()) && u.LastName.Contains(lastName.ToLower())).FirstOrDefault();
-
-                    if(user != null)
-                    {
-                        items = items.Where(t => t.CreatedUserID == user.Id);
-                    }
-
-                }
-                else
-                {
-                    var user = this.context.Users.Where(u => u.UserName == filter.AuthorName).FirstOrDefault();
-                    if (user != null)
-                    {
-                        items = items.Where(t => t.CreatedUserID == user.Id);
-                    }
-                }
-
+                
+                     items = items.Where(t => t.CreatedUser.FullName.ToLower().Contains(filter.AuthorName.ToLower()));
+   
             }
 
+            if (!string.IsNullOrEmpty(filter.Email))
+            {
+                items = items.Where(t => t.CreatedUser.Email.ToLower().Contains(filter.Email.ToLower()));
+            }
             totalRecords = items.Count();
             return items.OrderByDescending(item => item.CreatedDate).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
 

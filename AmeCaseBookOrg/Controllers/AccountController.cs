@@ -517,40 +517,30 @@ namespace AmeCaseBookOrg.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditAccount( HttpPostedFileBase upload)
+        public ActionResult EditAccount(int[] upoadedfile)
         {
             var applicationUser = UserManager.Users.First(u => u.UserName == User.Identity.Name);
             if (TryUpdateModel(applicationUser, "", new String[] { "Email", "FirstName", "LastName", "PhoneNumber", "CountryId", "Affiliation", "Introduction", "LinkIn" }))
             {
-                if (upload != null && upload.ContentLength > 0)
+                if (upoadedfile != null && upoadedfile.Length > 0)
                 {
-                    String fileName = System.IO.Path.GetFileName(upload.FileName);
-                    String contentType = upload.ContentType;
-                    byte[] content = null;
-                    using (var reader = new System.IO.BinaryReader(upload.InputStream))
+                    File newFile = _fileService.getFile(upoadedfile[upoadedfile.Length-1]);
+                    if (newFile != null)
                     {
-                        content = reader.ReadBytes(upload.ContentLength);
-                    }
-                    if (applicationUser.UploadImage != null)
-                    {                       
-                        File oldFile = _fileService.getFile(applicationUser.UploadImage.FileId);
-                        oldFile.FileName = fileName;
-                        oldFile.Content = content;
-                        oldFile.ContentType = contentType;
-                        _fileService.saveFile();
-                    }
-                    else
-                    {
-                        var avatar = new File
+                        if (applicationUser.UploadImage != null)
                         {
-                            FileName = fileName,
-                            FileType = FileType.Avatar,
-                            ContentType = contentType,
-                            Content = content
-                        };
-                        File outFile = _fileService.addFile(avatar);
-                        applicationUser.UploadImage = outFile;
-                    }                                   
+                            File oldFile = _fileService.getFile(applicationUser.UploadImage.FileId);
+                            oldFile.FileName = newFile.FileName;
+                            oldFile.Content = newFile.Content;
+                            oldFile.ContentType = newFile.ContentType;
+                            _fileService.saveFile();
+                            _fileService.deleteFile(newFile);
+                        }
+                        else
+                        {
+                            applicationUser.FileId = newFile.FileId;
+                        }
+                    }                                               
                 }
                 UserManager.Update(applicationUser);               
                 return RedirectToAction("MyInfo");

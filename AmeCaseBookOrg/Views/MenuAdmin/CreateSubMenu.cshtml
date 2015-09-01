@@ -1,7 +1,7 @@
 ﻿@model AmeCaseBookOrg.Models.SubMenu
 
 @{
-    ViewBag.Title = "CreateMainMenu";
+    ViewBag.Title = "Create Sub Menu";
     Layout = "~/Views/Shared/_LayoutJQGrid.cshtml";
 }
 
@@ -15,7 +15,7 @@
 <div id="contents">
     <div class="navi">
         @Html.ActionLink("Home", "Index", "Home") > @Html.ActionLink("Admin", "Index", "Admin") > @Html.ActionLink("Menu Management", "Index", "MenuAdmin") >
-        <span>Add new sub menu</span>
+        <span>Create Sub Menu</span>
 
     </div>
     @using (Html.BeginForm())

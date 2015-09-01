@@ -2,7 +2,7 @@
 @using MvcJqGrid
 @using MvcJqGrid.Enums
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Permission Management";
     Layout = "~/Views/Shared/_LayoutJQGrid.cshtml";
 }
 
@@ -16,11 +16,20 @@
         var grid = jQuery("#memberGrid"),
          ids = grid.jqGrid("getDataIDs");
         if (ids && ids.length > 0)
-            grid.jqGrid("setSelection", ids[0]);
+        {
+            onMainRowSelected(ids[0]);
+        }
+        
     }
-    function onMainRowSelected(rowid, status) {
+    function MainRowFormatViewLink(cellValue, options, rowObject) {
+        var linkHtml = "<a href='#' onClick=\"onMainRowSelected('" + options.rowId + "')\" > <b>" + cellValue + "</b></a>";
+
+        return linkHtml;
+    }
+    function onMainRowSelected(rowid) {
+        var data = jQuery("#memberGrid").jqGrid("getRowData", rowid);
         $("#UserName").val(rowid);
-       
+        $("#lbSelectUserName").html("Select member : " + data.FullName);
         $("#divSubMenu").html("");
         $.ajax({url:"Permission/GetAllSubMenu", data:{ userName: rowid }, method:"POST"}).done(function (data) {
             
@@ -68,14 +77,14 @@
     }
 </script>
 <div id="contents">
-    <div class="navi"> @Html.ActionLink("Home", "Index", "Home") > @Html.ActionLink("Admin", "Index", "Admin") <span>Permission Management</span> </div>
+    <div class="navi"> @Html.ActionLink("Home", "Index", "Home") > @Html.ActionLink("Admin", "Index", "Admin") > <span>Permission Management</span> </div>
     <div style="width:960px;margin:0 auto;">
         <div class="myinfo_t2" style="width:450px;float:left;padding-right:10px;border-right:1px dotted #999;">
             @(Html.Grid("memberGrid")
             .SetRequestType(RequestType.Post)
             .SetJsonReader(new MvcJqGrid.DataReaders.JsonReader { Id = "Email", RepeatItems = false })
             .SetRowNumbers(true)
-            .AddColumn(new Column("FullName").SetLabel("Name").SetSearch(true))
+            .AddColumn(new Column("FullName").SetLabel("Name").SetSearch(true).SetCustomFormatter("MainRowFormatViewLink"))
             .AddColumn(new Column("Email").SetLabel("Email").SetSearch(true))
             .AddColumn(new Column("Country").SetLabel("Country").SetSearch(false))
 
@@ -86,15 +95,16 @@
             .SetViewRecords(true)
             .SetPager("pager")
             .SetSearchToolbar(true).SetSearchOnEnter(true)
-            .OnSelectRow("onMainRowSelected(rowid, status)")
             .OnLoadComplete("onGridLoadCompleted()")
             )
 
         </div>
         <div class="myinfo_t2" style="width:450px;float:left;padding-left:10px;">
-            <h1 style="font-size:15px;">Select member : Remy Garaude Verdier</h1>
-            <form id="frmPermission">               
-                <label style="color:#9d9d9d;">※ Common Code &gt; Sub code of “Top Menu” <span style="float:right;padding-right:10px;"> <a class="bt_blue_t" href="#" onclick="onSavePermission()"> <i class="fa fa-floppy-o"></i> Save </a></span></label>
+            <h1 style="font-size:15px;" id="lbSelectUserName"></h1>
+            <form id="frmPermission"> 
+                <br />              
+                <label style="color:#9d9d9d;"> Menu </label> 
+                <span style="float:right;padding-right:10px;"> <a class="bt_blue_t" href="#" onclick="onSavePermission()"> <i class="fa fa-floppy-o"></i> Save </a></span>
                 <input type="hidden" id="UserName" name="UserName" />
                 <div class="select_li" id="divSubMenu">
 

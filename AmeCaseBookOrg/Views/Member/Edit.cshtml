@@ -29,90 +29,80 @@
                 <tr>
                     <th><i class="fa fa-chevron-circle-right"> </i> Email</th>
                     <td colspan="3">
-                        @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                        @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "re_input", @style = "width:300px;text-align:left;padding-left:10px;"  } })
                         @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
-                    </td>
-                </tr>
-                <tr>
-                    <th><i class="fa fa-chevron-circle-right"> </i> Password</th>
-                    <td colspan="3">
-                        @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
-                    </td>
-                </tr>
-                <tr>
-                    <th><i class="fa fa-chevron-circle-right"> </i> ConfirmPassword</th>
-                    <td colspan="3">
-                        @Html.EditorFor(model => model.ConfirmPassword, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
                     </td>
                 </tr>
                 <tr>
                     <th><i class="fa fa-chevron-circle-right"> </i> First Name</th>
                     <td colspan="3">
-                        @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "re_input", @style = "width:300px;text-align:left;padding-left:10px;" } })
                         @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
                     </td>
                 </tr>
                 <tr>
                     <th><i class="fa fa-chevron-circle-right"> </i> Last Name</th>
                     <td colspan="3">
-                        @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "re_input", @style = "width:300px;text-align:left;padding-left:10px;" } })
                         @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
                     </td>
                 </tr>
                 <tr>
                     <th><i class="fa fa-chevron-circle-right"> </i> Tel</th>
                     <td colspan="3">
-                        @Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @class = "re_input", @style = "width:300px;text-align:left;padding-left:10px;" } })
                         @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
                     </td>
                 </tr>
                 <tr>
                     <th><i class="fa fa-chevron-circle-right"> </i> Address</th>
                     <td colspan="3">
-                        @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "re_input", @style = "width:300px;text-align:left;padding-left:10px;" } })
                         @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
                     </td>
                 </tr>
                 <tr>
                     <th><i class="fa fa-chevron-circle-right"> </i> Country</th>
                     <td colspan="3">
-                        @Html.DropDownList("CountryId", null, htmlAttributes: new { @class = "form-control" })
+                        @Html.DropDownList("CountryId", null, htmlAttributes: new { @class = "input_green bold", @style = "width:300px;"})
                         @Html.ValidationMessageFor(model => model.CountryId, "", new { @class = "text-danger" })
                     </td>
                 </tr>
                 <tr>
                     <th><i class="fa fa-chevron-circle-right"> </i> Affiliation</th>
                     <td colspan="3">
-                        @Html.EditorFor(model => model.Affiliation, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.EditorFor(model => model.Affiliation, new { htmlAttributes = new { @class = "re_input", @style = "width:300px;text-align:left;padding-left:10px;" } })
                         @Html.ValidationMessageFor(model => model.Affiliation, "", new { @class = "text-danger" })
                     </td>
                 </tr>
                 <tr>
                     <th><i class="fa fa-chevron-circle-right"> </i> Introduction</th>
                     <td colspan="3">
-                        @Html.EditorFor(model => model.Introduction, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.EditorFor(model => model.Introduction, new { htmlAttributes = new { @class = "re_input", @style = "width:300px;text-align:left;padding-left:10px;" } })
                         @Html.ValidationMessageFor(model => model.Introduction, "", new { @class = "text-danger" })
                     </td>
                 </tr>
                 <tr>
                     <th><i class="fa fa-chevron-circle-right"> </i> Image</th>
                     <td colspan="3">
-                        <input type="file" id="Avatar" name="upload" class="re_input" style="width:300px;text-align:left;" value="@ViewBag.FileName" />
+                        @if( Model.UploadImage != null)
+                        {
+                            <a href="~/File?id=@Model.UploadImage.FileId"> @Model.UploadImage.FileName</a>
+                        }
+                        @Html.Partial("UploadFile", new ViewDataDictionary { { "multiple", false } })
                     </td>
                 </tr>
                 <tr>
                     <th><i class="fa fa-chevron-circle-right"> </i> Link In</th>
                     <td colspan="3">
-                        @Html.EditorFor(model => model.LinkIn, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.EditorFor(model => model.LinkIn, new { htmlAttributes = new { @class = "re_input", @style = "width:300px;text-align:left;padding-left:10px;" } })
                         @Html.ValidationMessageFor(model => model.LinkIn, "", new { @class = "text-danger" })
                     </td>
                 </tr>
                 <tr>
                     <th><i class="fa fa-chevron-circle-right"> </i> Admin</th>
                     <td colspan="3">
-                        @Html.CheckBoxFor(model => model.IsAdmin, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.CheckBoxFor(model => model.IsAdmin, new { htmlAttributes = new { @class = "re_input", @style = "width:300px;text-align:left;padding-left:10px;" } })
                     </td>
                 </tr>
                 <tr>
@@ -133,4 +123,11 @@
 
 
 }
+
+
+@Scripts.Render("~/backload/blueimp/bootstrap/BasicPlusUI")
+<script type="text/javascript" src="/UploadImage/main.js"></script>
+<script>
+    initUploadFile($("#fileupload"), null);
+</script>
 

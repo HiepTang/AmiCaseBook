@@ -114,28 +114,20 @@ namespace AmeCaseBookOrg.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(UserViewModel model, HttpPostedFileBase upload)
+        public ActionResult Create(UserCreateViewModel model, int[] upoadedfile)
         {
             if (ModelState.IsValid)
             {
                 var applicationUser = Mapper.Map<ApplicationUser>(model);
-                if (upload != null && upload.ContentLength > 0)
+                if (upoadedfile != null && upoadedfile.Length > 0)
                 {
-                    using (var reader = new System.IO.BinaryReader(upload.InputStream))
+                    File newFile = _fileService.getFile(upoadedfile[upoadedfile.Length - 1]);   
+                    if(newFile!=null)
                     {
-                        var avatar = new File
-                        {
-                            FileName = upload.FileName,
-                            FileType = FileType.Avatar,
-                            ContentType = upload.ContentType,
-                            Content = reader.ReadBytes(upload.ContentLength)
-                        };
-                        File outFile = _fileService.addFile(avatar);
-                        applicationUser.UploadImage = outFile;
-                    };
-
-
-                }             
+                        applicationUser.FileId = newFile.FileId;
+                    }
+                }  
+                    
                 var result = UserManager.Create(applicationUser, model.Password);
                 if (result.Succeeded)
                 {
@@ -158,6 +150,7 @@ namespace AmeCaseBookOrg.Controllers
                     AddErrors(result);
                 }
             }
+            
             ViewBag.CountryId = new SelectList(categoryService.GetCountries(), "Code", "CodeName");
             return View(model);
         }
@@ -197,29 +190,32 @@ namespace AmeCaseBookOrg.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(UserViewModel model, HttpPostedFileBase upload)
+        public ActionResult Edit(UserViewModel model, int[] upoadedfile)
         {
             if (ModelState.IsValid)
             {
                 var applicationUser = UserManager.FindByName(model.Email);
                 applicationUser = Mapper.Map<UserViewModel, ApplicationUser>(model, applicationUser);
-         
-                if (upload != null && upload.ContentLength > 0)
+
+                if (upoadedfile != null && upoadedfile.Length > 0)
                 {
-                    using (var reader = new System.IO.BinaryReader(upload.InputStream))
+                    File newFile = _fileService.getFile(upoadedfile[upoadedfile.Length - 1]);
+                     if (newFile != null)
                     {
-                        var avatar = new File
+                        if (applicationUser.UploadImage != null)
                         {
-                            FileName = upload.FileName,
-                            FileType = FileType.Avatar,
-                            ContentType = upload.ContentType,
-                            Content = reader.ReadBytes(upload.ContentLength)
-                        };
-                        File outFile = _fileService.addFile(avatar);
-                        applicationUser.UploadImage = outFile;
-                    };
-
-
+                            File oldFile = _fileService.getFile(applicationUser.UploadImage.FileId);
+                            oldFile.FileName = newFile.FileName;
+                            oldFile.Content = newFile.Content;
+                            oldFile.ContentType = newFile.ContentType;
+                            _fileService.saveFile();
+                            _fileService.deleteFile(newFile);
+                        }
+                        else
+                        {
+                            applicationUser.FileId = newFile.FileId;
+                        }
+                    } 
                 }
                 applicationUser.Roles.Clear();
                 var result = UserManager.Update(applicationUser);

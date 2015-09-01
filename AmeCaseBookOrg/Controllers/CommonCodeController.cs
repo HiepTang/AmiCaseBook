@@ -131,30 +131,33 @@ namespace AmeCaseBookOrg.Controllers
             }
             return View(viewModel);
         }
-        // GET: Country/Delete/5
-        public ActionResult Delete(int? id)
+        // POST: Country/Delete/5
+        [HttpPost]
+        public JsonResult Delete(int? id)
         {
-            if (id == null)
+            if (id != null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                Category category = _categoryService.GetCategory(id.Value);
+                if (category != null)
+                {
+                    try {
+                        bool result = _categoryService.DeleteCategory(category);
+                        if (!result)
+                        {
+                            return Json(new { result = false, message = "Cannot delete '" + category.CodeName + "'" });
+                        }
+                        _categoryService.SaveCategory();
+                        return Json(new { result = true });
+                    }
+                    catch
+                    {
+                        return Json(new { result = false, message = "Cannot delete '" + category.CodeName + "'" });
+                    }
+                }
             }
-            Country country = _categoryService.GetCountries().Where(c => c.Code == id) as Country;
-            if (country == null)
-            {
-                return HttpNotFound();
-            }
-            return View(country);
+            return Json(new { result = false, message = "Cannot delete this item" });
         }
 
-        // POST: Country/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            Country country = _categoryService.GetCountries().Where(c => c.Code == id) as Country;
-            
-            return RedirectToAction("Index");
-        }
         public JsonResult SearchMainCode(GridSettings gridSettings)
         {
             var mainMenus = _categoryService.GetMainCategories(false);
@@ -184,6 +187,10 @@ namespace AmeCaseBookOrg.Controllers
         public JsonResult SearchSubCode(int mainCode, GridSettings gridSettings)
         {
             var mainMenu = _categoryService.GetCategory(mainCode);
+            if(mainMenu == null)
+            {
+                return Json(new { records = 0 });
+            }
             var subMenus = mainMenu.SubCategories;
             var totalRecords = subMenus.Count();
             var jsonData = new

@@ -9,7 +9,7 @@ namespace AmeCaseBookOrg.Models
     {
         public string AuthorName { get; set; }
 
-
+        public string Email { get; set; }
         public string SubMenuName { get; set; }
 
         public string CountryName { get; set; }

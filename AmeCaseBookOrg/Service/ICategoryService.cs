@@ -33,6 +33,8 @@ namespace AmeCaseBookOrg.Service
 
         void CreateCategory(Category category);
 
+        bool DeleteCategory(Category category);
+
         void SaveCategory();
     }
 }

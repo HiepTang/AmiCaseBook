@@ -56,6 +56,10 @@ namespace AmeCaseBookOrg.Controllers
         public JsonResult SearchSubMenu(int mainCode, GridSettings gridSettings)
         {            
             var mainMenu = _categoryService.GetCategory(mainCode);
+            if(mainMenu == null)
+            {
+                return Json(new { records = 0 });
+            }
             var subMenus = mainMenu.SubCategories;
             var totalRecords = subMenus.Count();
             var jsonData = new

@@ -1,21 +1,21 @@
 ﻿@model AmeCaseBookOrg.Models.SubCategory
 
 @{
-    ViewBag.Title = "CreateMainMenu";
+    ViewBag.Title = "Create Sub Code";
     Layout = "~/Views/Shared/_LayoutJQGrid.cshtml";
 }
 
 <div id="sub_tit">
     <ul>
-        <li>Create Sub Menu</li>
+        <li>Create Sub Code</li>
 
     </ul>
 
 </div>
 <div id="contents">
     <div class="navi">
-        @Html.ActionLink("Home", "Index", "Home") > @Html.ActionLink("Admin", "Index", "Admin") > @Html.ActionLink("Menu Management", "Index", "MenuAdmin") >
-        <span>Add new sub menu</span>
+        @Html.ActionLink("Home", "Index", "Home") > @Html.ActionLink("Admin", "Index", "Admin") > @Html.ActionLink("Common Code", "Index", "CommonCode") >
+        <span>Create Sub Code</span>
 
     </div>
     @using (Html.BeginForm())
@@ -57,7 +57,7 @@
                         <td colspan="3" rowspan="5" style="height:80px;border:0px;">
                             <ul class="bt_blue" style="padding-right:10px;">
                                 <li>
-                                    @Html.HiddenFor(model => model.ParentCategoryCode);
+                                    @Html.HiddenFor(model => model.ParentCategoryCode)
                                     <input type="submit" value="Save" class="bt_blue_button" style="color:#fff;" />
 
                                 </li>

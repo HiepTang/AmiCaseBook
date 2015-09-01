@@ -19,14 +19,25 @@
 
     }
 
-    //mainCategoryGrid.demo.edit = function (id) {
-    //    alert("Edit for  " + id);
-    //    return false;
-    //}
+    mainCategoryGrid.demo.delete = function (rowid) {
+        var r = confirm("Are you sure you want to delete?");
+        if (r == true) {
+            $.ajax({ url: "CommonCode/Delete", data: { id: rowid }, method: "POST" }).done(function (data) {
+                if (data.result == true) {
+                    $("#mainCategoryGrid").trigger('reloadGrid');
+                } else {
+                    alert(data.message);
+                }
+            });
+        } else {
 
-    mainCategoryGrid.demo.delete = function (id) {
-        alert("Delete for  " + id);
+        }
         return false;
+    }
+    function MainRowFormatViewLink(cellValue, options, rowObject) {
+        var linkHtml = '<a href="#" onClick="onMainRowSelected(' + options.rowId + ')" > <b>' + cellValue + '</b></a>';
+
+        return linkHtml;
     }
     function onMainRowSelected(rowid, status) {
         $("#mainMenuCode").val(rowid);
@@ -42,13 +53,19 @@
 
     }
 
-    //subCategoryGrid.demo.edit = function (id) {
-    //    alert("Edit for  " + id);
-    //    return false;
-    //}
+    subCategoryGrid.demo.delete = function (rowid) {
+        var r = confirm("Are you sure you want to delete?");
+        if (r == true) {
+            $.ajax({ url: "CommonCode/Delete", data: { id: rowid }, method: "POST" }).done(function (data) {
+                if (data.result == true) {
+                    $("#subCategoryGrid").trigger('reloadGrid');
+                } else {
+                    alert(data.message);
+                }
+            });
+        } else {
 
-    subCategoryGrid.demo.delete = function (id) {
-        alert("Delete for  " + id);
+        }
         return false;
     }
 </script>
@@ -70,7 +87,7 @@
             .SetJsonReader(new MvcJqGrid.DataReaders.JsonReader { Id = "Code", RepeatItems = false })
             .SetRowNumbers(true)
             .AddColumn(new Column("Code").SetLabel("Code"))
-            .AddColumn(new Column("CodeName").SetLabel("Code Name"))
+            .AddColumn(new Column("CodeName").SetLabel("Code Name").SetCustomFormatter("MainRowFormatViewLink"))
             .AddColumn(new Column("URL").SetLabel("URL"))
             .AddColumn(new Column("Memo").SetLabel("Memo"))
            .AddColumn(new Column("&nbsp;").SetSearch(false).SetCustomFormatter("mainCategoryGrid.demo.buttonize")
@@ -82,8 +99,7 @@
             .SetRowList(new[] { 10, 15, 20, 50 })
             .SetViewRecords(true)
             .SetPager("pager")
-            .SetSearchToolbar(false).SetSearchOnEnter(false)
-            .OnSelectRow("onMainRowSelected(rowid, status)")           
+            .SetSearchToolbar(false).SetSearchOnEnter(false)  
             )
            
         </div>

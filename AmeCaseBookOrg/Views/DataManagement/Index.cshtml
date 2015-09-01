@@ -8,7 +8,7 @@
 <script type="text/javascript">
 
     function FormatViewLink(cellValue, options, rowObject) {
-        var linkHtml = '<a href="/DataManagement/View?id=' + options.rowId + '">' + cellValue + '</a>';
+        var linkHtml = '<a href="/DataManagement/View?id=' + options.rowId + '"><b>' + cellValue + '</b></a>';
 
        return linkHtml;
     }
@@ -43,7 +43,7 @@ else
         .AddColumn(new Column("Title").SetSortable(false).SetLabel("Title").SetSearch(true).SetCustomFormatter("FormatViewLink"))
         .AddColumn(new Column("InsertDate").SetFormatter(Formatters.Date).SetSortable(false).SetLabel("Insert Date").SetSearch(false))
         .AddColumn(new Column("EditDate").SetFormatter(Formatters.Date).SetSortable(false).SetLabel("Edit Date").SetSearch(false))
-        .AddColumn(new Column("Author").SetSortable(false).SetLabel("Author").SetSearch(true).SetSearchType(Searchtype.Select).SetSearchTerms((string[])ViewBag.Authors))
+        .AddColumn(new Column("Author").SetSortable(false).SetLabel("Author").SetSearch(true))
 
     .SetUrl(Url.Action("Search", "DataManagement"))
     .SetAutoWidth(true)

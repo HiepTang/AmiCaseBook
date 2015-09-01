@@ -1,6 +1,7 @@
 ﻿
 @{
     ViewBag.Title = "ABOUT";
+    Layout = "~/Views/Shared/_LayoutJQGrid.cshtml";
 }
 
 <div id="sub_tit">
@@ -15,17 +16,17 @@
     <div style="margin:0 auto;width:900px;">
         <ul style="margin:20px;line-height:50px;border:1px solid #018349; border-radius:10px;height:200px;text-align:center; box-shadow:#CCC 0px 2px 2px 2px">
             <li style="float:left;width:280px;height:160px;padding-top:40px;border-right:1px solid #ddd;">
-                <i class="fa fa-book fa-5x" style="text-shadow:#CCC 0px 2px 2px 2px;"></i>
+                <a href="~/About/Casebook"><i class="fa fa-book fa-5x" style="text-shadow:#CCC 0px 2px 2px 2px;"></i></a>
                 <br />
                 <a href="~/About/Casebook" style="font-size:24px;text-shadow:#CCC 0px 2px 2px 2px;" class="bold"> Casebook </a>
             </li>
             <li style="float:left;width:280px;height:160px;padding-top:40px;border-right:1px solid #ddd;">
-                <i class="fa fa-globe fa-5x" style="text-shadow:#CCC 0px 2px 2px 2px"></i>
-                <br />
-                <a href="~/About/Isgan" style="font-size:24px;text-shadow:#CCC 0px 2px 2px 2px" class="bold"> ISGAN</a>
+                <a href="~/About/Isgan"><i class="fa fa-globe fa-5x" style="text-shadow:#CCC 0px 2px 2px 2px"></i></a>
+                    <br />
+                    <a href="~/About/Isgan" style="font-size:24px;text-shadow:#CCC 0px 2px 2px 2px" class="bold"> ISGAN</a>
             </li>
             <li style="float:left;width:280px;height:160px;padding-top:40px;">
-                <i class="fa fa-users fa-5x" style="text-shadow:#CCC 0px 2px 2px 2px"></i>
+                <a href="~/About/Contributors"><i class="fa fa-users fa-5x" style="text-shadow:#CCC 0px 2px 2px 2px"></i></a>
                 <br />
                 <a href="~/About/Contributors" style="font-size:24px;text-shadow:#CCC 0px 2px 2px 2px" class="bold">Contributors</a>
             </li>
