@@ -56,7 +56,7 @@
     @Scripts.Render("~/bundles/slidesjs")
     @RenderSection("scripts", required: false)
     <!-- SlidesJS Required: Initialize SlidesJS with a jQuery doc ready -->
-
+    @Html.Partial("AjaxWaiting");
     <script type="text/javascript">
 
      $(function() {

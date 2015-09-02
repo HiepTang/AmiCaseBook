@@ -340,6 +340,7 @@
     <Content Include="img\02.jpg" />
     <Content Include="img\03.jpg" />
     <Content Include="img\A-summary.png" />
+    <Content Include="img\ajax-loader.gif" />
     <Content Include="img\AMI Casebook.htm" />
     <Content Include="img\Australia.png" />
     <Content Include="img\Austria.png" />
@@ -764,6 +765,7 @@
     <Content Include="UploadImage\loadimage\package.json" />
     <Content Include="UploadImage\templates\package.json" />
     <Content Include="Views\Shared\UploadFile.cshtml" />
+    <Content Include="Views\Shared\AjaxWaiting.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

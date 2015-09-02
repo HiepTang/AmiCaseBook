@@ -105,7 +105,7 @@
                                         }
                                         var html = "<li id='comment_"+data.data.Id+"'>";
                                         html += "<span>" + data.data.Name + "(" + data.data.ComemmentTime + "): </span>" + data.data.Content;
-                                        html += "<a href='#' onclick='deleteComment(event,"+ data.data.Id +")'><i class='fa fa-times' style='color:#F00'></i></a>";
+                                        html += " <a href='#' onclick='deleteComment(event,"+ data.data.Id +")'><i class='fa fa-times' style='color:#F00'></i></a>";
                                         html += "</li> ";
                                         $("#lstComment").append(html);
                                     })
@@ -140,4 +140,4 @@
 </div>
 
 
-    </div>
+  </div>
