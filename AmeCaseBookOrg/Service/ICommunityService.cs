@@ -24,6 +24,8 @@ namespace AmeCaseBookOrg.Service
 
         void DeleteComment(CommuityTopicComment comment);
 
+        void DeleteTopic(CommunityTopic topic);
+
         void SaveTopic();
     }
 }

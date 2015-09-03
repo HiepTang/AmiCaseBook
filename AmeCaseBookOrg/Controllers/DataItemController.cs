@@ -80,7 +80,7 @@ namespace AmeCaseBookOrg.Controllers
         public JsonResult searchListItem(string userName , GridSettings gridSettings)
         {
             DataItemSearchFilter filter = new DataItemSearchFilter();
-            filter.AuthorName = userName;
+            filter.Email = userName;
             if (gridSettings.IsSearch)
             {
                 filter.Title = gridSettings.Where.rules.Any(r => r.field == "Title") ?

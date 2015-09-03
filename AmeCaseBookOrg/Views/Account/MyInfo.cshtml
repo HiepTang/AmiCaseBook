@@ -15,15 +15,17 @@
 
 </div>
 <script  type="text/javascript">
-    function onMainRowSelected(rowid, status) {
-        window.location.href("/DataItem/View/" + rowid);
+    function FormatViewLink(cellValue, options, rowObject) {
+        var linkHtml = '<a href="/DataManagement/View?id=' + options.rowId + '"><b>' + cellValue + '</b></a>';
+
+        return linkHtml;
     }
 </script>
 <div class="navi">
-    @Html.ActionLink("Home", "Index", "Home") > @Html.ActionLink("Admin", "Index", "Admin")  > <span>My Information</span>
+    @Html.ActionLink("Home", "Index", "Home") > <span>My Information</span>
 
 </div>
-@using (Html.BeginForm("EditAccount","Account",FormMethod.Get))
+@using (Html.BeginForm("EditAccount","Account",FormMethod.Get, new { id = "newForm" }))
 {
     @Html.AntiForgeryToken()
     <div class="myinfo_t">
@@ -57,24 +59,25 @@
             </tr>
             <tr>
                 <td colspan="5" rowspan="5" style="height:80px;border:0px;">
-                    <div class="form-group">
-                        <div class="col-md-offset-2 col-md-10">
-                           @Html.HiddenFor(model => model.UserName)
-                            <input type="submit" value="EDIT" class="bt_blue_button" style="color:#fff;" />
-                        </div>
-                    </div>
+                    @Html.HiddenFor(model => model.UserName)
+                    <ul class="bt_blue" style="padding-right:10px;">
+                        <li><a href="javascript:$('#newForm').submit()" class="bold" style="color:#fff;">EDIT</a></li>
+                    </ul>
                 </td>
             </tr>
         </table>
     </div>
 }
-<div class="myinfo_t2" style="width: 960px">
-    @(Html.Grid("myInfoGrid")
+<div style="border-top: 1px solid #ddd;">
+    <div class="myinfo_t2" style="width: 960px ; margin-top:10px">
+        <h1>My case document list</h1>
+        @Html.ActionLink("Add Record", "Create", new { controller = "DataManagement", ReturnedURL = "Account/MyInfo" }, new { @class = "bt_green" , @style = "margin-top:20px" })
+        @(Html.Grid("myInfoGrid")
         .SetRequestType(RequestType.Post)
-        .SetJsonReader(new MvcJqGrid.DataReaders.JsonReader { Id = "Id", RepeatItems = false })
+        .SetJsonReader(new MvcJqGrid.DataReaders.JsonReader { Id = "ID", RepeatItems = false })
         .SetCaption("My case document list")
         .AddColumn(new Column("SubMenuName").SetLabel("Category").SetSearch(false))
-        .AddColumn(new Column("Title").SetLabel("Title"))
+        .AddColumn(new Column("Title").SetLabel("Title").SetCustomFormatter("FormatViewLink"))
         .AddColumn(new Column("InsertDate").SetLabel("Insert date").SetFormatter(Formatters.Date).SetSearch(false))
         .AddColumn(new Column("EditDate").SetLabel("Edit date").SetFormatter(Formatters.Date).SetSearch(false))
         .AddColumn(new Column("Author").SetLabel("Author").SetSearch(false))
@@ -87,7 +90,6 @@
     .SetViewRecords(true)
     .SetPager("pager")
     .SetSearchToolbar(true).SetSearchOnEnter(false)
-    .OnSelectRow("onMainRowSelected(rowid, status)")
-
-    )
-</div>
+        )
+        </div>
+ </div>

@@ -55,15 +55,18 @@
               </li>
             <li style="width:130px;" class="bold t_lef"> <i class="fa fa-chevron-circle-right"></i> Related Posts </li>
             <li class="t_rig" style="width:960px;border-bottom:1px double #ccc;padding-bottom:10px;">
-                 @if (relatedPosts != null)
-                 {
-                     foreach (var post in relatedPosts)
-                     {
+                @{ 
+                    if (relatedPosts != null)
+                    {
+                        foreach (var post in relatedPosts)
+                        {
                         <ul class="re_p">
-                           
-                                <li><img src="~/File?id=@post.Images.FirstOrDefault().FileId" /></li>
-                            
-                            
+                                @try
+                                {
+                                 <li><img src="~/File?id=@post.Images.FirstOrDefault().FileId" /></li>
+                                }
+                                catch { }
+
                             <li>
                                 <h3><a href="~/DataManagement/View?id=@post.ID">@post.Title</a></h3>
                                 <p style="font-size:12px;">@post.CreatedDate</p>
@@ -75,8 +78,9 @@
                                 </ul>
                             </li>
                         </ul>
-                     }
-                 }
+                            }
+                        }
+                    }
             </li>
             <li style="float:left;width:960px;"><i class="fa fa-keyboard-o"></i> Leave a comment</li>
              

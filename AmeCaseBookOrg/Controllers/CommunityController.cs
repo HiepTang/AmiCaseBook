@@ -130,7 +130,6 @@ namespace AmeCaseBookOrg.Controllers
             return Json(jsonData);
         }
         [HttpPost]
-        [Authorize(Roles = "Admin")]
         public JsonResult DeleteComment(int id)
         {
             CommuityTopicComment comment = this.communityService.GetComment(id);
@@ -224,6 +223,25 @@ namespace AmeCaseBookOrg.Controllers
                 return RedirectToAction("Index");
             }
             return View(model);
+        }
+        [Authorize]
+        [HttpPost]
+        public JsonResult Delete(int id)
+        {
+            CommunityTopic item = this.communityService.GetTopic(id);
+            if (item == null)
+            {
+                return Json(new { status = HttpStatusCode.NoContent });
+            }
+            var adminRole = memberService.GetUserRoles().SingleOrDefault(r => r.Name == MemberRoles.Admin.ToString());
+            ApplicationUser currUser = memberService.GetUser(User.Identity.Name);
+            if (item.AuthorUserID == currUser.Id || currUser.Roles.Any(r => r.RoleId == adminRole.Id))
+            {
+                communityService.DeleteTopic(item);
+                communityService.SaveTopic();
+                return Json(new { status = HttpStatusCode.OK });
+            }
+            return Json("");
         }
     }
 }

@@ -80,11 +80,13 @@ namespace AmeCaseBookOrg.Controllers
         
             return View(ann);
         }
+        [Authorize]
         public ActionResult Create()
         {
             return View();
         }
         [HttpPost]
+        [Authorize]
         public ActionResult Create(Announcement model, int[] upoadedfile)
         {
             if (ModelState.IsValid)
@@ -112,6 +114,7 @@ namespace AmeCaseBookOrg.Controllers
             }
             return View(model);
         }
+        [Authorize]
         public ActionResult Edit(int id)
         {
             if (id == 0)
@@ -131,6 +134,7 @@ namespace AmeCaseBookOrg.Controllers
             return View(viewModel);
         }
         [HttpPost]
+        [Authorize]
         public ActionResult Edit(AnnouncementViewModel model, int[] upoadedfile)
         {
             if (ModelState.IsValid)
@@ -156,6 +160,25 @@ namespace AmeCaseBookOrg.Controllers
                 return RedirectToAction("Index");
             }
             return View(model);
+        }
+        [Authorize]
+        [HttpPost]
+        public JsonResult Delete( int id)
+        {
+            Announcement item = this.announcementService.GetAnnouncement(id);
+            if (item == null)
+            {
+                return Json(new { status = HttpStatusCode.NoContent });
+            }
+            var adminRole = memberService.GetUserRoles().SingleOrDefault(r => r.Name == MemberRoles.Admin.ToString());
+            ApplicationUser currUser = memberService.GetUser(User.Identity.Name);
+            if (item.AuthorUserID == currUser.Id || currUser.Roles.Any(r => r.RoleId == adminRole.Id))
+            {
+                announcementService.DeleteAnnouncement(item);
+                announcementService.SaveAnnouncement();
+                return Json(new { status = HttpStatusCode.OK });
+            }
+            return Json("");
         }
     }
 }

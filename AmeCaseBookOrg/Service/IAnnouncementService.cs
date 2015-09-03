@@ -19,6 +19,8 @@ namespace AmeCaseBookOrg.Service
 
         void CreateAnnouncement(Announcement announcement);
 
+        void DeleteAnnouncement(Announcement announcement);
+
         void SaveAnnouncement();
     }
 }

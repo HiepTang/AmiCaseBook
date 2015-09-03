@@ -26,6 +26,11 @@ namespace AmeCaseBookOrg.Service
             this.context.CommunityTopics.Add(topic);
         }
 
+        public void DeleteTopic(CommunityTopic topic)
+        {
+            this.context.CommunityTopics.Remove(topic);
+        }
+
         public CommunityTopic GetTopic(int ID)
         {
             return this.context.CommunityTopics.Find(ID);

@@ -14,7 +14,7 @@
 </div>
 
 
-@using (Html.BeginForm("EditAccount", "Account",FormMethod.Post, new { enctype = "multipart/form-data" }))
+@using (Html.BeginForm("EditAccount", "Account",FormMethod.Post, new { enctype = "multipart/form-data" , id = "editForm"}))
 {
     @Html.AntiForgeryToken()
 <div id="contents">
@@ -23,7 +23,7 @@
         <div class="myinfo_t">
             <table>
                 <tr>
-                    <td rowspan="9" style="width:200px;padding:15px;text-align:center;"><img src="~/File?id=@Model.FileId" alt="avatar"/></td>
+                    <td rowspan="9" style="width:200px;padding:15px;text-align:center;"><img style="width:200px;" src="~/File?id=@Model.FileId" alt="avatar"/></td>
                     <th> <i class="fa fa-chevron-circle-right"></i> Email</th>
                     <td class="border_right">
                         @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "re_input", @style="width:300px;text-align:left;padding-left:10px;" } })
@@ -87,7 +87,9 @@
                 </tr>
                 <tr>
                     <td colspan="3" rowspan="5" style="height:80px;border:0px;">
-                        <input type="submit" value="Save" class="bt_blue_button" style="color:#fff; padding-right:10px;" />
+                        <ul class="bt_blue" style="padding-right:10px;">
+                            <li><a href="javascript:$('#editForm').submit()" class="bold" style="color:#fff;">Save</a></li>
+                        </ul>
                     </td>
                 </tr>
             </table>

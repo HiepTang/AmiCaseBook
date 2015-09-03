@@ -174,7 +174,7 @@ namespace AmeCaseBookOrg.Controllers
 
         [Authorize]
         // GET: DataManagement
-        public ActionResult Create()
+        public ActionResult Create(String ReturnedURL)
         {
             // Get Countries
             ViewBag.CountryId = new SelectList(categoryService.GetCountries(), "Code", "CodeName");
@@ -202,7 +202,7 @@ namespace AmeCaseBookOrg.Controllers
                 subMenuFullNames.Add(viewModel);
             }
             ViewBag.SubCategoryID = new SelectList(subMenuFullNames,"Code","CodeName");
-
+            ViewBag.ReturnedURL = ReturnedURL;
             return View();
         }
         [HttpPost]
@@ -245,6 +245,11 @@ namespace AmeCaseBookOrg.Controllers
                 }
                 
                 dataItemService.SaveDataItem();
+                if (!string.IsNullOrEmpty(viewModel.ReturnedURL))
+                {
+                    string[] urls = viewModel.ReturnedURL.Split('/');
+                    return RedirectToAction(urls[1], urls[0]);
+                }
                 return RedirectToAction("Index");
             }
             // Get Countries
@@ -273,7 +278,7 @@ namespace AmeCaseBookOrg.Controllers
             }
             ViewBag.SubCategoryID = new SelectList(subMenuFullNames, "Code", "CodeName");
 
-            return View();
+            return View(viewModel);
         }
         // GET: DataManagement
         public ActionResult Edit(int id)
@@ -388,22 +393,24 @@ namespace AmeCaseBookOrg.Controllers
 
             return View(viewModel);
         }
-        
-        public ActionResult Delete(int id)
+        [HttpPost]
+        [Authorize]
+        public JsonResult Delete(int id)
         {
             DataItem item = dataItemService.GetDataItem(id);
             if(item == null)
             {
-                return HttpNotFound();
+                return Json(new { status = HttpStatusCode.NoContent });
             }
-            if (item.CreatedUser.UserName != User.Identity.Name)
+            var adminRole = memberService.GetUserRoles().SingleOrDefault(r => r.Name == MemberRoles.Admin.ToString());
+            ApplicationUser currUser = memberService.GetUser(User.Identity.Name);
+            if (item.CreatedUser.UserName == User.Identity.Name || currUser.Roles.Any(r => r.RoleId == adminRole.Id))
             {
-                ModelState.AddModelError("", "You don't have permission to perform this action");
-                return RedirectToAction("Edit", new { id = item.ID });
+                dataItemService.DeleteItem(item);
+                dataItemService.SaveDataItem();
+                return Json(new { status = HttpStatusCode.OK });
             }
-            dataItemService.DeleteItem(item);
-            dataItemService.SaveDataItem();
-            return RedirectToAction("Index");
+            return Json("");
         }
     }
 }

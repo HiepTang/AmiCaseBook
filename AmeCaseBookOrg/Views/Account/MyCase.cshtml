@@ -15,23 +15,25 @@
 
 </div>
 <script  type="text/javascript">
-    function onMainRowSelected(rowid, status) {
-        window.location.href("/DataItem/View/" + rowid);
+    function FormatViewLink(cellValue, options, rowObject) {
+        var linkHtml = '<a href="/DataManagement/View?id=' + options.rowId + '"><b>' + cellValue + '</b></a>';
+
+        return linkHtml;
     }
 </script>
 <div class="navi">
-    @Html.ActionLink("Home", "Index", "Home") > @Html.ActionLink("Admin", "Index", "Admin")  > <span>My Case</span>
+    @Html.ActionLink("Home", "Index", "Home") > <span>My Case</span>
 
 </div>
 
 <div class="myinfo_t2" style="width: 960px">
-    @Html.ActionLink("Add Record", "Create", new { controller = "DataManagement" }, new { @class = "bt_green" })
+    @Html.ActionLink("Add Record", "Create", new { controller = "DataManagement", ReturnedURL = "Account/MyCase" }, new { @class = "bt_green" })
     @(Html.Grid("myInfoGrid")
         .SetRequestType(RequestType.Post)
-        .SetJsonReader(new MvcJqGrid.DataReaders.JsonReader { Id = "Id", RepeatItems = false })
+        .SetJsonReader(new MvcJqGrid.DataReaders.JsonReader { Id = "ID", RepeatItems = false })
         .SetCaption("My case document list")
         .AddColumn(new Column("SubMenuName").SetLabel("Category").SetSearch(false))
-        .AddColumn(new Column("Title").SetLabel("Title"))
+        .AddColumn(new Column("Title").SetLabel("Title").SetCustomFormatter("FormatViewLink"))
         .AddColumn(new Column("InsertDate").SetLabel("Insert date").SetFormatter(Formatters.Date).SetSearch(false))
         .AddColumn(new Column("EditDate").SetLabel("Edit date").SetFormatter(Formatters.Date).SetSearch(false))
         .AddColumn(new Column("Author").SetLabel("Author").SetSearch(false))
@@ -44,7 +46,6 @@
     .SetViewRecords(true)
     .SetPager("pager")
     .SetSearchToolbar(true).SetSearchOnEnter(false)
-    .OnSelectRow("onMainRowSelected(rowid, status)")
 
     )
 </div>

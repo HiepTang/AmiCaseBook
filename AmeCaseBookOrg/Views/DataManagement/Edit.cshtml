@@ -45,14 +45,33 @@ else
         @Html.ActionLink("Home", "Index", "Home") > @Html.ActionLink("Search", "Index", "DataManagement") > <span>Edit Topic</span>
     </div>
 }
+<script>
+    function deleteItem(e, itemId) {
+        e.preventDefault();
+        var r = confirm("Are you sure you want to delete?");
+        if (r == true) {
+            $.ajax({ url: "/DataManagement/Delete", data: {id : itemId}, method: "POST" }).done(function (data) {
+                if (data.status != 200 || data=="") {
+                    alert("You don't have permission to perform this action");
+                    return;
+                } else {
+                    window.location.href = "/DataManagement/Index";
+                }
+            }).fail(function (data) {
+                alert("Cannot delete this topic");
+            });
+        }
+    }
+</script>
 <div id="contents">
     @using (Html.BeginForm("Edit", "DataManagement", FormMethod.Post, new { enctype = "multipart/form-data", id = "editForm" }))
     {
         @Html.AntiForgeryToken()
+        @Html.HiddenFor(m => m.ID)
         <div class="datail_v">
             <label>
                 <a href="javascript:$('#editForm').submit()" class="bt_blue_t"> <i class="fa fa-pencil-square-o"> </i> Save </a>
-                <a href="~/DataManagement/Delete?id=@Model.ID" class="bt_blue_t"> <i class="fa fa-list"></i> Delete </a>
+                <a href="#" onclick="deleteItem(event, @Model.ID )" class="bt_blue_t"> <i class="fa fa-list"></i> Delete </a>
                 <a href="~/DataManagement/View?id=@Model.ID" class="bt_blue_t"> <i class="fa fa-list"></i> Cancel </a>
             </label>
             @Html.ValidationSummary("", new { @class = "text-danger" })
@@ -107,20 +126,11 @@ else
                                 <a href="~/File?id=@file.FileId"> @file.FileName</a>
                             }
                             @Html.Partial("UploadFile", new ViewDataDictionary { { "multiple", true }, { "uploadId", "fileuploadAttachFile" }, { "fileResultIds", "attachFileIds" }, { "filesContainerId", "filesContainerId2" } })
-
+                           
                         </td>
 
                     </tr>
                 </table>
-
-                <ul class="bt_blue" style="padding-right:10px;">
-                    <li>
-                        @Html.HiddenFor(m => m.ID)
-                        <input type="submit" value="Save" class="bt_blue_button" style="color:#fff;" />
-
-                    </li>
-
-                </ul>
             </div>
         </div>
     }

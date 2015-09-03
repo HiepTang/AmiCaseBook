@@ -49,6 +49,7 @@ else
     @using (Html.BeginForm("Create", "DataManagement", FormMethod.Post, new { enctype = "multipart/form-data" }))
     {
         @Html.AntiForgeryToken()
+        @Html.HiddenFor(Model => Model.ReturnedURL);
         <div class="datail_v">
             @Html.ValidationSummary("", new { @class = "text-danger" })
             <div class="myinfo_add_ta">
@@ -102,7 +103,7 @@ else
                     </tr>
                 </table>
 
-                <ul class="bt_blue" style="padding-right:10px;">
+                <ul class="bt_blue" style="padding-right:10px; margin-top:10px">
                     <li>
                         <input type="submit" value="Create" class="bt_blue_button" style="color:#fff;" />
 

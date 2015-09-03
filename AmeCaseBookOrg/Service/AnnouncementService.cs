@@ -20,6 +20,11 @@ namespace AmeCaseBookOrg.Service
             context.Announcements.Add(announcement);
         }
 
+        public void DeleteAnnouncement(Announcement announcement)
+        {
+            context.Announcements.Remove(announcement);
+        }
+
         public Announcement GetAnnouncement(int id)
         {
             return this.context.Announcements.Find(id);

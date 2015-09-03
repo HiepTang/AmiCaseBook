@@ -32,7 +32,24 @@
         ]
     });
 </script>
-
+<script>
+    function deleteItem(e, itemId) {
+        e.preventDefault();
+        var r = confirm("Are you sure you want to delete?");
+        if (r == true) {
+            $.ajax({ url: "/Announcement/Delete", data: { id: itemId }, method: "POST" }).done(function (data) {
+                if (data=="" || data.status != 200) {
+                    alert("You don't have permission to perform this action");
+                    return;
+                } else {
+                    window.location.href = "/Announcement/Index";
+                }
+            }).fail(function (data) {
+                alert("Cannot delete this announcement");
+            });
+        }
+    }
+</script>
 <div id="contents">
     @if (Request.IsAuthenticated && User.IsInRole("Admin"))
     {
@@ -46,10 +63,16 @@
             @Html.ActionLink("Home", "Index", "Home") ><a href="~/Communication/Index/0/0" class="ali">Communication</a>   > <a href="~/Announcement/Index" class="ali">Announcements</a> > <span>Edit Announcement</span>
         </div>
     }
-    @using (Html.BeginForm("Edit", "Announcement", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    @using (Html.BeginForm("Edit", "Announcement", FormMethod.Post, new { enctype = "multipart/form-data" , id = "editForm"}))
     {
         @Html.AntiForgeryToken()
+        @Html.HiddenFor(m => m.ID)
             <div class="datail_v">
+                <label>
+                    <a href="javascript:$('#editForm').submit()" class="bt_blue_t"> <i class="fa fa-pencil-square-o"> </i> Save </a>
+                    <a href="#" onclick="deleteItem(event, @Model.ID )" class="bt_blue_t"> <i class="fa fa-list"></i> Delete </a>
+                    <a href="~/Announcement/View?id=@Model.ID" class="bt_blue_t"> <i class="fa fa-list"></i> Cancel </a>
+                </label>
                 @Html.ValidationSummary("", new { @class = "text-danger" })
                 <div class="myinfo_add_ta">
                     <table>
@@ -79,15 +102,7 @@
 
                         </tr>
                     </table>
-                    
-                     <ul class="bt_blue" style="padding-right:10px;">
-                        <li>
-                            @Html.HiddenFor(m => m.ID)
-                            <input type="submit" value="Save" class="bt_blue_button" style="color:#fff;" />
-
-                        </li>
-
-                    </ul>
+                  
                  </div>
             </div>
             }
