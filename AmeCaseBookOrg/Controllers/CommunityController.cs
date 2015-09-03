@@ -136,8 +136,15 @@ namespace AmeCaseBookOrg.Controllers
             CommuityTopicComment comment = this.communityService.GetComment(id);
             if (comment != null)
             {
-                communityService.DeleteComment(comment);
-                communityService.SaveTopic();
+                if(comment.CommentUser.UserName == User.Identity.Name)
+                {
+                    communityService.DeleteComment(comment);
+                    communityService.SaveTopic();
+                }
+                else
+                {
+                    return Json("");
+                }
             }
             return Json(new { status = HttpStatusCode.OK });
         }

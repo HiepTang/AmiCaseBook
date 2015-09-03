@@ -25,5 +25,7 @@ namespace AmeCaseBookOrg.Models
 
         public virtual ICollection<DataItem> AttachedToDataItem { get; set; }
 
+        public virtual ICollection<DataItem> AttachedFileToDataItem { get; set; }
+
     }
 }

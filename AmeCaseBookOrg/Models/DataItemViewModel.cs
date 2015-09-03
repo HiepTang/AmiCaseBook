@@ -25,5 +25,7 @@ namespace AmeCaseBookOrg.Models
         public int CountryID { get; set; }
 
         public virtual ICollection<File> Images { get; set; }
+
+        public virtual ICollection<File> AttachFiles { get; set; }
     }
 }

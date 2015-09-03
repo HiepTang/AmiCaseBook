@@ -21,7 +21,7 @@ namespace AmeCaseBookOrg.ModelMapper
             Mapper.CreateMap<CategoryViewModel, Category>();
             Mapper.CreateMap<AnnouncementViewModel, Announcement>().ForSourceMember(s => s.AttachmentFiles, y => y.Ignore()).ForMember( m => m.AttachmentFiles, n => n.Ignore());
             Mapper.CreateMap<CommunityTopicViewModel, CommunityTopic> ().ForSourceMember(s => s.AttachmentFiles, y => y.Ignore()).ForMember(m => m.AttachmentFiles, n => n.Ignore());
-            Mapper.CreateMap<DataItemViewModel, DataItem>().ForSourceMember(s => s.Images, y => y.Ignore()).ForMember(m => m.Images, n => n.Ignore());
+            Mapper.CreateMap<DataItemViewModel, DataItem>().ForSourceMember(s => s.Images, y => y.Ignore()).ForMember(m => m.Images, n => n.Ignore()).ForSourceMember(s => s.AttachFiles, y => y.Ignore()).ForMember(m => m.AttachFiles, n => n.Ignore());
         }
     }
 }

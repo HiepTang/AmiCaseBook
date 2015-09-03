@@ -23,7 +23,7 @@
 @if (Request.IsAuthenticated && User.IsInRole("Admin"))
 {
     <div class="navi">
-        @Html.ActionLink("Home", "Index", "Home") >@Html.ActionLink("Admin", "Index", "Admin")  > <span>Data Management</span>
+        @Html.ActionLink("Home", "Index", "Home") > @Html.ActionLink("Admin", "Index", "Admin")  > <span>Data Management</span>
     </div>
 }
 else

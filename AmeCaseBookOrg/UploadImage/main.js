@@ -64,7 +64,7 @@ function initUploadFile( inputTag, url) {
         }
     });
     if (url != null) {
-        inputTag.options.url = url;
+        inputTag.fileupload.options.url = url;
     }
     
     inputTag.bind('fileuploadsubmit', function (e, data) {

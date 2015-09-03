@@ -13,7 +13,7 @@
     @if (Request.IsAuthenticated && User.IsInRole("Admin"))
     {
         <div class="navi">
-            @Html.ActionLink("Home", "Index", "Home") >@Html.ActionLink("Admin", "Index", "Admin")  > @Html.ActionLink("Data Management", "Index", "DataManagement") > <span>Detail View</span>
+            @Html.ActionLink("Home", "Index", "Home") > @Html.ActionLink("Admin", "Index", "Admin")  > @Html.ActionLink("Data Management", "Index", "DataManagement") > <span>Detail View</span>
         </div>
     }
     else
@@ -45,6 +45,14 @@
             <li>
                 <div class="social-share"> <span class='st_facebook_hcount' displayText='Facebook'></span> <span class='st_twitter_hcount' displayText='Tweet'></span> <span class='st_googleplus_hcount' displayText='Google +'></span> </div>
             </li>
+            <li style="width:130px;" class="bold t_lef"> <i class="fa fa-chevron-circle-right"></i> Attach Files </li>
+            <li class="t_rig" style="width:960px;border-bottom:1px double #ccc;padding-bottom:10px;">
+                @foreach (var file in Model.AttachFiles)
+                {
+                    <a href="~/File/Download?id=@file.FileId" style="width:800px;">@file.FileName</a>
+                    <br />
+                }               
+              </li>
             <li style="width:130px;" class="bold t_lef"> <i class="fa fa-chevron-circle-right"></i> Related Posts </li>
             <li class="t_rig" style="width:960px;border-bottom:1px double #ccc;padding-bottom:10px;">
                  @if (relatedPosts != null)

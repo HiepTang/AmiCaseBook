@@ -89,7 +89,7 @@
                         {
                             <a href="~/File?id=@Model.UploadImage.FileId"> @Model.UploadImage.FileName</a>
                         }
-                        @Html.Partial("UploadFile", new ViewDataDictionary { { "multiple", false } })
+                        @Html.Partial("UploadFile", new ViewDataDictionary { { "multiple", false }, { "acceptFileTypes", "image" } })
                     </td>
                 </tr>
                 <tr>
@@ -123,11 +123,4 @@
 
 
 }
-
-
-@Scripts.Render("~/backload/blueimp/bootstrap/BasicPlusUI")
-<script type="text/javascript" src="/UploadImage/main.js"></script>
-<script>
-    initUploadFile($("#fileupload"), null);
-</script>
 

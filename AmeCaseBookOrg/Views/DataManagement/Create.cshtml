@@ -2,6 +2,7 @@
 
 @{
     Layout = "~/Views/Shared/_LayoutJQGrid.cshtml";
+    ViewBag.Title = "Create Topic";
 }
 
 <div id="sub_tit">
@@ -32,9 +33,18 @@
         ]
     });
 </script>
-<div class="navi">
-@Html.ActionLink("Home", "Index", "Home") ><a href="~/Communication/Index/0/0" class="ali">Communication</a>   > <span>Create Community</span>
-</div>
+@if (Request.IsAuthenticated && User.IsInRole("Admin"))
+{
+    <div class="navi">
+        @Html.ActionLink("Home", "Index", "Home") > @Html.ActionLink("Admin", "Index", "Admin")  > @Html.ActionLink("Data Management", "Index", "DataManagement") > <span>Create Topic</span>
+    </div>
+}
+else
+{
+    <div class="navi">
+        @Html.ActionLink("Home", "Index", "Home") > @Html.ActionLink("Search", "Index", "DataManagement") > <span>Create Topic</span>
+    </div>
+}
 <div id="contents">
     @using (Html.BeginForm("Create", "DataManagement", FormMethod.Post, new { enctype = "multipart/form-data" }))
     {
@@ -73,10 +83,20 @@
                         </td>
                     </tr>
                     <tr>
+                        <th><i class="fa fa-chevron-circle-right"> </i> Main Image</th>
+                        <td>
+
+                            @Html.Partial("UploadFile", new ViewDataDictionary { { "multiple", false }, { "uploadId", "fileuploadmainImage" }, { "fileResultIds", "mainImageIds" }, { "filesContainerId", "filesContainerId1" }, { "acceptFileTypes", "image" } })
+
+                        </td>
+
+                    </tr>
+                    <tr>
                         <th><i class="fa fa-chevron-circle-right"> </i> Attached files</th>
                         <td>
-                            @Html.Partial("UploadFile")
-                            
+
+                            @Html.Partial("UploadFile", new ViewDataDictionary { { "multiple", true }, { "uploadId", "fileuploadAttachFile" }, { "fileResultIds", "attachFileIds" }, { "filesContainerId", "filesContainerId2" } })
+
                         </td>
 
                     </tr>
@@ -93,8 +113,4 @@
         </div>
     }
 </div>
-@Scripts.Render("~/backload/blueimp/bootstrap/BasicPlusUI")
-<script type="text/javascript" src="/UploadImage/main.js"></script>
-<script>
-    initUploadFile($("#fileupload"), null);
-</script>
+

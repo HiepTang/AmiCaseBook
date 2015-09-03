@@ -99,7 +99,7 @@
                 <tr>
                     <th><i class="fa fa-chevron-circle-right"> </i> Image</th>
                     <td colspan="3">
-                       @Html.Partial("UploadFile", new ViewDataDictionary { { "multiple", false } })
+                       @Html.Partial("UploadFile", new ViewDataDictionary { { "multiple", false }, { "acceptFileTypes", "image" } })
                     </td>
                 </tr>
                 <tr>
@@ -131,9 +131,3 @@
         </div>
     </div>  
 }
-
-@Scripts.Render("~/backload/blueimp/bootstrap/BasicPlusUI")
-<script type="text/javascript" src="/UploadImage/main.js"></script>
-<script>
-    initUploadFile($("#fileupload"), null);
-</script>

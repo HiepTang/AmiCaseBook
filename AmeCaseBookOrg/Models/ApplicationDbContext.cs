@@ -75,6 +75,11 @@ namespace AmeCaseBookOrg.Models
                 .Map(t => t.MapLeftKey("ID")
                     .MapRightKey("FileId")
                     .ToTable("DataItemImage"));
+            modelBuilder.Entity<DataItem>()
+               .HasMany(c => c.Images).WithMany(i => i.AttachedFileToDataItem)
+               .Map(t => t.MapLeftKey("ID")
+                   .MapRightKey("FileId")
+                   .ToTable("DataItemAttachFile"));
 
 
             base.OnModelCreating(modelBuilder);

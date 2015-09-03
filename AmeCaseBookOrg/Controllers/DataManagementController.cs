@@ -206,21 +206,30 @@ namespace AmeCaseBookOrg.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult Create(DataItemViewModel viewModel, int[] upoadedfile)
+        public ActionResult Create(DataItemViewModel viewModel, int[] attachFileIds, int[]mainImageIds)
         {
             if (ModelState.IsValid)
             {
                 DataItem model = AutoMapper.Mapper.Map<DataItem>(viewModel);
-                if (upoadedfile != null)
+                if (attachFileIds != null)
                 {
-                    model.Images = new List<File>();
-                    foreach (int id in upoadedfile)
+                    model.AttachFiles = new List<File>();
+                    foreach (int id in attachFileIds)
                     {
                         File file = fileService.getFile(id);
                         if (file != null)
                         {
-                            model.Images.Add(file);
+                            model.AttachFiles.Add(file);
                         }
+                    }
+                }
+                if(mainImageIds != null && mainImageIds.Length > 0)
+                {
+                    model.Images = new List<File>();
+                    File file = fileService.getFile(mainImageIds[mainImageIds.Length-1]);
+                    if(file != null)
+                    {
+                        model.Images.Add(file);
                     }
                 }
                 model.LastUpdatedDate=DateTime.UtcNow;
@@ -310,20 +319,33 @@ namespace AmeCaseBookOrg.Controllers
             return View(viewModel);
         }
         [HttpPost]
-        public ActionResult Edit(DataItemViewModel viewModel, int[] upoadedfile)
+        public ActionResult Edit(DataItemViewModel viewModel, int[] attachFileIds, int[] mainImageIds)
         {
             if (ModelState.IsValid)
             {
                 DataItem model = dataItemService.GetDataItem(viewModel.ID);
                 model = AutoMapper.Mapper.Map<DataItemViewModel, DataItem>(viewModel, model);
-                if (upoadedfile != null && upoadedfile.Length > 0)
+                if (mainImageIds != null && mainImageIds.Length > 0)
                 {
-                    foreach (int id in upoadedfile)
+                    File file = fileService.getFile(mainImageIds[mainImageIds.Length-1]);
+                    if (file != null)
+                    {
+                        if(model.Images == null)
+                        {
+                            model.Images = new List<File>();
+                        }
+                        model.Images.Clear();
+                        model.Images.Add(file);
+                    }                   
+                }
+                if (attachFileIds != null && attachFileIds.Length > 0)
+                {
+                    foreach (int id in attachFileIds)
                     {
                         File file = fileService.getFile(id);
                         if (file != null)
                         {
-                            model.Images.Add(file);
+                            model.AttachFiles.Add(file);
                         }
                     }
                 }
@@ -365,6 +387,23 @@ namespace AmeCaseBookOrg.Controllers
             ViewBag.SubCategoryID = new SelectList(subMenuFullNames, "Code", "CodeName", viewModel.SubCategoryID);
 
             return View(viewModel);
+        }
+        
+        public ActionResult Delete(int id)
+        {
+            DataItem item = dataItemService.GetDataItem(id);
+            if(item == null)
+            {
+                return HttpNotFound();
+            }
+            if (item.CreatedUser.UserName != User.Identity.Name)
+            {
+                ModelState.AddModelError("", "You don't have permission to perform this action");
+                return RedirectToAction("Edit", new { id = item.ID });
+            }
+            dataItemService.DeleteItem(item);
+            dataItemService.SaveDataItem();
+            return RedirectToAction("Index");
         }
     }
 }

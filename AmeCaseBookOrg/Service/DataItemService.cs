@@ -138,5 +138,10 @@ namespace AmeCaseBookOrg.Service
         {
             return this.context.Comments.FirstOrDefault(m => m.ID == id);
         }
+
+        public void DeleteItem(DataItem item)
+        {
+            this.context.DataItems.Remove(item);
+        }
     }
 }

@@ -1,7 +1,17 @@
-﻿@{ 
+﻿@Scripts.Render("~/backload/blueimp/bootstrap/BasicPlusUI")
+@{ 
     bool? isMultipleUplpad = ViewData["multiple"] as bool?;
+    string uploadId = ViewData["uploadId"] as string;
+    string fileResultIds = ViewData["fileResultIds"] as string;
+    string filesContainerId = ViewData["filesContainerId"] as string;
+    string url = ViewData["url"] as string;
+    string acceptFileTypes = ViewData["acceptFileTypes"] as string;
+
+    uploadId = uploadId != null ? uploadId : "fileupload";
+    fileResultIds = fileResultIds != null ? fileResultIds : "upoadedfile";
+    filesContainerId = filesContainerId != null ? filesContainerId : "filesContainerId1";
+    acceptFileTypes = acceptFileTypes != "image" ? acceptFileTypes : "/(jpg)|(jpeg)|(png)|(gif)";
 }
-<div id="dvSelectFiles"></div>
 <div class="row fileupload-buttonbar">
     <div class="col-lg-7" style="padding-top:10px">
         <!-- The fileinput-button span is used to style the file input field as button -->
@@ -10,11 +20,11 @@
             <span>Add files...</span>
                 @if (isMultipleUplpad != null && isMultipleUplpad == false)
                 {
-                    <input id="fileupload" type="file" name="files[]" data-url="/File/UploadFiles">
+                    <input id="@uploadId" type="file" name="files[]" data-url="/File/UploadFiles">
                 }
                 else
                 {
-                    <input id="fileupload" type="file" name="files[]" multiple data-url="/File/UploadFiles">
+                    <input id="@uploadId" type="file" name="files[]" multiple data-url="/File/UploadFiles">
                 }
            
         </span>
@@ -32,7 +42,7 @@
     </div>
 </div>
 <!-- The table listing the files available for upload/download -->
-<table role="presentation" class="table table-striped"><tbody id="tbMainContainer" class="files"></tbody></table>
+<table role="presentation" class="table table-striped"><tbody id="@filesContainerId" class="files"></tbody></table>
 <!-- The template to display files available for upload -->
 <script id="template-upload" type="text/x-tmpl">
     {% for (var i=0, file; file=o.files[i]; i++) { %}
@@ -107,4 +117,99 @@
         </td>
     </tr>
     {% } %}
+</script>
+
+<script type="text/javascript">
+   
+    function initUploadFile(inputTag) {
+        'use strict';
+        var options = {
+            autoUpload: true,
+            maxChunkSize: 10000000,                                          // Optional: file chunking with 10MB chunks
+            // acceptFileTypes: /(jpg)|(jpeg)|(png)|(gif)|(txt)|(doc)|(docx)|(ppt)|(pptx)|(xls)|(xlsx)|(zip)|(rar)|(7z)|(pdf)$/i,              // Allowed file types
+            filesContainer: "#@filesContainerId",
+            done: function (e, data) {
+                if (e.isDefaultPrevented()) {
+                    return false;
+                }
+                var that = $(this).data('blueimp-fileupload') ||
+                        $(this).data('@uploadId'),
+                    getFilesFromResponse = data.getFilesFromResponse ||
+                        that.options.getFilesFromResponse,
+                    files = getFilesFromResponse(data),
+                    template,
+                    deferred;
+                if (data.context) {
+                    data.context.each(function (index) {
+                        var file = files[index] ||
+                                { error: 'Empty file upload result' };
+                        $('<input name="@fileResultIds" type="hidden" value="' + file.id + '"/>').appendTo('#@filesContainerId');
+                        deferred = that._addFinishedDeferreds();
+                        that._transition($(this)).done(
+                            function () {
+                                var node = $(this);
+                                template = that._renderDownload([file])
+                                    .replaceAll(node);
+                                that._forceReflow(template);
+                                that._transition(template).done(
+                                    function () {
+                                        data.context = $(this);
+                                        that._trigger('completed', e, data);
+                                        that._trigger('finished', e, data);
+                                        deferred.resolve();
+                                    }
+                                );
+                            }
+                        );
+                    });
+                } else {
+                    template = that._renderDownload(files)[
+                        that.options.prependFiles ? 'prependTo' : 'appendTo'
+                    ](that.options.filesContainer);
+                    that._forceReflow(template);
+                    deferred = that._addFinishedDeferreds();
+                    that._transition(template).done(
+                        function () {
+                            data.context = $(this);
+                            that._trigger('completed', e, data);
+                            that._trigger('finished', e, data);
+                            deferred.resolve();
+                        }
+                    );
+                }
+            }
+        };
+        var url = "@url";
+        if (url.length > 0) {
+            options.url = url;
+        }
+        var acceptFileTypes = "@acceptFileTypes";
+        if (acceptFileTypes != null && acceptFileTypes.length > 0) {
+            options.acceptFileTypes = @acceptFileTypes$/i;
+        }
+        // Initialize the jQuery File Upload widget:
+        inputTag.fileupload(options);
+        inputTag.bind('fileuploadsubmit', function (e, data) {
+            // Optional: We add a random uuid form parameter. On chunk uploads the uuid is used to store the chunks.
+            data.formData = { uuid: Math.random().toString(36).substr(2, 8) };
+        });
+
+
+
+        //// Load existing files:
+        //$('#fileupload').addClass('fileupload-processing');
+        //$.ajax({
+        //    // Uncomment the following to send cross-domain cookies:
+        //    // xhrFields: {withCredentials: true},
+        //    url: url,
+        //    dataType: 'json',
+        //    context: $('#fileupload')[0]
+        //}).always(function () {
+        //    $(this).removeClass('fileupload-processing');
+        //}).done(function (result) {
+        //    $(this).fileupload('option', 'done')
+        //        .call(this, $.Event('done'), { result: result });
+        //});
+    };
+    initUploadFile($("#@uploadId"));
 </script>

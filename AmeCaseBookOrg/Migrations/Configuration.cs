@@ -19,8 +19,8 @@ namespace AmeCaseBookOrg.Migrations
             AutomaticMigrationsEnabled = true;
         }
         //string imageFolder = "D:\\Working\\Project\\Amicasebook\\AmiCaseBook\\AmeCaseBookOrg\\img\\";
-        string imageFolder = "D:\\Working\\AmiCaseBook\\Source\\AmiCaseBook\\AmeCaseBookOrg\\img\\";
-        //string imageFolder = "C:\\Working\\Amicasebook\\Source\\AmeCaseBookOrg\\img\\";
+        //string imageFolder = "D:\\Working\\AmiCaseBook\\Source\\AmiCaseBook\\AmeCaseBookOrg\\img\\";
+        string imageFolder = "C:\\Working\\Amicasebook\\Source\\AmeCaseBookOrg\\img\\";
         protected override void Seed(AmeCaseBookOrg.Models.ApplicationDbContext context)
         {
             List<File> memberImages = CreateMemberImages(context);

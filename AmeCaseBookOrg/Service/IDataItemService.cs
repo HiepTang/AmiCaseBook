@@ -35,5 +35,7 @@ namespace AmeCaseBookOrg.Service
 
         Comment GetComment(int id);
 
+        void DeleteItem(DataItem item);
+
     }
 }
