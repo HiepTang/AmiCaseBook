@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using AmeCaseBookOrg.Models;
 using AmeCaseBookOrg.DAL.Infrastructure;
+using System.Data.Entity;
 
 namespace AmeCaseBookOrg.Service
 {
@@ -120,7 +119,7 @@ namespace AmeCaseBookOrg.Service
 
         public IEnumerable<DataItem> GetRelatedDataItems(DataItem dataItem)
         {
-            var dataItems = this.context.DataItems.Where(d => d.SubCategoryID == dataItem.SubCategoryID && d.ID != dataItem.ID);
+            var dataItems = this.context.DataItems.Include(d => d.Images).Where(d => d.SubCategoryID == dataItem.SubCategoryID && d.ID != dataItem.ID);
             return dataItems.OrderByDescending(d => d.CreatedDate).Take(3);
         }
 

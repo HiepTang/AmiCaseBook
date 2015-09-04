@@ -16,7 +16,7 @@ namespace AmeCaseBookOrg.ModelMapper
 
         protected override void Configure()
         {
-            Mapper.CreateMap<ApplicationUser, UserViewModel>();
+            Mapper.CreateMap<ApplicationUser, UserViewModel>().ForMember(u => u.Email, map => map.MapFrom(vm => vm.UserName)).ForMember(u => u.UploadImage , map => map.MapFrom(vm => vm.UploadImage));
             Mapper.CreateMap<Category, CategoryViewModel>();
             Mapper.CreateMap<Announcement, AnnouncementViewModel>();
             Mapper.CreateMap<CommunityTopic, CommunityTopicViewModel>();

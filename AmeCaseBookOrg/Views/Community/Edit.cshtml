@@ -84,9 +84,14 @@
                     <tr>
                         <th><i class="fa fa-chevron-circle-right"> </i> Attached files</th>
                         <td>
-                            @foreach (var file in Model.AttachmentFiles)
+                            @if (Model.AttachmentFiles != null)
                             {
-                                <a href="~/File?id=@file.FileId"> @file.FileName</a>
+                                foreach (var file in Model.AttachmentFiles)
+                                {
+                                    <input name="uploadedfile[]" type="hidden" value="@file.FileId" />
+                                        <br />
+                                        <a href="~/File/Download?id=@file.FileId"> @file.FileName</a>
+                                }
                             }
                             @Html.Partial("UploadFile")
                         </td>

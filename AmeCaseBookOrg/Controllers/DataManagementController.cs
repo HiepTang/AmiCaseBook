@@ -203,7 +203,7 @@ namespace AmeCaseBookOrg.Controllers
             }
             ViewBag.SubCategoryID = new SelectList(subMenuFullNames,"Code","CodeName");
             ViewBag.ReturnedURL = ReturnedURL;
-            return View();
+            return View(new DataItemViewModel());
         }
         [HttpPost]
         public ActionResult Create(DataItemViewModel viewModel, int[] attachFileIds, int[]mainImageIds)
@@ -277,7 +277,26 @@ namespace AmeCaseBookOrg.Controllers
                 subMenuFullNames.Add(SubViewModel);
             }
             ViewBag.SubCategoryID = new SelectList(subMenuFullNames, "Code", "CodeName");
-
+            if (mainImageIds != null)
+            {
+                viewModel.Images = new List<File>();
+                foreach (var id in mainImageIds)
+                {
+                    File file = fileService.getFile(id);
+                    if (file != null)
+                        viewModel.Images.Add(file);
+                }
+            }
+            if (attachFileIds != null)
+            {
+                viewModel.AttachFiles = new List<File>();
+                foreach (var id in attachFileIds)
+                {
+                    File file = fileService.getFile(id);
+                    if (file != null)
+                        viewModel.AttachFiles.Add(file);
+                }
+            }
             return View(viewModel);
         }
         // GET: DataManagement
@@ -390,7 +409,28 @@ namespace AmeCaseBookOrg.Controllers
                 subMenuFullNames.Add(SubMenuViewModel);
             }
             ViewBag.SubCategoryID = new SelectList(subMenuFullNames, "Code", "CodeName", viewModel.SubCategoryID);
-
+            if (mainImageIds != null)
+            {
+                if (viewModel.Images == null)
+                    viewModel.Images = new List<File>();
+                foreach (var id in mainImageIds)
+                {
+                    File file = fileService.getFile(id);
+                    if (file != null)
+                        viewModel.Images.Add(file);
+                }
+            }
+            if (attachFileIds != null)
+            {
+                if(viewModel.AttachFiles == null)
+                    viewModel.AttachFiles = new List<File>();
+                foreach (var id in attachFileIds)
+                {
+                    File file = fileService.getFile(id);
+                    if (file != null)
+                        viewModel.AttachFiles.Add(file);
+                }
+            }
             return View(viewModel);
         }
         [HttpPost]

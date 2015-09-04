@@ -150,7 +150,7 @@ namespace AmeCaseBookOrg.Controllers
                         _categoryService.SaveCategory();
                         return Json(new { result = true });
                     }
-                    catch
+                    catch(Exception e)
                     {
                         return Json(new { result = false, message = "Cannot delete '" + category.CodeName + "'" });
                     }

@@ -83,18 +83,18 @@ namespace AmeCaseBookOrg.Controllers
         [Authorize]
         public ActionResult Create()
         {
-            return View();
+            return View(new Announcement());
         }
         [HttpPost]
         [Authorize]
-        public ActionResult Create(Announcement model, int[] upoadedfile)
+        public ActionResult Create(Announcement model, int[] uploadedfile)
         {
             if (ModelState.IsValid)
             {
-                if(upoadedfile != null)
+                if(uploadedfile != null)
                 {
                     model.AttachmentFiles = new List<File>();
-                    foreach(int id in upoadedfile)
+                    foreach(int id in uploadedfile)
                     {
                         File file = fileService.getFile(id);
                         if (file != null)
@@ -111,6 +111,16 @@ namespace AmeCaseBookOrg.Controllers
                 announcementService.CreateAnnouncement(model);
                 announcementService.SaveAnnouncement();
                 return RedirectToAction("Index");
+            }
+            if (uploadedfile != null)
+            {
+                model.AttachmentFiles = new List<File>();
+                foreach (var id in uploadedfile)
+                {
+                    File file = fileService.getFile(id);
+                    if (file != null)
+                        model.AttachmentFiles.Add(file);
+                }
             }
             return View(model);
         }
@@ -135,15 +145,15 @@ namespace AmeCaseBookOrg.Controllers
         }
         [HttpPost]
         [Authorize]
-        public ActionResult Edit(AnnouncementViewModel model, int[] upoadedfile)
+        public ActionResult Edit(AnnouncementViewModel model, int[] uploadedfile)
         {
             if (ModelState.IsValid)
             {
                 Announcement ann = announcementService.GetAnnouncement(model.ID);
                 ann = AutoMapper.Mapper.Map<AnnouncementViewModel, Announcement>(model, ann);
-                if (upoadedfile != null && upoadedfile.Length > 0)
+                if (uploadedfile != null && uploadedfile.Length > 0)
                 {
-                    foreach( int id in upoadedfile)
+                    foreach( int id in uploadedfile)
                     {
                         File file = fileService.getFile(id);
                         if (file != null)
@@ -158,6 +168,17 @@ namespace AmeCaseBookOrg.Controllers
                 ann.LastUpdatedUserID = user.Id;
                 announcementService.SaveAnnouncement();
                 return RedirectToAction("Index");
+            }
+            if (uploadedfile != null)
+            {
+                if(model.AttachmentFiles == null)
+                    model.AttachmentFiles = new List<File>();
+                foreach (var id in uploadedfile)
+                {
+                    File file = fileService.getFile(id);
+                    if (file != null)
+                        model.AttachmentFiles.Add(file);
+                }
             }
             return View(model);
         }

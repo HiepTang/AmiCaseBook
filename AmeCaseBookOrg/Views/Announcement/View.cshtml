@@ -36,8 +36,9 @@
             <li style="float:left;width:960px;border-bottom:1px double #ccc;color:#F60">
                 <i class="fa fa-file"></i>  attached file :
                 @foreach (var file in Model.AttachmentFiles)
-            {
-                    <a href="~/File?id=@file.FileId"> @file.FileName</a>
+                {
+                    <br />
+                    <a href="~/File/Download?id=@file.FileId"> @file.FileName</a>
                 }
             </li>
 

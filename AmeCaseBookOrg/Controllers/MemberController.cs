@@ -106,7 +106,7 @@ namespace AmeCaseBookOrg.Controllers
         public ActionResult Create()
         {
             ViewBag.CountryId = new SelectList(categoryService.GetCountries(), "Code", "CodeName");           
-            return View();
+            return View(new UserCreateViewModel());
         }
 
         // POST: Member/Create
@@ -114,14 +114,14 @@ namespace AmeCaseBookOrg.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(UserCreateViewModel model, int[] upoadedfile)
+        public ActionResult Create(UserCreateViewModel model, int[] uploadedfile)
         {
             if (ModelState.IsValid)
             {
                 var applicationUser = Mapper.Map<ApplicationUser>(model);
-                if (upoadedfile != null && upoadedfile.Length > 0)
+                if (uploadedfile != null && uploadedfile.Length > 0)
                 {
-                    File newFile = _fileService.getFile(upoadedfile[upoadedfile.Length - 1]);   
+                    File newFile = _fileService.getFile(uploadedfile[uploadedfile.Length - 1]);   
                     if(newFile!=null)
                     {
                         applicationUser.FileId = newFile.FileId;
@@ -150,7 +150,12 @@ namespace AmeCaseBookOrg.Controllers
                     AddErrors(result);
                 }
             }
-            
+            if (uploadedfile != null)
+            {
+                    File file = _fileService.getFile(uploadedfile[uploadedfile.Length-1]);
+                    if (file != null)
+                        model.UploadImage=file;           
+            }
             ViewBag.CountryId = new SelectList(categoryService.GetCountries(), "Code", "CodeName");
             return View(model);
         }
@@ -190,16 +195,16 @@ namespace AmeCaseBookOrg.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(UserViewModel model, int[] upoadedfile)
+        public ActionResult Edit(UserViewModel model, int[] uploadedfile)
         {
             if (ModelState.IsValid)
             {
                 var applicationUser = UserManager.FindByName(model.Email);
                 applicationUser = Mapper.Map<UserViewModel, ApplicationUser>(model, applicationUser);
 
-                if (upoadedfile != null && upoadedfile.Length > 0)
+                if (uploadedfile != null && uploadedfile.Length > 0)
                 {
-                    File newFile = _fileService.getFile(upoadedfile[upoadedfile.Length - 1]);
+                    File newFile = _fileService.getFile(uploadedfile[uploadedfile.Length - 1]);
                      if (newFile != null)
                     {
                         if (applicationUser.UploadImage != null)
@@ -243,7 +248,7 @@ namespace AmeCaseBookOrg.Controllers
                 {
                     ViewBag.FileName = _fileService.getFile(applicationUser.FileId.Value).FileName;
                 }
-            }           
+            }        
             ViewBag.CountryId = new SelectList(categoryService.GetCountries(), "Code", "CodeName", model.CountryId);         
             return View(model);
         }

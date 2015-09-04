@@ -36,10 +36,11 @@
             <li class="t_lef bold"> <i class="fa fa-chevron-circle-right"></i> Author </li>
             <li class="t_rig"> @Model.CreatedUser.FullName</li>
             <li style="float:left;text-align:left;width:850px;padding:50px;">
-                @foreach (var image in Model.Images)
-                {
-                    <img src="~/File?id=@image.FileId" style="width:800px;" /><br />
-                }
+            @foreach (var image in Model.Images)
+            {
+                <img src="~/File?id=@image.FileId" style="width:800px;position:relative; top:0px; left:0px; z-index:1;" /><br />
+                <img src="~/File?id=@Model.Country.Image.FileId" style="width:200px; height:120px;position:relative; top:-140px; left:580px; z-index:2;" />           
+            }
                 @Html.Raw(Model.Content)
             </li>
             <li>
@@ -63,7 +64,7 @@
                         <ul class="re_p">
                                 @try
                                 {
-                                 <li><img src="~/File?id=@post.Images.FirstOrDefault().FileId" /></li>
+                                 <li><img style="width:270px; height:150px;" src="~/File?id=@post.Images.FirstOrDefault().FileId" /></li>
                                 }
                                 catch { }
 

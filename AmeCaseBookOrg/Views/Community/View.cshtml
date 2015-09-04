@@ -31,6 +31,7 @@
             <i class="fa fa-file"></i>  attached file :
             @foreach (var file in Model.AttachmentFiles)
             {
+                <br />
                 <a href="~/File?id=@file.FileId"> @file.FileName</a>
             }
                 

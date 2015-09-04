@@ -149,17 +149,17 @@ namespace AmeCaseBookOrg.Controllers
         }
         public ActionResult Create()
         {
-            return View();
+            return View(new CommunityTopic());
         }
         [HttpPost]
-        public ActionResult Create(CommunityTopic model, int[] upoadedfile)
+        public ActionResult Create(CommunityTopic model, int[] uploadedfile)
         {
             if (ModelState.IsValid)
             {
-                if (upoadedfile != null)
+                if (uploadedfile != null)
                 {
                     model.AttachmentFiles = new List<File>();
-                    foreach (int id in upoadedfile)
+                    foreach (int id in uploadedfile)
                     {
                         File file = fileService.getFile(id);
                         if (file != null)
@@ -176,6 +176,16 @@ namespace AmeCaseBookOrg.Controllers
                 communityService.CreateTopic(model);
                 communityService.SaveTopic();
                 return RedirectToAction("Index");
+            }
+            if (uploadedfile != null)
+            {
+                model.AttachmentFiles = new List<File>();
+                foreach (var id in uploadedfile)
+                {
+                    File file = fileService.getFile(id);
+                    if (file != null)
+                        model.AttachmentFiles.Add(file);
+                }
             }
             return View(model);
         }
@@ -198,15 +208,15 @@ namespace AmeCaseBookOrg.Controllers
             return View(viewModel);
         }
         [HttpPost]
-        public ActionResult Edit(CommunityTopicViewModel model, int[] upoadedfile)
+        public ActionResult Edit(CommunityTopicViewModel model, int[] uploadedfile)
         {
             if (ModelState.IsValid)
             {
                 CommunityTopic ann = communityService.GetTopic(model.ID);
                 ann = AutoMapper.Mapper.Map<CommunityTopicViewModel, CommunityTopic>(model, ann);
-                if (upoadedfile != null && upoadedfile.Length > 0)
+                if (uploadedfile != null && uploadedfile.Length > 0)
                 {
-                    foreach (int id in upoadedfile)
+                    foreach (int id in uploadedfile)
                     {
                         File file = fileService.getFile(id);
                         if (file != null)
@@ -221,6 +231,17 @@ namespace AmeCaseBookOrg.Controllers
                 ann.LastUpdatedUserID = user.Id;
                 communityService.SaveTopic();
                 return RedirectToAction("Index");
+            }
+            if (uploadedfile != null)
+            {
+                if (model.AttachmentFiles == null)
+                    model.AttachmentFiles = new List<File>();
+                foreach (var id in uploadedfile)
+                {
+                    File file = fileService.getFile(id);
+                    if (file != null)
+                        model.AttachmentFiles.Add(file);
+                }
             }
             return View(model);
         }

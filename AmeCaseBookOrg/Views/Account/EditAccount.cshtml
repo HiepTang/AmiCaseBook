@@ -1,4 +1,4 @@
-﻿@model AmeCaseBookOrg.Models.ApplicationUser
+﻿@model AmeCaseBookOrg.Models.UserViewModel
 
 @{
     ViewBag.Title = "Edit My Information";
@@ -14,74 +14,90 @@
 </div>
 
 
-@using (Html.BeginForm("EditAccount", "Account",FormMethod.Post, new { enctype = "multipart/form-data" , id = "editForm"}))
-{
-    @Html.AntiForgeryToken()
+
 <div id="contents">
     <div class="navi"> @Html.ActionLink("Home", "Index", "Home") > <span>Edit My Information</span> </div>
     <div id="myinfo">
         <div class="myinfo_t">
+@using (Html.BeginForm("EditAccount", "Account", FormMethod.Post, new { enctype = "multipart/form-data", id = "editForm" }))
+{
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary("", new { @class = "text-danger" })
             <table>
                 <tr>
-                    <td rowspan="9" style="width:200px;padding:15px;text-align:center;"><img style="width:200px;" src="~/File?id=@Model.FileId" alt="avatar"/></td>
+                    <td rowspan="9" style="width:200px;padding:15px;text-align:center;">
+                        @if (Model.UploadImage != null)
+                        {
+                            <img style="width:200px;" src="~/File?id=@Model.UploadImage.FileId" alt="avatar" />
+                        }
+                        else
+                        {
+                            <img style="width:200px;" src="~/img/b_img.jpg" alt="avatar" />
+                        }
+                    </td>
                     <th> <i class="fa fa-chevron-circle-right"></i> Email</th>
                     <td class="border_right">
-                        @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "re_input", @style="width:300px;text-align:left;padding-left:10px;" } })
+                        @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "re_input", @style = "width:300px;text-align:left;padding-left:10px;" } })
                         @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
                     </td>
                 </tr>
                 <tr>
                     <th> <i class="fa fa-chevron-circle-right"></i> First Name</th>
                     <td class="border_right">
-                        @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "re_input" , @style="width:300px;text-align:left;padding-left:10px;"} })
+                        @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "re_input", @style = "width:300px;text-align:left;padding-left:10px;" } })
                         @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })                    
                     </td>
                 </tr>
                 <tr>
                     <th><i class="fa fa-chevron-circle-right"></i> Last Name </th>
                     <td class="border_right">
-                        @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "re_input", @style="width:300px;text-align:left;padding-left:10px;" } })
+                        @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "re_input", @style = "width:300px;text-align:left;padding-left:10px;" } })
                         @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
                    </td>
                 </tr>
                 <tr>
                     <th><i class="fa fa-chevron-circle-right"></i> Tel  </th>
                     <td class="border_right">
-                        @Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @class = "re_input", @style="width:300px;text-align:left;padding-left:10px;" } })
+                        @Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @class = "re_input", @style = "width:300px;text-align:left;padding-left:10px;" } })
                         @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })                      
                     </td>
                 </tr>
                 <tr>
                     <th><i class="fa fa-chevron-circle-right"></i> Country</th>
                     <td class="border_right">
-                        @Html.DropDownList("CountryId", null, htmlAttributes: new { @class="input_green bold", @style="width:300px;" })
+                        @Html.DropDownList("CountryId", null, htmlAttributes: new { @class = "input_green bold", @style = "width:300px;" })
                         @Html.ValidationMessageFor(model => model.CountryId, "", new { @class = "text-danger" })                    
                     </td>
                 </tr>
                 <tr>
                     <th><i class="fa fa-chevron-circle-right"></i> Affiliation</th>
                     <td class="border_right">
-                        @Html.EditorFor(model => model.Affiliation, new { htmlAttributes = new { @class="re_input", @style="width:300px;text-align:left;padding-left:10px;"} })
+                        @Html.EditorFor(model => model.Affiliation, new { htmlAttributes = new { @class = "re_input", @style = "width:300px;text-align:left;padding-left:10px;" } })
                         @Html.ValidationMessageFor(model => model.Affiliation, "", new { @class = "text-danger" })                        
                     </td>
                 </tr>
                 <tr>
                     <th><i class="fa fa-chevron-circle-right"></i> Introduction</th>
                     <td class="border_right">
-                        @Html.EditorFor(model => model.Introduction, new { htmlAttributes = new { @class="re_input", @style="width:300px;text-align:left;padding-left:10px;" } })
+                        @Html.EditorFor(model => model.Introduction, new { htmlAttributes = new { @class = "re_input", @style = "width:300px;text-align:left;padding-left:10px;" } })
                         @Html.ValidationMessageFor(model => model.Introduction, "", new { @class = "text-danger" })                       
                     </td>
                 </tr>
                 <tr>
                     <th><i class="fa fa-chevron-circle-right"></i> Upload Image</th>
                     <td class="border_right">
+                        @if (Model.UploadImage != null)
+                        {                       
+                            <input name="uploadedfile[]" type="hidden" value="@Model.UploadImage.FileId" />
+                            <a href="~/File/Download?id=@Model.UploadImage.FileId"> @Model.UploadImage.FileName</a>
+                        }
                         @Html.Partial("UploadFile", new ViewDataDictionary { { "multiple", false }, { "acceptFileTypes", "image" } })     
                     </td>
                 </tr>
                 <tr>
                     <th><i class="fa fa-chevron-circle-right"></i> Link In</th>
                     <td class="border_right">
-                        @Html.EditorFor(model => model.LinkIn, new { htmlAttributes = new {@class="re_input" , @style="width:300px;text-align:left;padding-left:10px;"} })
+                        @Html.EditorFor(model => model.LinkIn, new { htmlAttributes = new { @class = "re_input", @style = "width:300px;text-align:left;padding-left:10px;" } })
                         @Html.ValidationMessageFor(model => model.LinkIn, "", new { @class = "text-danger" })                       
                     </td>
                 </tr>
@@ -93,8 +109,8 @@
                     </td>
                 </tr>
             </table>
+}
         </div>
         <div style="border-top: 1px solid #ddd;"></div>
     </div>
 </div>
-}

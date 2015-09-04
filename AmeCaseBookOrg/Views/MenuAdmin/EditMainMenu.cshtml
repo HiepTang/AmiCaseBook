@@ -28,7 +28,7 @@
                     <tr>
                         <th><i class="fa fa-chevron-circle-right"> </i> Code</th>
                         <td colspan="3">
-                            @Html.EditorFor(model => model.Code, new { htmlAttributes = new { @class = "re_input", @style = "width:300px;text-align:left;padding-left:10px;" } })
+                            @Html.EditorFor(model => model.Code, new { htmlAttributes = new { @class = "re_input", @style = "width:300px;text-align:left;padding-left:10px;", @readonly = "readonly" } })
                             @Html.ValidationMessageFor(model => model.Code, "", new { @class = "text-danger" })
                         </td>
                     </tr>

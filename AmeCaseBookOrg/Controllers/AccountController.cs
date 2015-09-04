@@ -500,6 +500,7 @@ namespace AmeCaseBookOrg.Controllers
             return View(applicationUsers.First(u => u.UserName == User.Identity.Name));
         }
         // GET: MyInformation/Edit/5
+        
         public ActionResult EditAccount()
         {
             var applicationUser = UserManager.Users.Include(a => a.Country).Include(a => a.UploadImage).First(u => u.UserName == User.Identity.Name);
@@ -507,9 +508,10 @@ namespace AmeCaseBookOrg.Controllers
             {
                 return HttpNotFound();
             }
+            UserViewModel viewModel = AutoMapper.Mapper.Map<UserViewModel>(applicationUser);
             ViewBag.CountryId = new SelectList(_categoryService.GetCategories(), "Code", "CodeName", applicationUser.CountryId);
-            ViewBag.FileId = applicationUser.FileId;
-            return View(applicationUser);
+       
+            return View(viewModel);
         }
 
         // POST: MyInformation/Edit/5
@@ -517,14 +519,15 @@ namespace AmeCaseBookOrg.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditAccount(int[] upoadedfile)
+        public ActionResult EditAccount(UserViewModel user, int[] uploadedfile)
         {
-            var applicationUser = UserManager.Users.First(u => u.UserName == User.Identity.Name);
-            if (TryUpdateModel(applicationUser, "", new String[] { "Email", "FirstName", "LastName", "PhoneNumber", "CountryId", "Affiliation", "Introduction", "LinkIn" }))
+            if (ModelState.IsValid)
             {
-                if (upoadedfile != null && upoadedfile.Length > 0)
+                var applicationUser = UserManager.Users.First(u => u.UserName == User.Identity.Name);
+                applicationUser = AutoMapper.Mapper.Map<UserViewModel, ApplicationUser>(user, applicationUser);
+                if (uploadedfile != null && uploadedfile.Length > 0)
                 {
-                    File newFile = _fileService.getFile(upoadedfile[upoadedfile.Length-1]);
+                    File newFile = _fileService.getFile(uploadedfile[uploadedfile.Length-1]);
                     if (newFile != null)
                     {
                         if (applicationUser.UploadImage != null)
@@ -542,12 +545,22 @@ namespace AmeCaseBookOrg.Controllers
                         }
                     }                                               
                 }
-                UserManager.Update(applicationUser);               
-                return RedirectToAction("MyInfo");
+                IdentityResult result = UserManager.Update(applicationUser);        
+                if(result.Succeeded)       
+                    return RedirectToAction("MyInfo");
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError("", error);
+                }
             }
-            ViewBag.CountryId = new SelectList(_categoryService.GetCategories(), "Code", "CodeName", applicationUser.CountryId);
-    
-            return View(applicationUser);
+            ViewBag.CountryId = new SelectList(_categoryService.GetCategories(), "Code", "CodeName", user.CountryId);
+            if (uploadedfile != null)
+            {
+                File file = _fileService.getFile(uploadedfile[uploadedfile.Length - 1]);
+                if (file != null)
+                    user.UploadImage = file;
+            }
+            return View(user);
         }
         #endregion
     }

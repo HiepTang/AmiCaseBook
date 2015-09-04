@@ -109,11 +109,17 @@ else
                     <tr>
                         <th><i class="fa fa-chevron-circle-right"> </i> Main Image</th>
                         <td>
-                            @foreach (var file in Model.Images)
+                            @if(Model.Images!=null)
                             {
-                                <a href="~/File?id=@file.FileId"> @file.FileName</a>
+                                foreach (var file in Model.Images)
+                                {
+                                    <input name="mainImageIds[]" type="hidden" value="@file.FileId" />
+                                    <br />
+                                    <a href="~/File?id=@file.FileId"> @file.FileName</a>
+                                }
                             }
-                            @Html.Partial("UploadFile", new ViewDataDictionary { { "multiple", false }, { "uploadId", "fileuploadmainImage" }, { "fileResultIds", "mainImageIds" }, { "filesContainerId", "filesContainerId1" }, { "acceptFileTypes", "image" } })
+                          
+                            @Html.Partial("UploadFile", new ViewDataDictionary { { "multiple", false }, { "uploadId", "fileuploadmainImage" }, { "fileResultIds", "mainImageIds[]" }, { "filesContainerId", "filesContainerId1" }, { "acceptFileTypes", "image" } })
                             
                         </td>
 
@@ -121,11 +127,16 @@ else
                     <tr>
                         <th><i class="fa fa-chevron-circle-right"> </i> Attached files</th>
                         <td>
-                            @foreach (var file in Model.AttachFiles)
+                            @if (Model.AttachFiles != null)
                             {
-                                <a href="~/File?id=@file.FileId"> @file.FileName</a>
+                                foreach (var file in Model.AttachFiles)
+                                {
+                                    <input name="attachFileIds[]" type="hidden" value="@file.FileId" />
+                                    <br />
+                                    <a href="~/File?id=@file.FileId"> @file.FileName</a>
+                                }
                             }
-                            @Html.Partial("UploadFile", new ViewDataDictionary { { "multiple", true }, { "uploadId", "fileuploadAttachFile" }, { "fileResultIds", "attachFileIds" }, { "filesContainerId", "filesContainerId2" } })
+                            @Html.Partial("UploadFile", new ViewDataDictionary { { "multiple", true }, { "uploadId", "fileuploadAttachFile" }, { "fileResultIds", "attachFileIds[]" }, { "filesContainerId", "filesContainerId2" } })
                            
                         </td>
 

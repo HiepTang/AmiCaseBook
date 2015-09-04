@@ -99,6 +99,12 @@
                 <tr>
                     <th><i class="fa fa-chevron-circle-right"> </i> Image</th>
                     <td colspan="3">
+                       @if (Model.UploadImage != null)
+                       {
+                           <br />
+                            <input name="uploadedfile[]" type="hidden" value="@Model.UploadImage.FileId" />
+                            <a href="~/File/Download?id=@Model.UploadImage"> @Model.UploadImage.FileName</a>
+                       }
                        @Html.Partial("UploadFile", new ViewDataDictionary { { "multiple", false }, { "acceptFileTypes", "image" } })
                     </td>
                 </tr>
