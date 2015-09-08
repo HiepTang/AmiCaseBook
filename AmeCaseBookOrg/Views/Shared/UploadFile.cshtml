@@ -6,11 +6,13 @@
     string filesContainerId = ViewData["filesContainerId"] as string;
     string url = ViewData["url"] as string;
     string acceptFileTypes = ViewData["acceptFileTypes"] as string;
+    string maxFileSize = ViewData["maxFileSize"] as string;
 
     uploadId = uploadId != null ? uploadId : "fileupload";
     fileResultIds = fileResultIds != null ? fileResultIds : "uploadedfile[]";
     filesContainerId = filesContainerId != null ? filesContainerId : "filesContainerId1";
     acceptFileTypes = acceptFileTypes != "image" ? acceptFileTypes : "/(jpg)|(jpeg)|(png)|(gif)";
+    maxFileSize = maxFileSize != null ? maxFileSize : "";
 }
 <div class="row fileupload-buttonbar">
     <div class="col-lg-7" style="padding-top:10px">
@@ -42,7 +44,7 @@
     </div>
 </div>
 <!-- The table listing the files available for upload/download -->
-<table role="presentation" class="table table-striped"><tbody id="@filesContainerId" class="files"></tbody></table>
+<table role="presentation" class="table table-striped" style="margin-bottom:0px"><tbody id="@filesContainerId" class="files"></tbody></table>
 <!-- The template to display files available for upload -->
 <script id="template-upload" type="text/x-tmpl">
     {% for (var i=0, file; file=o.files[i]; i++) { %}
@@ -186,6 +188,10 @@
         var acceptFileTypes = "@acceptFileTypes";
         if (acceptFileTypes != null && acceptFileTypes.length > 0) {
             options.acceptFileTypes = @acceptFileTypes$/i;
+        }
+        var maxFileSize = "@maxFileSize";
+        if(maxFileSize.length>0){
+            options.maxFileSize = maxFileSize;
         }
         // Initialize the jQuery File Upload widget:
         inputTag.fileupload(options);

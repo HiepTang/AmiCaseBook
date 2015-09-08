@@ -7,7 +7,7 @@
 
 <div id="sub_tit">
     <ul>
-        <li>Edit main common code</li>
+        <li>Edit main code</li>
 
     </ul>
 
@@ -18,7 +18,7 @@
         <span>Edit main code</span>
 
     </div>
-    @using (Html.BeginForm())
+    @using (Html.BeginForm("EditMainCode", "CommonCode", FormMethod.Post, new { id = "editForm" }))
     {
         @Html.AntiForgeryToken()
         <div class="datail_v">
@@ -56,11 +56,10 @@
                     <tr>
                         <td colspan="3" rowspan="5" style="height:80px;border:0px;">
                             <ul class="bt_blue" style="padding-right:10px;">
-                                <li>
-                                    <input type="submit" value="Save" class="bt_blue_button" style="color:#fff;" />
-
-                                </li>
-
+                                <li><a href="javascript:$('#editForm').submit()" style="color:#fff;">Save</a></li>
+                            </ul>
+                            <ul class="bt_blue" style="margin-right:10px;">
+                                <li><a href="~/CommonCode/Index" style="color:#fff;">Cancel</a></li>
                             </ul>
                         </td>
                     </tr>

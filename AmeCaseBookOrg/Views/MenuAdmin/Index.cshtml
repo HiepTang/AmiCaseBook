@@ -15,7 +15,7 @@
 
     mainCategoryGrid.demo.buttonize = function (cellvalue, options, rowobject) {
         return '<a onclick="return mainCategoryGrid.demo.edit(' + options.rowId + ')" href="/MenuAdmin/EditMainMenu?id=' + options.rowId + '"><div class="ui-icon ui-icon-pencil" style="display:inline-block"></div></a>' +
-               '<a onclick="return mainCategoryGrid.demo.delete(' + options.rowId + ')" href="#"><div class="ui-icon ui-icon-trash" style="display:inline-block"></div></a>';
+               '<a onclick="return mainCategoryGrid.demo.delete(' + options.rowId + '); return false;" href="#"><div class="ui-icon ui-icon-trash" style="display:inline-block"></div></a>';
 
     }
 
@@ -35,7 +35,7 @@
         return false;
     }
     function MainRowFormatViewLink(cellValue, options, rowObject) {
-        var linkHtml = '<a href="#" onClick="onMainRowSelected(' + options.rowId + ')" > <b>' + cellValue + '</b></a>';
+        var linkHtml = '<a href="#" onClick="onMainRowSelected(' + options.rowId + '); return false;" > <b>' + cellValue + '</b></a>';
 
         return linkHtml;
     }
@@ -49,7 +49,7 @@
 
     subCategoryGrid.demo.buttonize = function (cellvalue, options, rowobject) {
         return '<a onclick="return subCategoryGrid.demo.edit(' + options.rowId + ')" href="/MenuAdmin/EditSubMenu?id=' + options.rowId + '"><div class="ui-icon ui-icon-pencil" style="display:inline-block"></div></a>' +
-               '<a onclick="return subCategoryGrid.demo.delete(' + options.rowId + ')" href="#"><div class="ui-icon ui-icon-trash" style="display:inline-block"></div></a>';
+               '<a onclick="return subCategoryGrid.demo.delete(' + options.rowId + '); return false;" href="#"><div class="ui-icon ui-icon-trash" style="display:inline-block"></div></a>';
 
     }
 

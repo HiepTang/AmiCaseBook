@@ -22,7 +22,7 @@
         
     }
     function MainRowFormatViewLink(cellValue, options, rowObject) {
-        var linkHtml = "<a href='#' onClick=\"onMainRowSelected('" + options.rowId + "')\" > <b>" + cellValue + "</b></a>";
+        var linkHtml = "<a href='#' onClick=\"onMainRowSelected('" + options.rowId + "'); return false;\" > <b>" + cellValue + "</b></a>";
 
         return linkHtml;
     }

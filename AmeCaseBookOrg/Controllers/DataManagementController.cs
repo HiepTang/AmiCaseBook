@@ -176,19 +176,21 @@ namespace AmeCaseBookOrg.Controllers
         // GET: DataManagement
         public ActionResult Create(String ReturnedURL)
         {
-            // Get Countries
-            ViewBag.CountryId = new SelectList(categoryService.GetCountries(), "Code", "CodeName");
-
-            // get submenu list
             var adminRole = memberService.GetUserRoles().SingleOrDefault(r => r.Name == MemberRoles.Admin.ToString());
             ApplicationUser currUser = memberService.GetUser(User.Identity.Name);
+            // get submenu list
+           
             IEnumerable<SubMenu> subMenus = null;
             if (currUser.Roles.Any(r =>r.RoleId == adminRole.Id))
             {
-                subMenus = categoryService.GetSubMenus().ToList();
+                ViewBag.CountryId = new SelectList(categoryService.GetCountries(), "Code", "CodeName");
+                subMenus = categoryService.GetDataSubMenus().ToList();
             }
             else
             {
+                List<SubCategory> country = new List<SubCategory>();
+                country.Add(currUser.Country);
+                ViewBag.CountryId = new SelectList(country, "Code", "CodeName");
                 subMenus = categoryService.GetSubMenus(currUser) as IEnumerable<SubMenu>;
             }
             
@@ -252,19 +254,21 @@ namespace AmeCaseBookOrg.Controllers
                 }
                 return RedirectToAction("Index");
             }
-            // Get Countries
-            ViewBag.CountryId = new SelectList(categoryService.GetCountries(), "Code", "CodeName");
-
+           
             // get submenu list
             var adminRole = memberService.GetUserRoles().SingleOrDefault(r => r.Name == MemberRoles.Admin.ToString());
             ApplicationUser currUser = memberService.GetUser(User.Identity.Name);
             IEnumerable<SubMenu> subMenus = null;
             if (currUser.Roles.Any(r => r.RoleId == adminRole.Id))
             {
-                subMenus = categoryService.GetSubMenus().ToList();
+                subMenus = categoryService.GetDataSubMenus().ToList();
+                ViewBag.CountryId = new SelectList(categoryService.GetCountries(), "Code", "CodeName");
             }
             else
             {
+                List<SubCategory> country = new List<SubCategory>();
+                country.Add(currUser.Country);
+                ViewBag.CountryId = new SelectList(country, "Code", "CodeName");
                 subMenus = categoryService.GetSubMenus(currUser) as IEnumerable<SubMenu>;
             }
             List<SubMenu> subMenuFullNames = new List<SubMenu>();
@@ -314,19 +318,24 @@ namespace AmeCaseBookOrg.Controllers
             {
                 return HttpNotFound();
             }
-            // Get Countries
-            ViewBag.CountryId = new SelectList(categoryService.GetCountries(), "Code", "CodeName", ann.CountryID);
-
-            // get submenu list
             var adminRole = memberService.GetUserRoles().SingleOrDefault(r => r.Name == MemberRoles.Admin.ToString());
             ApplicationUser currUser = memberService.GetUser(User.Identity.Name);
+            // Get Countries
+           
+
+            // get submenu list
+            
             IEnumerable<SubMenu> subMenus = null;
             if (currUser.Roles.Any(r => r.RoleId == adminRole.Id))
             {
-                subMenus = categoryService.GetSubMenus().ToList();
+                ViewBag.CountryId = new SelectList(categoryService.GetCountries(), "Code", "CodeName", ann.CountryID);
+                subMenus = categoryService.GetDataSubMenus().ToList();
             }
             else
             {
+                List<SubCategory> country = new List<SubCategory>();
+                country.Add(currUser.Country);
+                ViewBag.CountryId = new SelectList(country, "Code", "CodeName", ann.CountryID);
                 subMenus = categoryService.GetSubMenus(currUser) as IEnumerable<SubMenu>;
             }
             List<SubMenu> subMenuFullNames = new List<SubMenu>();
@@ -382,21 +391,22 @@ namespace AmeCaseBookOrg.Controllers
                     model.MainMenuID = subMenu.GetMainMenu().Code;
                 }
                 dataItemService.SaveDataItem();
-                return RedirectToAction("Index");
+                return RedirectToAction("View", new { id = model.ID });
             }
-            // Get Countries
-            ViewBag.CountryId = new SelectList(categoryService.GetCountries(), "Code", "CodeName", viewModel.CountryID);
-
             // get submenu list
             var adminRole = memberService.GetUserRoles().SingleOrDefault(r => r.Name == MemberRoles.Admin.ToString());
             ApplicationUser currUser = memberService.GetUser(User.Identity.Name);
             IEnumerable<SubMenu> subMenus = null;
             if (currUser.Roles.Any(r => r.RoleId == adminRole.Id))
             {
-                subMenus = categoryService.GetSubMenus().ToList();
+                ViewBag.CountryId = new SelectList(categoryService.GetCountries(), "Code", "CodeName", viewModel.CountryID);
+                subMenus = categoryService.GetDataSubMenus().ToList();
             }
             else
             {
+                List<SubCategory> country = new List<SubCategory>();
+                country.Add(currUser.Country);
+                ViewBag.CountryId = new SelectList(country, "Code", "CodeName");
                 subMenus = categoryService.GetSubMenus(currUser) as IEnumerable<SubMenu>;
             }
             List<SubMenu> subMenuFullNames = new List<SubMenu>();

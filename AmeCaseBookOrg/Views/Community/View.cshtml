@@ -44,7 +44,7 @@
                 <li id="comment_@comment.ID">
                     <span>@comment.CommentUser.FullName (@comment.ComemmentTime): </span>
                     @comment.Content
-                    <a href="#" onclick="deleteComment(event,@comment.ID)"><i class="fa fa-times" style="color:#F00"></i></a>
+                    <a href="#" onclick="deleteComment(@comment.ID); return false;"><i class="fa fa-times" style="color:#F00"></i></a>
                 </li>
             }
         </ul>
@@ -64,14 +64,13 @@
                     <li style="padding-top:10px;">
                         @Html.Hidden("topic", Model.ID, null)
                         @Html.TextArea("comment", null, new { @class = "fre_input", placeholder = "Comment", style = "width:950px;height:50px;margin-top:10px;padding:10px;" })
-                        <a href="#" onclick="comment(event)" class="bt_blue_t" style="float:right;margin:10px;"> <i class="fa fa-share"></i> Comment Save</a>
+                        <a href="#" onclick="comment(); return false;" class="bt_blue_t" style="float:right;margin:10px;margin-right:-20px"> <i class="fa fa-share"></i> Comment Save</a>
                     </li>
                 }                
             }            
         </ul>
         <script type="text/javascript">
-                function comment(e) {
-                    e.preventDefault();
+                function comment() {
                     var frmData = $("#commentForm").serialize();
 
                     $.ajax({ url: "/Community/Comment", data: frmData, method: "POST" }).done(function (data) {
@@ -81,13 +80,12 @@
                         }
                         var html = "<li id='comment_"+data.data.Id+"'>";
                         html += "<span>" + data.data.Name + "(" + data.data.ComemmentTime + "): </span>" + data.data.Content;
-                        html += " <a href='#' onclick='deleteComment(event,"+ data.data.Id +")'><i class='fa fa-times' style='color:#F00'></i></a>";
+                        html += " <a href='#' onclick='deleteComment("+ data.data.Id +"); return false;'><i class='fa fa-times' style='color:#F00'></i></a>";
                         html += "</li> ";
                         $("#lstComment").append(html);
                     })
                 }
-                function deleteComment(e, commentId) {
-                    e.preventDefault();
+                function deleteComment( commentId) {
                     var r = confirm("Are you sure you want to delete?");
                     if (r == true) {
                         $.ajax({ url: "/Community/DeleteComment", data: { id: commentId }, method: "POST" }).done(function (data) {

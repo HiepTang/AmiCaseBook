@@ -123,6 +123,11 @@ namespace AmeCaseBookOrg.Service
         {
           return appContext.SubMenus;
         }
+
+        public IEnumerable<SubMenu> GetDataSubMenus()
+        {
+            return appContext.SubMenus.Where(m => m.ParentCategory.URL == "DataItem/List");
+        }
         public bool DeleteCategory(Category category)
         {
             if(category is SubMenu)

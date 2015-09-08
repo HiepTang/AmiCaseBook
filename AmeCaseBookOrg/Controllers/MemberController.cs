@@ -214,7 +214,11 @@ namespace AmeCaseBookOrg.Controllers
                             oldFile.Content = newFile.Content;
                             oldFile.ContentType = newFile.ContentType;
                             _fileService.saveFile();
-                            _fileService.deleteFile(newFile);
+                            if(newFile.FileId != oldFile.FileId)
+                            {
+                                _fileService.deleteFile(newFile);
+                            }
+                           
                         }
                         else
                         {

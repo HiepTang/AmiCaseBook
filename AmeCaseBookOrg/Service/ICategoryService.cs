@@ -19,6 +19,8 @@ namespace AmeCaseBookOrg.Service
 
         IEnumerable<SubMenu> GetSubMenus();
 
+        IEnumerable<SubMenu> GetDataSubMenus();
+
         IEnumerable<SubCategory> GetSubMenus(ApplicationUser user);
 
         IEnumerable<SubCategory> GetSubMenus(ApplicationUser user, MainMenu mainMenu);

@@ -167,7 +167,7 @@ namespace AmeCaseBookOrg.Controllers
                 ann.AuthorUserID = user.Id;
                 ann.LastUpdatedUserID = user.Id;
                 announcementService.SaveAnnouncement();
-                return RedirectToAction("Index");
+                return RedirectToAction("View", new { id = ann.ID});
             }
             if (uploadedfile != null)
             {

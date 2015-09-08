@@ -64,7 +64,8 @@
                         <ul class="re_p">
                                 @try
                                 {
-                                 <li><img style="width:270px; height:150px;" src="~/File?id=@post.Images.FirstOrDefault().FileId" /></li>
+                                 <li><img style="width:270px; height:150px;position:relative; top:0px; left:0px; z-index:1;" src="~/File?id=@post.Images.FirstOrDefault().FileId" /></li>
+                                <li><img src="~/File?id=@post.Country.Image.FileId" style="width:70px; height:50px;position:relative; top:-60px; left:85px; z-index:2;" /></li>
                                 }
                                 catch { }
 
@@ -91,7 +92,7 @@
                     {
                         <li id="comment_@comment.ID">
                             <span>@comment.Name (@comment.ComemmentTime): </span>@comment.Content
-                            <a href="#" onclick="deleteComment(event,@comment.ID)"><i class="fa fa-times" style="color:#F00"></i></a>
+                            <a href="#" onclick="deleteComment(@comment.ID); return false;"><i class="fa fa-times" style="color:#F00"></i></a>
                         </li>
                     }
                  </ul>
@@ -101,14 +102,13 @@
                             {
                                 @Html.Hidden("topic", Model.ID, null);
                                 @Html.TextBox("name", null, new { @class = "re_input", placeholder = "Name", style = "width:250px;" })
-                                @Html.TextBox("email", null, new { @class = "re_input", placeholder = "Your Email", style = "width:630px;" })
-                                @Html.TextArea("comment", null, new { @class = "fre_input", placeholder = "Comment", style = "width:870px;height:50px;margin-top:10px;padding:10px;" })
-                                <a href="#" onclick="comment(event)" class="bt_blue_t" style="float:right;margin:10px;"> <i class="fa fa-share"></i> Comment Save</a>
+                                @Html.TextBox("email", null, new { @class = "re_input", placeholder = "Your Email", style = "width:650px;" })
+                                @Html.TextArea("comment", null, new { @class = "fre_input", placeholder = "Comment", style = "width:882px;height:50px;margin-top:10px;padding:10px;" })
+                                <a href="#" onclick="comment(); return false;" class="bt_blue_t" style="float:right;margin:10px;margin-right:45px"> <i class="fa fa-share"></i> Comment Save</a>
 
                             }
                             <script type="text/javascript">
-                                function comment(e) {
-                                    e.preventDefault();
+                                function comment() {
                                     var frmData = $("#commentForm").serialize();
 
                                     $.ajax({ url: "/DataManagement/Comment", data: frmData, method: "POST" }).done(function (data) {
@@ -118,13 +118,12 @@
                                         }
                                         var html = "<li id='comment_"+data.data.Id+"'>";
                                         html += "<span>" + data.data.Name + "(" + data.data.ComemmentTime + "): </span>" + data.data.Content;
-                                        html += " <a href='#' onclick='deleteComment(event,"+ data.data.Id +")'><i class='fa fa-times' style='color:#F00'></i></a>";
+                                        html += " <a href='#' onclick='deleteComment("+ data.data.Id +"); return false;'><i class='fa fa-times' style='color:#F00'></i></a>";
                                         html += "</li> ";
                                         $("#lstComment").append(html);
                                     })
                                 }
-                                function deleteComment(e, commentId) {
-                                    e.preventDefault();
+                                function deleteComment(commentId) {                  
                                     var r = confirm("Are you sure you want to delete?");
                                     if (r == true) {
                                         $.ajax({ url: "/DataManagement/DeleteComment", data: { id: commentId }, method: "POST" }).done(function (data) {

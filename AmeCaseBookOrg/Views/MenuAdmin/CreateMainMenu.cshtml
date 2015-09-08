@@ -18,7 +18,7 @@
         <span>Create Main Menu</span>
 
     </div>
-    @using (Html.BeginForm())
+    @using (Html.BeginForm("CreateMainMenu", "MenuAdmin", FormMethod.Post, new { id = "createForm" }))
     {
         @Html.AntiForgeryToken()
         <div class="datail_v">
@@ -56,11 +56,10 @@
                     <tr>
                         <td colspan="3" rowspan="5" style="height:80px;border:0px;">
                             <ul class="bt_blue" style="padding-right:10px;">
-                                <li>
-                                    <input type="submit" value="Save" class="bt_blue_button" style="color:#fff;" />
-
-                                </li>
-
+                                <li><a href="javascript:$('#createForm').submit()" style="color:#fff;">Create</a></li>
+                            </ul>
+                            <ul class="bt_blue" style="margin-right:10px;">
+                                <li><a href="~/MenuAdmin/Index" style="color:#fff;">Cancel</a></li>
                             </ul>
                         </td>
                     </tr>

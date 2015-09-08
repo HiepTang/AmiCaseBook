@@ -89,7 +89,7 @@
                         {
                             <a href="~/File?id=@Model.UploadImage.FileId"> @Model.UploadImage.FileName</a>
                         }
-                        @Html.Partial("UploadFile", new ViewDataDictionary { { "multiple", false }, { "acceptFileTypes", "image" } })
+                        @Html.Partial("UploadFile", new ViewDataDictionary { { "multiple", false }, { "acceptFileTypes", "image" } , { "maxFileSize", "1500000" } })
                     </td>
                 </tr>
                 <tr>
@@ -110,9 +110,10 @@
                         <ul class="bt_blue" style="padding-right:10px;">
                             <li>
                                 <input type="submit" value="Save" class="bt_blue_button" style="color:#fff;" />
-
                             </li>
-
+                        </ul>
+                        <ul class="bt_blue" style="margin-right:10px;">
+                            <li><a href="~/Member/Index" style="color:#fff;">Cancel</a></li>
                         </ul>
                     </td>
                 </tr>

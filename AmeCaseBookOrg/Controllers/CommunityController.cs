@@ -230,7 +230,7 @@ namespace AmeCaseBookOrg.Controllers
                 ann.AuthorUserID = user.Id;
                 ann.LastUpdatedUserID = user.Id;
                 communityService.SaveTopic();
-                return RedirectToAction("Index");
+                return RedirectToAction("View", new { id = ann.ID });
             }
             if (uploadedfile != null)
             {

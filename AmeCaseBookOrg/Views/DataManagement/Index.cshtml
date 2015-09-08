@@ -15,8 +15,14 @@
 </script>
 <div id="sub_tit">
     <ul>
+    @if (Request.IsAuthenticated && User.IsInRole("Admin"))
+    {
+        <li>Data Management</li>
+    }
+    else
+    {
         <li>Search</li>
-
+    }      
     </ul>
 
 </div>
