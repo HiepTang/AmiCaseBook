@@ -11,20 +11,20 @@
     </ul>
 </div>
 <script type="text/javascript">
-    var mainCategoryGrid = { demo: {} };
+    var mainMenuGrid = { demo: {} };
 
-    mainCategoryGrid.demo.buttonize = function (cellvalue, options, rowobject) {
-        return '<a onclick="return mainCategoryGrid.demo.edit(' + options.rowId + ')" href="/MenuAdmin/EditMainMenu?id=' + options.rowId + '"><div class="ui-icon ui-icon-pencil" style="display:inline-block"></div></a>' +
-               '<a onclick="return mainCategoryGrid.demo.delete(' + options.rowId + '); return false;" href="#"><div class="ui-icon ui-icon-trash" style="display:inline-block"></div></a>';
+    mainMenuGrid.demo.buttonize = function (cellvalue, options, rowobject) {
+        return '<a onclick="return mainMenuGrid.demo.edit(' + options.rowId + ')" href="/MenuAdmin/EditMainMenu?id=' + options.rowId + '"><div class="ui-icon ui-icon-pencil" style="display:inline-block"></div></a>' +
+               '<a onclick="return mainMenuGrid.demo.delete(' + options.rowId + '); return false;" href="#"><div class="ui-icon ui-icon-trash" style="display:inline-block"></div></a>';
 
     }
 
-    mainCategoryGrid.demo.delete = function (rowid) {
+    mainMenuGrid.demo.delete = function (rowid) {
         var r = confirm("Are you sure you want to delete?");
         if (r == true) {
             $.ajax({ url: "CommonCode/Delete", data: { id: rowid }, method: "POST" }).done(function (data) {
                 if (data.result == true) {
-                    $("#mainCategoryGrid").trigger('reloadGrid');
+                    $("#mainMenuGrid").trigger('reloadGrid');
                 } else {
                     alert(data.message);
                 }
@@ -40,11 +40,14 @@
         return linkHtml;
     }
     function onMainRowSelected(rowid, status) {
+        $.jgrid.saveState("mainMenuGrid");
         $("#mainMenuCode").val(rowid);
         $("#txtSelectedCode").html("Select top code: " + rowid);
         $("#subCategoryGrid").jqGrid('setGridParam', { url: '/MenuAdmin/SearchSubMenu?mainCode=' + rowid }).trigger('reloadGrid');      
     }
-    
+    function OnSelectRow(rowid, status){
+        alert("fdsfs");
+    }
     var subCategoryGrid = { demo: {} };
 
     subCategoryGrid.demo.buttonize = function (cellvalue, options, rowobject) {
@@ -82,25 +85,26 @@
                 @Html.AntiForgeryToken();
                 <input name="btnCreateSubCode" type="submit" value="Add Record" class="bt_green" />
             }
-            @(Html.Grid("mainCategoryGrid")
-            .SetRequestType(RequestType.Post)
-            .SetJsonReader(new MvcJqGrid.DataReaders.JsonReader { Id = "Code", RepeatItems = false })
-            .SetRowNumbers(true)
-            .AddColumn(new Column("Code").SetLabel("Code"))
-            .AddColumn(new Column("CodeName").SetLabel("Code Name").SetCustomFormatter("MainRowFormatViewLink"))
-            .AddColumn(new Column("URL").SetLabel("URL"))
-            .AddColumn(new Column("Memo").SetLabel("Memo"))
-           .AddColumn(new Column("&nbsp;").SetSearch(false).SetCustomFormatter("mainCategoryGrid.demo.buttonize")
-                                        .SetWidth(65)
-                                    .SetAlign(Align.Right))
-            .SetUrl(Url.Action("SearchMainMenu", "MenuAdmin"))
-            .SetAutoWidth(true)
-            .SetRowNum(10)
-            .SetRowList(new[] { 10, 15, 20, 50 })
-            .SetViewRecords(true)
-            .SetPager("pager")
-            .SetSearchToolbar(false).SetSearchOnEnter(false)  
-            )
+            @(Html.Grid("mainMenuGrid")
+        .SetRequestType(RequestType.Post)
+        .SetJsonReader(new MvcJqGrid.DataReaders.JsonReader { Id = "Code", RepeatItems = false })
+        .SetRowNumbers(true)
+        .AddColumn(new Column("Code").SetLabel("Code"))
+        .AddColumn(new Column("CodeName").SetLabel("Code Name").SetCustomFormatter("MainRowFormatViewLink"))
+        .AddColumn(new Column("URL").SetLabel("URL"))
+        .AddColumn(new Column("Memo").SetLabel("Memo"))
+       .AddColumn(new Column("&nbsp;").SetSearch(false).SetCustomFormatter("mainMenuGrid.demo.buttonize")
+                                    .SetWidth(65)
+                                .SetAlign(Align.Right))
+        .SetUrl(Url.Action("SearchMainMenu", "MenuAdmin"))
+        .SetAutoWidth(true)
+        .SetRowNum(10)
+        .SetRowList(new[] { 10, 15, 20, 50 })
+        .SetViewRecords(true)
+        .SetPager("pager")
+        .SetSearchToolbar(false).SetSearchOnEnter(true)
+        .OnSelectRow("OnSelectRow(rowid,status)")
+)
            
         </div>
         <div class="myinfo_t2" style="width:450px;float:left;padding-left:10px;">
@@ -149,3 +153,6 @@
     </div>
 </div>
 
+<script>
+    $.jgrid.loadState("mainMenuGrid", {}, { clearAfterLoad: true });
+</script>

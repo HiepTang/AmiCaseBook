@@ -612,7 +612,7 @@ namespace AmeCaseBookOrg.Migrations
         private byte[] imageToByteArray(System.Drawing.Image imageIn)
         {
             System.IO.MemoryStream ms = new System.IO.MemoryStream();
-            imageIn.Save(ms, System.Drawing.Imaging.ImageFormat.Gif);
+            imageIn.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
             return ms.ToArray();
         }
     }

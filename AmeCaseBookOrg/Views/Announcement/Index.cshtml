@@ -9,9 +9,17 @@
 <script type="text/javascript">
 
     function FormatViewLink(cellValue, options, rowObject) {
-        var linkHtml = '<a href="/Announcement/View?id=' + options.rowId + '"><b>' + cellValue + '</b></a>';
+        var linkHtml = '<a onclick="onSelectItem();" href="/Announcement/View?id=' + options.rowId + '"><b>' + cellValue + '</b></a>';
         
        return linkHtml;
+    }
+    function onSelectItem() {
+        $.jgrid.saveState("announcementgrid");
+        return true;
+    }
+ 
+    function OnLoadComplete() {
+        //$.jgrid.loadState("announcementgrid", { clearAfterLoad: true });
     }
 </script>
 <div id="sub_tit">
@@ -53,7 +61,11 @@
     .SetRowList(new[] { 15, 30, 50 })
     .SetViewRecords(true)
     .SetPager("pager")
-    .SetSearchToolbar(true).SetSearchOnEnter(true)
-
-        )
+    .SetSearchToolbar(true)
+    .SetSearchOnEnter(true)
+    .OnLoadComplete("OnLoadComplete()")
+     )
     </div>
+<script>
+    $.jgrid.loadState("announcementgrid",{}, { clearAfterLoad: true });
+</script>

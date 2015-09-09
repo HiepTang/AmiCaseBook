@@ -16,9 +16,13 @@
 </div>
 <script  type="text/javascript">
     function FormatViewLink(cellValue, options, rowObject) {
-        var linkHtml = '<a href="/DataManagement/View?id=' + options.rowId + '"><b>' + cellValue + '</b></a>';
+        var linkHtml = '<a onclick="onSelectItem()" href="/DataManagement/View?id=' + options.rowId + '"><b>' + cellValue + '</b></a>';
 
         return linkHtml;
+    }
+    function onSelectItem() {
+        $.jgrid.saveState("myInfoGrid");
+        return true;
     }
 </script>
 <div class="navi">
@@ -94,3 +98,6 @@
         )
         </div>
  </div>
+<script>
+    $.jgrid.loadState("myInfoGrid", {}, { clearAfterLoad: true });
+</script>

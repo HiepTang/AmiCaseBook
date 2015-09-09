@@ -8,9 +8,13 @@
 <script type="text/javascript">
 
     function FormatViewLink(cellValue, options, rowObject) {
-        var linkHtml = '<a href="/DataManagement/View?id=' + options.rowId + '"><b>' + cellValue + '</b></a>';
+        var linkHtml = '<a onclick="onSelectItem()" href="/DataManagement/View?id=' + options.rowId + '"><b>' + cellValue + '</b></a>';
 
        return linkHtml;
+    }
+    function onSelectItem() {
+        $.jgrid.saveState("datamanagementgrid");
+        return true;
     }
 </script>
 <div id="sub_tit">
@@ -41,7 +45,7 @@ else
 
 <div class="myinfo_t2" style="width: 960px">
     @Html.ActionLink("Add Record", "Create", new { controller = "DataManagement" }, new { @class = "bt_green" })
-    @(Html.Grid("datagrid")
+    @(Html.Grid("datamanagementgrid")
         .SetRequestType(RequestType.Post)
         .SetJsonReader(new MvcJqGrid.DataReaders.JsonReader { Id = "ID", RepeatItems = false })
         .AddColumn(new Column("SubMenuName").SetSortable(false).SetLabel("Category").SetSearch(true).SetSearchType(Searchtype.Select).SetSearchTerms((string[])ViewBag.SubMenus))
@@ -62,3 +66,6 @@ else
 
     )
 </div>
+<script>
+    $.jgrid.loadState("datamanagementgrid", {}, { clearAfterLoad: true });
+</script>

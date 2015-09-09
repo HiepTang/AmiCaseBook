@@ -10,7 +10,6 @@ using System.Net;
 
 namespace AmeCaseBookOrg.Controllers
 {
-    [Authorize]
     public class DataManagementController : Controller
     {
         private readonly ICategoryService categoryService;
@@ -208,6 +207,7 @@ namespace AmeCaseBookOrg.Controllers
             return View(new DataItemViewModel());
         }
         [HttpPost]
+        [Authorize]
         public ActionResult Create(DataItemViewModel viewModel, int[] attachFileIds, int[]mainImageIds)
         {
             if (ModelState.IsValid)
@@ -303,6 +303,7 @@ namespace AmeCaseBookOrg.Controllers
             }
             return View(viewModel);
         }
+        [Authorize]
         // GET: DataManagement
         public ActionResult Edit(int id)
         {
@@ -352,6 +353,7 @@ namespace AmeCaseBookOrg.Controllers
             return View(viewModel);
         }
         [HttpPost]
+        [Authorize]
         public ActionResult Edit(DataItemViewModel viewModel, int[] attachFileIds, int[] mainImageIds)
         {
             if (ModelState.IsValid)

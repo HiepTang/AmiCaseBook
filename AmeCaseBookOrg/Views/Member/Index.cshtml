@@ -24,7 +24,11 @@
     var mvcJqGrid = { demo : {} };
 
     mvcJqGrid.demo.buttonize = function (cellvalue, options, rowobject) {
-        return '<a onclick="return mvcJqGrid.demo.edit(' + options.rowId + ')" href="/Member/Edit?id=' + options.rowId + '"><div class="ui-icon ui-icon-pencil" style="display:inline-block"></div></a>';
+        return '<a onclick="return onSelectItem()" href="/Member/Edit?id=' + options.rowId + '"><div class="ui-icon ui-icon-pencil" style="display:inline-block"></div></a>';
+    }
+    function onSelectItem() {
+        alert("fdsa");
+        $.jgrid.saveState("memberGrid");
     }
 </script>
 <div class="myinfo_t2" style="width: 960px">
@@ -52,4 +56,6 @@
     )
 </div>
 
-
+<script>
+    $.jgrid.loadState("memberGrid", {}, { clearAfterLoad: true });
+</script>
