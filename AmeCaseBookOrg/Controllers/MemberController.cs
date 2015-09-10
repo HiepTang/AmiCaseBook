@@ -12,6 +12,7 @@ using Microsoft.AspNet.Identity;
 using MvcJqGrid;
 using AmeCaseBookOrg.Service;
 using AutoMapper;
+using System.Web.Routing;
 
 namespace AmeCaseBookOrg.Controllers
 {
@@ -46,9 +47,9 @@ namespace AmeCaseBookOrg.Controllers
             }
         }
         // GET: Member
-        public ActionResult Index()
+        public ActionResult Index(bool? ReloadData)
         {
-            
+            ViewBag.ReloadData = ReloadData;
             var applicationUsers = UserManager.Users.Include(a => a.Country).Include(a => a.UploadImage);
             return View(applicationUsers.ToList());
         }
@@ -141,7 +142,7 @@ namespace AmeCaseBookOrg.Controllers
                     }                
                     if (result.Succeeded)
                     {
-                        return RedirectToAction("Index");
+                        return RedirectToAction("Index",  new  { ReloadData = true  });
                     }
                     
                 }
@@ -240,7 +241,7 @@ namespace AmeCaseBookOrg.Controllers
                     }
                     if (result.Succeeded)
                     {
-                        return RedirectToAction("Index");
+                        return RedirectToAction("Index", new { ReloadData = true} );
                     }
 
                 }

@@ -18,6 +18,17 @@
 
     @Styles.Render("~/backload/blueimp/bootstrap/BasicPlusUI/css")
 
+    <script type="text/javascript">
+        function removeGridCacheData(gridID) {
+            try {
+                window["localStorage"].removeItem("jqGrid" + gridID);
+                window["localStorage"].removeItem("jqGrid" + gridID + "_data");            
+                window.sessionStorage.removeItem("jqGrid" + gridID);
+                window.sessionStorage.removeItem("jqGrid" + gridID + "_data");
+            } catch (e) { }
+        }
+    </script>
+
 </head>
 <body>
     <header>

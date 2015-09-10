@@ -27,7 +27,6 @@
         return '<a onclick="return onSelectItem()" href="/Member/Edit?id=' + options.rowId + '"><div class="ui-icon ui-icon-pencil" style="display:inline-block"></div></a>';
     }
     function onSelectItem() {
-        alert("fdsa");
         $.jgrid.saveState("memberGrid");
     }
 </script>
@@ -57,5 +56,10 @@
 </div>
 
 <script>
-    $.jgrid.loadState("memberGrid", {}, { clearAfterLoad: true });
+    var reloadData = "@ViewBag.ReloadData";
+    if(reloadData.length>0){
+        removeGridCacheData("memberGrid");
+    }else{
+        $.jgrid.loadState("memberGrid", {}, { clearAfterLoad: true });
+    }
 </script>
