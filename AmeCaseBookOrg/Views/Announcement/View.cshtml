@@ -25,7 +25,15 @@
     <div class="datail_v">
         <label>
             <a href="~/Announcement/Edit/@Model.ID" class="bt_blue_t"> <i class="fa fa-pencil-square-o"> </i> Edit </a>
-            <a href="~/Announcement/Index" class="bt_blue_t"> <i class="fa fa-list"></i> List </a>
+            @if (ViewBag.ReloadData != null && ViewBag.ReloadData == true)
+            {
+                <a href="~/Announcement/Index?ReloadData=true" class="bt_blue_t"> <i class="fa fa-list"></i> List </a>
+            }
+            else
+            {
+                <a href="~/Announcement/Index" class="bt_blue_t"> <i class="fa fa-list"></i> List </a>
+            }
+
         </label>
         <h1>@Model.Title</h1>
         <ul class="da_text">

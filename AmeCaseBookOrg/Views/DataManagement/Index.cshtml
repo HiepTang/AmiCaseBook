@@ -67,5 +67,11 @@ else
     )
 </div>
 <script>
-    $.jgrid.loadState("datamanagementgrid", {}, { clearAfterLoad: true });
+    var reloadData = "@ViewBag.ReloadData";
+    if (reloadData.length > 0) {
+        removeGridCacheData("datamanagementgrid");
+    } else {
+        $.jgrid.loadState("datamanagementgrid", {}, { clearAfterLoad: true });
+    }
+   
 </script>

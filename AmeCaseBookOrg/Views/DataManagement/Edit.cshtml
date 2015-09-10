@@ -34,17 +34,26 @@
         ]
     });
 </script>
-@if (Request.IsAuthenticated && User.IsInRole("Admin"))
+@if (Model.fromMenu !=null && Model.fromMenu ==true)
 {
     <div class="navi">
-        @Html.ActionLink("Home", "Index", "Home") > @Html.ActionLink("Admin", "Index", "Admin")  > @Html.ActionLink("Data Management", "Index", "DataManagement") > <span>Edit Topic</span>
+        @Html.ActionLink("Home", "Index", "Home") <a href="~/DataItem/List/@Model.MainMenu.Code/0" class="ali"> > @Model.MainMenu.CodeName</a> <span> > Edit Topic</span>
     </div>
 }
 else
 {
-    <div class="navi">
-        @Html.ActionLink("Home", "Index", "Home") > @Html.ActionLink("Search", "Index", "DataManagement") > <span>Edit Topic</span>
-    </div>
+    if (Request.IsAuthenticated && User.IsInRole("Admin"))
+    {
+        <div class="navi">
+            @Html.ActionLink("Home", "Index", "Home") > @Html.ActionLink("Admin", "Index", "Admin")  > @Html.ActionLink("Data Management", "Index", "DataManagement") > <span>Edit Topic</span>
+        </div>
+    }
+    else
+    {
+        <div class="navi">
+            @Html.ActionLink("Home", "Index", "Home") > @Html.ActionLink("Search", "Index", "DataManagement") > <span>Edit Topic</span>
+        </div>
+    }
 }
 <script>
     function deleteItem(e, itemId) {
@@ -56,7 +65,13 @@ else
                     alert("You don't have permission to perform this action");
                     return;
                 } else {
-                    window.location.href = "/DataManagement/Index";
+                    var fromMenu = "@Model.fromMenu";
+                    if (fromMenu.length > 0) {
+                        window.location.href = "/DataItem/List/@Model.MainMenu.Code/0";
+                    } else {
+                        window.location.href = "/DataManagement/Index?ReloadData=true";
+                    }
+
                 }
             }).fail(function (data) {
                 alert("Cannot delete this topic");
@@ -69,11 +84,21 @@ else
     {
         @Html.AntiForgeryToken()
         @Html.HiddenFor(m => m.ID)
+        @Html.HiddenFor(m => m.fromMenu)
+        @Html.HiddenFor(m => m.MainMenuID)
         <div class="datail_v">
             <label>
                 <a href="javascript:$('#editForm').submit()" class="bt_blue_t"> <i class="fa fa-pencil-square-o"> </i> Save </a>
                 <a href="#" onclick="deleteItem(event, @Model.ID )" class="bt_blue_t"> <i class="fa fa-list"></i> Delete </a>
-                <a href="~/DataManagement/View?id=@Model.ID" class="bt_blue_t"> <i class="fa fa-list"></i> Cancel </a>
+                @if (Model.fromMenu != null && Model.fromMenu == true)
+                {
+                    <a href="~/DataManagement/View?id=@Model.ID&fromMenu=true" class="bt_blue_t"> <i class="fa fa-list"></i> Cancel </a>
+                }
+                else
+                {
+                    <a href="~/DataManagement/View?id=@Model.ID" class="bt_blue_t"> <i class="fa fa-list"></i> Cancel </a>
+                }
+               
             </label>
             @Html.ValidationSummary("", new { @class = "text-danger" })
             <div class="myinfo_add_ta">

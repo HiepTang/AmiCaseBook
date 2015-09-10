@@ -9,24 +9,49 @@
             <li>Data Management</li>
         </ul>
     </div>
-
-    @if (Request.IsAuthenticated && User.IsInRole("Admin"))
+    @if (ViewBag.fromMenu != null && ViewBag.fromMenu == true)
     {
-        <div class="navi">
-            @Html.ActionLink("Home", "Index", "Home") > @Html.ActionLink("Admin", "Index", "Admin")  > @Html.ActionLink("Data Management", "Index", "DataManagement") > <span>Detail View</span>
-        </div>
+         <div class="navi">
+            @Html.ActionLink("Home", "Index", "Home") <a href="~/DataItem/List/@Model.MainMenu.Code/0" class="ali"> > @Model.MainMenu.CodeName</a> <span> > @Model.Title</span>
+         </div>
     }
     else
     {
-        <div class="navi">
-            @Html.ActionLink("Home", "Index", "Home") > @Html.ActionLink("Search", "Index", "DataManagement") > <span>Detail View</span>
-        </div>
+        if (Request.IsAuthenticated && User.IsInRole("Admin"))
+        {
+            <div class="navi">
+                @Html.ActionLink("Home", "Index", "Home") > @Html.ActionLink("Admin", "Index", "Admin")  > @Html.ActionLink("Data Management", "Index", "DataManagement") > <span>Detail View</span>
+            </div>
+        }
+        else
+        {
+            <div class="navi">
+                @Html.ActionLink("Home", "Index", "Home") > @Html.ActionLink("Search", "Index", "DataManagement") > <span>Detail View</span>
+            </div>
+        }
     }
+    
     <div class="datail_v">
-        <label>
-            <a href="~/DataManagement/Edit/@Model.ID" class="bt_blue_t"> <i class="fa fa-pencil-square-o"> </i> Edit </a>
-            <a href="~/DataManagement/Index" class="bt_blue_t"> <i class="fa fa-list"></i> List </a>
-        </label>
+        @if(ViewBag.fromMenu != null && ViewBag.fromMenu == true)
+        {
+            <label>
+                <a href="~/DataManagement/Edit?id=@Model.ID&fromMenu=true" class="bt_blue_t"> <i class="fa fa-pencil-square-o"> </i> Edit </a>
+                <a href="~/DataItem/List/@Model.MainMenu.Code/0" class="bt_blue_t"> <i class="fa fa-list"></i> List </a>
+            </label>
+        }else{
+            <label>
+                <a href="~/DataManagement/Edit/@Model.ID" class="bt_blue_t"> <i class="fa fa-pencil-square-o"> </i> Edit </a>
+                @if(ViewBag.ReloadData!=null && ViewBag.ReloadData == true)
+                {
+                    <a href="~/DataManagement/Index?ReloadData=true" class="bt_blue_t"> <i class="fa fa-list"></i> List </a>
+                }
+                else
+                {
+                    <a href="~/DataManagement/Index" class="bt_blue_t"> <i class="fa fa-list"></i> List </a>
+                }
+            </label>
+        }
+       
         <h1>@Model.Title</h1>
         <ul class="da_text">
             <li class="t_lef bold"><i class="fa fa-chevron-circle-right"></i> Category <span style="float:right;">:</span> </li>
@@ -39,7 +64,7 @@
             @foreach (var image in Model.Images)
             {
                 <img src="~/File?id=@image.FileId" style="width:800px;position:relative; top:0px; left:0px; z-index:1;" /><br />
-                <img src="~/File?id=@Model.Country.Image.FileId" style="width:200px; height:120px;position:relative; top:-140px; left:580px; z-index:2;" />           
+                <img src="~/File?id=@Model.Country.Image.FileId" style="position:relative; top:-40px; left:750px; z-index:2;" />           
             }
                 @Html.Raw(Model.Content)
             </li>

@@ -40,7 +40,6 @@
         return linkHtml;
     }
     function onMainRowSelected(rowid, status) {
-        $.jgrid.saveState("mainMenuGrid");
         $("#mainMenuCode").val(rowid);
         $("#txtSelectedCode").html("Select top code: " + rowid);
         $("#subCategoryGrid").jqGrid('setGridParam', { url: '/MenuAdmin/SearchSubMenu?mainCode=' + rowid }).trigger('reloadGrid');      
@@ -152,7 +151,3 @@
         </div>
     </div>
 </div>
-
-<script>
-    $.jgrid.loadState("mainMenuGrid", {}, { clearAfterLoad: true });
-</script>

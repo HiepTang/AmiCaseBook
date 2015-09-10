@@ -29,5 +29,10 @@ namespace AmeCaseBookOrg.Models
         public virtual ICollection<File> AttachFiles { get; set; }
 
         public string ReturnedURL { get; set; }
+
+        public bool? fromMenu { get; set; }
+
+        public virtual MainMenu MainMenu { get; set; }
+        public int MainMenuID { get; set; }
     }
 }

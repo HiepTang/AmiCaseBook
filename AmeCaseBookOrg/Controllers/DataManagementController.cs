@@ -25,7 +25,7 @@ namespace AmeCaseBookOrg.Controllers
             this.fileService = fileService;
         }
 
-        public ActionResult View(int id)
+        public ActionResult View(int id, bool? fromMenu, bool? ReloadData)
         {
             if (id == 0)
             {
@@ -41,7 +41,8 @@ namespace AmeCaseBookOrg.Controllers
 
             var relatedItems = dataItemService.GetRelatedDataItems(dataItem).ToList();
             ViewBag.RelatedItems = relatedItems;
-
+            ViewBag.fromMenu = fromMenu;
+            ViewBag.ReloadData = ReloadData;
             return View(dataItem);
         }
 
@@ -104,7 +105,7 @@ namespace AmeCaseBookOrg.Controllers
             return Json(new { status = HttpStatusCode.OK });
         }
         // GET: DataManagement
-        public ActionResult Index()
+        public ActionResult Index(bool? ReloadData)
         {
             // Get Countries
             var countries = categoryService.GetCountries();
@@ -123,7 +124,7 @@ namespace AmeCaseBookOrg.Controllers
                 subMenuFullNames.Add(subMenuName);
             }
             ViewBag.SubMenus = subMenuFullNames.ToArray();
-
+            ViewBag.ReloadData = ReloadData;
             return View();
         }
 
@@ -305,7 +306,7 @@ namespace AmeCaseBookOrg.Controllers
         }
         [Authorize]
         // GET: DataManagement
-        public ActionResult Edit(int id)
+        public ActionResult Edit(int id, bool? fromMenu)
         {
             if (id == 0)
             {
@@ -350,6 +351,7 @@ namespace AmeCaseBookOrg.Controllers
             }
             ViewBag.SubCategoryID = new SelectList(subMenuFullNames, "Code", "CodeName", ann.SubCategoryID);
             DataItemViewModel viewModel = AutoMapper.Mapper.Map<DataItemViewModel>(ann);
+            viewModel.fromMenu = fromMenu;
             return View(viewModel);
         }
         [HttpPost]
@@ -393,7 +395,15 @@ namespace AmeCaseBookOrg.Controllers
                     model.MainMenuID = subMenu.GetMainMenu().Code;
                 }
                 dataItemService.SaveDataItem();
-                return RedirectToAction("View", new { id = model.ID });
+                if(viewModel.fromMenu !=null && viewModel.fromMenu == true)
+                {
+                    return RedirectToAction("View", new { id = model.ID , fromMenu = true });
+                }
+                else
+                {
+                    return RedirectToAction("View", new { id = model.ID , ReloadData = true });
+                }
+                
             }
             // get submenu list
             var adminRole = memberService.GetUserRoles().SingleOrDefault(r => r.Name == MemberRoles.Admin.ToString());
@@ -443,6 +453,7 @@ namespace AmeCaseBookOrg.Controllers
                         viewModel.AttachFiles.Add(file);
                 }
             }
+            viewModel.MainMenu = categoryService.GetCategory(viewModel.MainMenuID) as MainMenu;
             return View(viewModel);
         }
         [HttpPost]

@@ -24,8 +24,9 @@ namespace AmeCaseBookOrg.Controllers
             this.fileService = fileService;
         }
         // GET: Announcement
-        public ActionResult Index()
+        public ActionResult Index(bool? ReloadData)
         {
+            ViewBag.ReloadData = ReloadData;
             return View();
         }
 
@@ -62,7 +63,7 @@ namespace AmeCaseBookOrg.Controllers
             return result;
         }
 
-        public ActionResult View(int id)
+        public ActionResult View(int id, bool? ReloadData)
         {
             if (id == 0)
             {
@@ -77,7 +78,7 @@ namespace AmeCaseBookOrg.Controllers
                 return HttpNotFound();
             }
 
-        
+            ViewBag.ReloadData = ReloadData;
             return View(ann);
         }
         [Authorize]
@@ -110,7 +111,7 @@ namespace AmeCaseBookOrg.Controllers
                 model.LastUpdatedUserID = user.Id;
                 announcementService.CreateAnnouncement(model);
                 announcementService.SaveAnnouncement();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { ReloadData = true });
             }
             if (uploadedfile != null)
             {
@@ -167,7 +168,7 @@ namespace AmeCaseBookOrg.Controllers
                 ann.AuthorUserID = user.Id;
                 ann.LastUpdatedUserID = user.Id;
                 announcementService.SaveAnnouncement();
-                return RedirectToAction("View", new { id = ann.ID});
+                return RedirectToAction("View", new { id = ann.ID, ReloadData = true});
             }
             if (uploadedfile != null)
             {
