@@ -167,7 +167,8 @@ namespace AmeCaseBookOrg.Migrations
                     AccessFailedCount = 0,
                     UserName = "dong.joo.kang@gmail.com",
                     PasswordHash = password,
-                    PhoneNumber = "84903666892"
+                    PhoneNumber = "84903666892",
+                    CreatedDate = DateTime.UtcNow
 
                 },
                  new ApplicationUser
@@ -186,7 +187,8 @@ namespace AmeCaseBookOrg.Migrations
                     AccessFailedCount = 0,
                     UserName = "laura.marretta@gmail.com",
                     PasswordHash = password,
-                    PhoneNumber = "84903666892"
+                    PhoneNumber = "84903666892",
+                     CreatedDate = DateTime.UtcNow
                 },
                  new ApplicationUser
                 {
@@ -204,7 +206,8 @@ namespace AmeCaseBookOrg.Migrations
                     AccessFailedCount = 0,
                     UserName = "jon.stromsather@gmail.com",
                     PasswordHash = password,
-                    PhoneNumber = "84903666892"
+                    PhoneNumber = "84903666892",
+                     CreatedDate = DateTime.UtcNow
                 },
                  new ApplicationUser
                 {
@@ -222,7 +225,8 @@ namespace AmeCaseBookOrg.Migrations
                     AccessFailedCount = 0,
                     UserName = "locitt@gmail.com",
                     PasswordHash = password,
-                    PhoneNumber = "84903666892"
+                    PhoneNumber = "84903666892",
+                     CreatedDate = DateTime.UtcNow
                 },
                   new ApplicationUser
                 {
@@ -240,7 +244,8 @@ namespace AmeCaseBookOrg.Migrations
                     AccessFailedCount = 0,
                     UserName = "tpthiep@gmail.com",
                     PasswordHash = password,
-                    PhoneNumber = "84903666892"
+                    PhoneNumber = "84903666892",
+                     CreatedDate = DateTime.UtcNow
                 },
                    new ApplicationUser
                 {
@@ -258,7 +263,8 @@ namespace AmeCaseBookOrg.Migrations
                     AccessFailedCount = 0,
                     UserName = "phuc0903@gmail.com",
                     PasswordHash = password,
-                    PhoneNumber = "84903666892"
+                    PhoneNumber = "84903666892",
+                     CreatedDate = DateTime.UtcNow
                 }
             };
             users.ForEach(u => userManager.Create(u));

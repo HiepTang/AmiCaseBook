@@ -224,6 +224,10 @@
     <Compile Include="Migrations\201508231542007_AddHitToCommunityTopic.Designer.cs">
       <DependentUpon>201508231542007_AddHitToCommunityTopic.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201509110759497_addCreateField_User.cs" />
+    <Compile Include="Migrations\201509110759497_addCreateField_User.Designer.cs">
+      <DependentUpon>201509110759497_addCreateField_User.cs</DependentUpon>
+    </Compile>
     <Compile Include="ModelMaper\DomainToViewModelMappingProfile.cs" />
     <Compile Include="Migrations\201508121651157_Initialize.cs" />
     <Compile Include="Migrations\201508121651157_Initialize.Designer.cs">
@@ -390,10 +394,12 @@
     <Content Include="img\02.jpg" />
     <Content Include="img\03.jpg" />
     <Content Include="img\A-summary.png" />
+    <Content Include="img\a03.png" />
     <Content Include="img\ajax-loader.gif" />
     <Content Include="img\AMI Casebook.htm" />
     <Content Include="img\Australia.png" />
     <Content Include="img\Austria.png" />
+    <Content Include="img\b03.png" />
     <Content Include="img\ban_bg.jpg" />
     <Content Include="img\Belgium.png" />
     <Content Include="img\b_img.jpg" />
@@ -503,6 +509,8 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\jssor.js" />
+    <Content Include="Scripts\jssor.slider.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\mouse.couver.js" />
     <Content Include="Scripts\respond.js" />
@@ -854,6 +862,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201508231542007_AddHitToCommunityTopic.resx">
       <DependentUpon>201508231542007_AddHitToCommunityTopic.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201509110759497_addCreateField_User.resx">
+      <DependentUpon>201509110759497_addCreateField_User.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

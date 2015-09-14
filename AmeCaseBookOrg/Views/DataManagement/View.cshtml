@@ -12,7 +12,7 @@
     @if (ViewBag.fromMenu != null && ViewBag.fromMenu == true)
     {
          <div class="navi">
-            @Html.ActionLink("Home", "Index", "Home") <a href="~/DataItem/List/@Model.MainMenu.Code/0" class="ali"> > @Model.MainMenu.CodeName</a> <span> > @Model.Title</span>
+            @Html.ActionLink("Home", "Index", "Home") > <a href="~/DataItem/List/@Model.MainMenu.Code/0" class="ali"> @Model.MainMenu.CodeName</a> > <span> @Model.Title</span>
          </div>
     }
     else
@@ -35,20 +35,21 @@
         @if(ViewBag.fromMenu != null && ViewBag.fromMenu == true)
         {
             <label>
-                <a href="~/DataManagement/Edit?id=@Model.ID&fromMenu=true" class="bt_blue_t"> <i class="fa fa-pencil-square-o"> </i> Edit </a>
+                @if (Request.IsAuthenticated)
+                {
+                    <a href="~/DataManagement/Edit/@Model.ID" class="bt_blue_t"> <i class="fa fa-pencil-square-o"> </i> Edit </a>
+                }
+                
                 <a href="~/DataItem/List/@Model.MainMenu.Code/0" class="bt_blue_t"> <i class="fa fa-list"></i> List </a>
             </label>
         }else{
             <label>
-                <a href="~/DataManagement/Edit/@Model.ID" class="bt_blue_t"> <i class="fa fa-pencil-square-o"> </i> Edit </a>
-                @if(ViewBag.ReloadData!=null && ViewBag.ReloadData == true)
+                @if (Request.IsAuthenticated)
                 {
-                    <a href="~/DataManagement/Index?ReloadData=true" class="bt_blue_t"> <i class="fa fa-list"></i> List </a>
+                    <a href="~/DataManagement/Edit/@Model.ID" class="bt_blue_t"> <i class="fa fa-pencil-square-o"> </i> Edit </a>
                 }
-                else
-                {
-                    <a href="~/DataManagement/Index" class="bt_blue_t"> <i class="fa fa-list"></i> List </a>
-                }
+              
+                <a href="~/DataManagement/Index" class="bt_blue_t"> <i class="fa fa-list"></i> List </a>               
             </label>
         }
        
@@ -65,6 +66,7 @@
             {
                 <img src="~/File?id=@image.FileId" style="width:800px;position:relative; top:0px; left:0px; z-index:1;" /><br />
                 <img src="~/File?id=@Model.Country.Image.FileId" style="position:relative; top:-40px; left:750px; z-index:2;" />           
+                <br />
             }
                 @Html.Raw(Model.Content)
             </li>

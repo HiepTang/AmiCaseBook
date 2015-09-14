@@ -17,12 +17,17 @@
             <a href="http://www.facebook.com/" target="blank" title="Facebook" class="socialico-facebook"></a>
             <a href="http://twitter.com/" target="blank" title="Twitter" class="socialico-twitter"></a>
         </ul>
+        <br />
         <label>
-            <a href="~/Community/Edit/@Model.ID" class="bt_blue_t"> <i class="fa fa-pencil-square-o"> </i> Edit </a>
+            @if (Request.IsAuthenticated)
+            {
+                <a href="~/Community/Edit/@Model.ID" class="bt_blue_t"> <i class="fa fa-pencil-square-o"> </i> Edit </a>
+            }
+            
             <a href="~/Community/Index" class="bt_blue_t"> <i class="fa fa-list"></i> List </a>
         </label>
         <h1>@Model.Title	</h1>
-        <h2>Secretariat | <span style="font-weight:normal;">@Model.InsertDate | Hit @Model.Hit</span> <span style="float:right;"><a href="#"><i class="fa fa-print"></i> Print </a></span></h2>
+        <h2>Secretariat | <span style="font-weight:normal;">@Model.InsertDate | Hit @Model.Hit</span> <span style="float:right;"><a href="javascript:window.print()"><i class="fa fa-print"></i> Print </a></span></h2>
         <ul class="da_text">
             <li style="float:left;text-align:left;width:850px;padding:50px;">
                 @Html.Raw(Model.Content)
@@ -51,11 +56,13 @@
         <ul class="reply">
             @if (!Request.IsAuthenticated)
             {
-                <li style="padding-top:10px;">
-                    <ul style="width:90%;padding:10px;margin:0 auto;" class="re_input">
-                        <li>You need login to leave a message here @Html.ActionLink("Login", "Login", "Account")</li>
-                    </ul>
-                </li>
+               
+                    <li style="padding-top:10px;">
+                        <ul style="width:90%;padding:10px;margin:0 auto; text-align:center">
+                            <li>You need login to leave a message here @Html.ActionLink("Login", "Login", "Account")</li>
+                        </ul>
+                    </li>
+                
             }
             else
             {

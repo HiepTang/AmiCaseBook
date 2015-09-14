@@ -26,7 +26,11 @@ namespace AmeCaseBookOrg.Controllers
         // GET: Community
         public ActionResult Index()
         {
-
+            if(TempData["ReloadData"] != null)
+            {
+                ViewBag.ReloadData = TempData["ReloadData"];
+                TempData["ReloadData"] = null;
+            }
             return View();
         }
 
@@ -175,6 +179,7 @@ namespace AmeCaseBookOrg.Controllers
                 model.LastUpdatedUserID = user.Id;
                 communityService.CreateTopic(model);
                 communityService.SaveTopic();
+                TempData["ReloadData"] = true;
                 return RedirectToAction("Index");
             }
             if (uploadedfile != null)
@@ -230,6 +235,7 @@ namespace AmeCaseBookOrg.Controllers
                 ann.AuthorUserID = user.Id;
                 ann.LastUpdatedUserID = user.Id;
                 communityService.SaveTopic();
+                TempData["ReloadData"] = true;
                 return RedirectToAction("View", new { id = ann.ID });
             }
             if (uploadedfile != null)
@@ -260,6 +266,7 @@ namespace AmeCaseBookOrg.Controllers
             {
                 communityService.DeleteTopic(item);
                 communityService.SaveTopic();
+                TempData["ReloadData"] = true;
                 return Json(new { status = HttpStatusCode.OK });
             }
             return Json("");

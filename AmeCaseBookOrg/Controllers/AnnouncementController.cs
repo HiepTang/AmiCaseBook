@@ -24,9 +24,14 @@ namespace AmeCaseBookOrg.Controllers
             this.fileService = fileService;
         }
         // GET: Announcement
-        public ActionResult Index(bool? ReloadData)
+        public ActionResult Index()
         {
-            ViewBag.ReloadData = ReloadData;
+            if(TempData["ReloadData"] != null)
+            {
+                ViewBag.ReloadData = TempData["ReloadData"];
+                TempData["ReloadData"] = null;
+            }
+            
             return View();
         }
 
@@ -63,7 +68,7 @@ namespace AmeCaseBookOrg.Controllers
             return result;
         }
 
-        public ActionResult View(int id, bool? ReloadData)
+        public ActionResult View(int id)
         {
             if (id == 0)
             {
@@ -77,8 +82,6 @@ namespace AmeCaseBookOrg.Controllers
             {
                 return HttpNotFound();
             }
-
-            ViewBag.ReloadData = ReloadData;
             return View(ann);
         }
         [Authorize]
@@ -111,7 +114,8 @@ namespace AmeCaseBookOrg.Controllers
                 model.LastUpdatedUserID = user.Id;
                 announcementService.CreateAnnouncement(model);
                 announcementService.SaveAnnouncement();
-                return RedirectToAction("Index", new { ReloadData = true });
+                TempData["ReloadData"] = true;
+                return RedirectToAction("Index");
             }
             if (uploadedfile != null)
             {
@@ -168,7 +172,8 @@ namespace AmeCaseBookOrg.Controllers
                 ann.AuthorUserID = user.Id;
                 ann.LastUpdatedUserID = user.Id;
                 announcementService.SaveAnnouncement();
-                return RedirectToAction("View", new { id = ann.ID, ReloadData = true});
+                TempData["ReloadData"] = true;
+                return RedirectToAction("View", new { id = ann.ID});
             }
             if (uploadedfile != null)
             {
@@ -198,6 +203,7 @@ namespace AmeCaseBookOrg.Controllers
             {
                 announcementService.DeleteAnnouncement(item);
                 announcementService.SaveAnnouncement();
+                TempData["ReloadData"] = true;
                 return Json(new { status = HttpStatusCode.OK });
             }
             return Json("");

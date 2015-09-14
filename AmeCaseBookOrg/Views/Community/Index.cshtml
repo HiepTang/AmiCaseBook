@@ -30,7 +30,11 @@
 
 </div>
 <div class="myinfo_t2" style="width: 960px">
-    @Html.ActionLink("Add Record", "Create", new { controller = "Community" }, new { @class = "bt_green" })
+    @if (Request.IsAuthenticated)
+    {
+        @Html.ActionLink("Add Record", "Create", new { controller = "Community" }, new { @class = "bt_green" })
+    }
+   
     @(Html.Grid("communityGrid")
         .SetRequestType(RequestType.Post)
         .SetJsonReader(new MvcJqGrid.DataReaders.JsonReader { Id = "ID", RepeatItems = false })
@@ -48,7 +52,13 @@
     )
 </div>
 <script>
-    $.jgrid.loadState("communityGrid", {}, { clearAfterLoad: true });
+    var reloadData = "@ViewBag.ReloadData";
+    if (reloadData.length > 0) {
+        removeGridCacheData("communityGrid");
+    } else {
+        $.jgrid.loadState("communityGrid", {}, { clearAfterLoad: true });
+    }
+  
 </script>
 
 

@@ -7,6 +7,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity.ModelConfiguration.Conventions;
+using System;
 
 namespace AmeCaseBookOrg.Models
 {
@@ -64,6 +65,9 @@ namespace AmeCaseBookOrg.Models
         public int CountryId { get; set; }
         [ForeignKey("CountryId")]
         public virtual SubCategory Country { get; set; }
+
+        [Display(Name = "Date Created")]
+        public DateTime CreatedDate { get; set; }
 
         public virtual ICollection<SubMenu> CanAccessCategories { get; set; }
         

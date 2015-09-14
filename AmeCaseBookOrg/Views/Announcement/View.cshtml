@@ -24,7 +24,11 @@
     }
     <div class="datail_v">
         <label>
-            <a href="~/Announcement/Edit/@Model.ID" class="bt_blue_t"> <i class="fa fa-pencil-square-o"> </i> Edit </a>
+            @if (Request.IsAuthenticated)
+            {
+                <a href="~/Announcement/Edit/@Model.ID" class="bt_blue_t"> <i class="fa fa-pencil-square-o"> </i> Edit </a>
+            }
+            
             @if (ViewBag.ReloadData != null && ViewBag.ReloadData == true)
             {
                 <a href="~/Announcement/Index?ReloadData=true" class="bt_blue_t"> <i class="fa fa-list"></i> List </a>

@@ -44,7 +44,7 @@ namespace AmeCaseBookOrg.Controllers
             var countries = categoryService.GetCountries();
             ViewBag.Countries = countries;
 
-            var users = memberService.GetUserInRole(MemberRoles.Contributor.ToString());
+            var users = memberService.GetUserInRole(MemberRoles.Contributor.ToString()).OrderByDescending( u => u.CreatedDate);
             ViewBag.Contributors = users;
 
             return View();

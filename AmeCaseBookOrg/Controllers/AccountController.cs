@@ -210,7 +210,8 @@ namespace AmeCaseBookOrg.Controllers
             if (ModelState.IsValid)
             {
                 var user = await UserManager.FindByNameAsync(model.Email);
-                if (user == null || !(await UserManager.IsEmailConfirmedAsync(user.Id)))
+                //if (user == null || !(await UserManager.IsEmailConfirmedAsync(user.Id)))
+               if (user == null)
                 {
                     // Don't reveal that the user does not exist or is not confirmed
                     return View("ForgotPasswordConfirmation");
@@ -220,7 +221,7 @@ namespace AmeCaseBookOrg.Controllers
                 // Send an email with this link
                  string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
                  var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);		
-                 await UserManager.SendEmailAsync(user.Id, "Reset Your Casebook Password", "Please reset your casebook password by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                 await UserManager.SendEmailAsync(user.Id, "Your Casebook Password", "Please reset your casebook password by clicking <a href=\"" + callbackUrl + "\">here</a>");
                  return RedirectToAction("ForgotPasswordConfirmation", "Account");
             }
 

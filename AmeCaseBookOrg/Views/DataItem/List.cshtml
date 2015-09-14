@@ -95,10 +95,10 @@
                             @if (dataItem.Images.Count > 0)
                             {
                                 <li><img src="~/File?id=@dataItem.Images.FirstOrDefault().FileId" style="width:270px; height:250px;position:relative; top:0px; left:0px; z-index:1;"/></li>
-                                <li><img src="~/File?id=@dataItem.Country.Image.FileId" style="position:relative; top:-30px; left:100px; z-index:2;" /></li>
+                                <li><img src="~/File?id=@dataItem.Country.Image.FileId" style="border-radius:0px 0px; position:relative; top:-30px; left:100px; z-index:2;" /></li>
                             }
                             <li>
-                                <h3><a href="~/DataManagement/View?id=@dataItem.ID&fromMenu=true">@dataItem.Title</a></h3>
+                                <h3><a href="~/DataManagement/View?id=@dataItem.ID">@dataItem.Title</a></h3>
                                 <p style="font-size:12px;">@dataItem.CreatedDate</p>
                                 @*@Html.Raw(dataItem.Content)*@
                                 <ul class="luxe-post-share">

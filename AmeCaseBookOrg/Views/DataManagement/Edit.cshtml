@@ -37,7 +37,7 @@
 @if (Model.fromMenu !=null && Model.fromMenu ==true)
 {
     <div class="navi">
-        @Html.ActionLink("Home", "Index", "Home") <a href="~/DataItem/List/@Model.MainMenu.Code/0" class="ali"> > @Model.MainMenu.CodeName</a> <span> > Edit Topic</span>
+        @Html.ActionLink("Home", "Index", "Home") > <a href="~/DataItem/List/@Model.MainMenu.Code/0" class="ali"> @Model.MainMenu.CodeName</a> > <span> Edit Topic</span>
     </div>
 }
 else
@@ -69,7 +69,7 @@ else
                     if (fromMenu.length > 0) {
                         window.location.href = "/DataItem/List/@Model.MainMenu.Code/0";
                     } else {
-                        window.location.href = "/DataManagement/Index?ReloadData=true";
+                        window.location.href = "/DataManagement/Index";
                     }
 
                 }
@@ -89,15 +89,9 @@ else
         <div class="datail_v">
             <label>
                 <a href="javascript:$('#editForm').submit()" class="bt_blue_t"> <i class="fa fa-pencil-square-o"> </i> Save </a>
-                <a href="#" onclick="deleteItem(event, @Model.ID )" class="bt_blue_t"> <i class="fa fa-list"></i> Delete </a>
-                @if (Model.fromMenu != null && Model.fromMenu == true)
-                {
-                    <a href="~/DataManagement/View?id=@Model.ID&fromMenu=true" class="bt_blue_t"> <i class="fa fa-list"></i> Cancel </a>
-                }
-                else
-                {
-                    <a href="~/DataManagement/View?id=@Model.ID" class="bt_blue_t"> <i class="fa fa-list"></i> Cancel </a>
-                }
+                <a href="#" onclick="deleteItem(event, @Model.ID )" class="bt_blue_t"> <i class="fa fa-list"></i> Delete </a>      
+                <a href="~/DataManagement/View?id=@Model.ID" class="bt_blue_t"> <i class="fa fa-list"></i> Cancel </a>
+                
                
             </label>
             @Html.ValidationSummary("", new { @class = "text-danger" })
@@ -145,8 +139,8 @@ else
                                 }
                             }
                           
-                            @Html.Partial("UploadFile", new ViewDataDictionary { { "multiple", false }, { "uploadId", "fileuploadmainImage" }, { "fileResultIds", "mainImageIds[]" }, { "filesContainerId", "filesContainerId1" }, { "acceptFileTypes", "image" } })
-                            
+                            @Html.Partial("UploadFile", new ViewDataDictionary { { "uploadId", "fileuploadmainImage" }, { "fileResultIds", "mainImageIds[]" }, { "filesContainerId", "filesContainerId1" }, { "acceptFileTypes", "image" } })
+
                         </td>
 
                     </tr>

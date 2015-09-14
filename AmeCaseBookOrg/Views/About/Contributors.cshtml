@@ -18,7 +18,12 @@
         {
             <div class="con_img">
                 <div class="boxgrid slideright">
-                    <img class="cover" src="~/File?id=@contributor.FileId">
+                    @if(contributor.FileId != null){
+                        <img class="cover" src="~/File?id=@contributor.FileId">
+                    }else{
+                        <img class="cover" src="~/img/b_img.jpg">
+                    }
+                   
                     <h2> @contributor.FullName</h2>
                     <h3> @contributor.Introduction</h3>
                     <p>Affiliation: @contributor.Affiliation</p>

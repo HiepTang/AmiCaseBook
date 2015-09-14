@@ -7,6 +7,7 @@
     string url = ViewData["url"] as string;
     string acceptFileTypes = ViewData["acceptFileTypes"] as string;
     string maxFileSize = ViewData["maxFileSize"] as string;
+    string inputType = ViewData["inputType"] as string;
 
     uploadId = uploadId != null ? uploadId : "fileupload";
     fileResultIds = fileResultIds != null ? fileResultIds : "uploadedfile[]";
@@ -18,8 +19,18 @@
     <div class="col-lg-7" style="padding-top:10px">
         <!-- The fileinput-button span is used to style the file input field as button -->
         <span class="btn btn-success fileinput-button">
-            <i class="glyphicon glyphicon-plus"></i>
-            <span>Add files...</span>
+            
+                @if (inputType != null && inputType == "edit")
+                {
+                    <i class="glyphicon glyphicon-edit"></i>
+                    <span>Edit image</span>
+                }
+                else
+                {
+                    <i class="glyphicon glyphicon-plus"></i>
+                    <span>Add files...</span>
+                }
+            
                 @if (isMultipleUplpad != null && isMultipleUplpad == false)
                 {
                     <input id="@uploadId" type="file" name="files[]" data-url="/File/UploadFiles">

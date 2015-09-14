@@ -55,20 +55,26 @@ namespace AmeCaseBookOrg
                       "~/Content/jquery.jqGrid/ui.jqgrid.css",
                       "~/Content/themes/start/jquery-ui-1.11.4.custom.min.css"));
 
-            bundles.Add(new StyleBundle("~/Content/themes/start/jqgridcssovercasttheme").Include(
+            bundles.Add(new StyleBundle("~/Content/themes/overcast/jqgridcssovercasttheme").Include(
                      "~/Content/jquery.jqGrid/ui.jqgrid.css",
                      "~/Content/themes/overcast/jquery-ui-1.11.4.custom.min.css"));
 
-            bundles.Add(new StyleBundle("~/Content/themes/start/jqgridcsssouthstreettheme").Include(
+            bundles.Add(new StyleBundle("~/Content/themes/southstreet/jqgridcsssouthstreettheme").Include(
                     "~/Content/jquery.jqGrid/ui.jqgrid.css",
                     "~/Content/themes/southstreet/jquery-ui-1.11.4.custom.min.css"));
 
-            bundles.Add(new StyleBundle("~/Content/themes/start/jqgridcsspeppertheme").Include(
+            bundles.Add(new StyleBundle("~/Content/themes/pepper/jqgridcsspeppertheme").Include(
                     "~/Content/jquery.jqGrid/ui.jqgrid.css",
                     "~/Content/themes/pepper/jquery-ui-1.11.4.custom.min.css"));
 
             bundles.Add(new ScriptBundle("~/bundles/tinymce").Include(
-                        "~/Scripts/tinymce/tinymce.min.js"));
+                        "~/Scripts/tinymce/tinymce.min.js"
+                        ));
+
+            bundles.Add(new ScriptBundle("~/bundles/imageslider").Include(
+                        "~/Scripts/jssor.js",
+                        "~/Scripts/jssor.slider.js"
+                ));
 
             BlueImpBundles.RegisterBundles(bundles);
         }

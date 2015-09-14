@@ -25,7 +25,7 @@ namespace AmeCaseBookOrg.Controllers
             this.fileService = fileService;
         }
 
-        public ActionResult View(int id, bool? fromMenu, bool? ReloadData)
+        public ActionResult View(int id)
         {
             if (id == 0)
             {
@@ -41,8 +41,11 @@ namespace AmeCaseBookOrg.Controllers
 
             var relatedItems = dataItemService.GetRelatedDataItems(dataItem).ToList();
             ViewBag.RelatedItems = relatedItems;
-            ViewBag.fromMenu = fromMenu;
-            ViewBag.ReloadData = ReloadData;
+            if (TempData["fromMenu"] != null)
+            {
+                ViewBag.fromMenu = TempData["fromMenu"];
+                TempData.Keep("fromMenu");
+            }
             return View(dataItem);
         }
 
@@ -105,7 +108,7 @@ namespace AmeCaseBookOrg.Controllers
             return Json(new { status = HttpStatusCode.OK });
         }
         // GET: DataManagement
-        public ActionResult Index(bool? ReloadData)
+        public ActionResult Index()
         {
             // Get Countries
             var countries = categoryService.GetCountries();
@@ -124,7 +127,12 @@ namespace AmeCaseBookOrg.Controllers
                 subMenuFullNames.Add(subMenuName);
             }
             ViewBag.SubMenus = subMenuFullNames.ToArray();
-            ViewBag.ReloadData = ReloadData;
+            if(TempData["ReloadData"] != null)
+            {
+                ViewBag.ReloadData = TempData["ReloadData"];
+                TempData["ReloadData"] = null;
+            }
+            TempData["fromMenu"] = null;
             return View();
         }
 
@@ -253,6 +261,7 @@ namespace AmeCaseBookOrg.Controllers
                     string[] urls = viewModel.ReturnedURL.Split('/');
                     return RedirectToAction(urls[1], urls[0]);
                 }
+                TempData["ReloadData"] = true;
                 return RedirectToAction("Index");
             }
            
@@ -306,7 +315,7 @@ namespace AmeCaseBookOrg.Controllers
         }
         [Authorize]
         // GET: DataManagement
-        public ActionResult Edit(int id, bool? fromMenu)
+        public ActionResult Edit(int id)
         {
             if (id == 0)
             {
@@ -351,7 +360,11 @@ namespace AmeCaseBookOrg.Controllers
             }
             ViewBag.SubCategoryID = new SelectList(subMenuFullNames, "Code", "CodeName", ann.SubCategoryID);
             DataItemViewModel viewModel = AutoMapper.Mapper.Map<DataItemViewModel>(ann);
-            viewModel.fromMenu = fromMenu;
+            if (TempData["fromMenu"] != null)
+            {
+                viewModel.fromMenu = TempData["fromMenu"] as bool?;
+                TempData.Keep("fromMenu");
+            }
             return View(viewModel);
         }
         [HttpPost]
@@ -364,16 +377,21 @@ namespace AmeCaseBookOrg.Controllers
                 model = AutoMapper.Mapper.Map<DataItemViewModel, DataItem>(viewModel, model);
                 if (mainImageIds != null && mainImageIds.Length > 0)
                 {
-                    File file = fileService.getFile(mainImageIds[mainImageIds.Length-1]);
-                    if (file != null)
+                    foreach( int fileID in mainImageIds)
                     {
-                        if(model.Images == null)
+                        File file = fileService.getFile(fileID);
+                        if (file != null)
                         {
-                            model.Images = new List<File>();
+                            if (model.Images == null)
+                            {
+                                model.Images = new List<File>();
+                            }
+                            if(model.Images.Count(i => i.FileId == fileID) == 0)
+                            {
+                                model.Images.Add(file);
+                            }                            
                         }
-                        model.Images.Clear();
-                        model.Images.Add(file);
-                    }                   
+                    }                                 
                 }
                 if (attachFileIds != null && attachFileIds.Length > 0)
                 {
@@ -401,7 +419,8 @@ namespace AmeCaseBookOrg.Controllers
                 }
                 else
                 {
-                    return RedirectToAction("View", new { id = model.ID , ReloadData = true });
+                    TempData["ReloadData"] = true;
+                    return RedirectToAction("View", new { id = model.ID});
                 }
                 
             }
@@ -471,6 +490,7 @@ namespace AmeCaseBookOrg.Controllers
             {
                 dataItemService.DeleteItem(item);
                 dataItemService.SaveDataItem();
+                TempData["ReloadData"] = true;
                 return Json(new { status = HttpStatusCode.OK });
             }
             return Json("");

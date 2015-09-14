@@ -80,7 +80,6 @@
         @(Html.Grid("myInfoGrid")
         .SetRequestType(RequestType.Post)
         .SetJsonReader(new MvcJqGrid.DataReaders.JsonReader { Id = "ID", RepeatItems = false })
-        .SetCaption("My case document list")
         .AddColumn(new Column("SubMenuName").SetLabel("Category").SetSearch(false))
         .AddColumn(new Column("Title").SetLabel("Title").SetCustomFormatter("FormatViewLink"))
         .AddColumn(new Column("InsertDate").SetLabel("Insert date").SetFormatter(Formatters.Date).SetSearch(false))

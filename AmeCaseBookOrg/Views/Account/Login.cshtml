@@ -12,7 +12,7 @@
 
 <div id="contents">
     <div class="navi"> @Html.ActionLink("Home", "Index", "Home") > <span>Login</span> </div>
-    <div id="lg_wrap">
+    @*<div id="lg_wrap">*@
         <div class="login">
             
             @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
@@ -25,11 +25,13 @@
                     <li class="log_lef"> E-mail </li>
                     <li class="log_input">
                         @Html.TextBoxFor(m => m.Email, new { @class = "email" })
+                        <br />
                         @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
                     </li>
                     <li class="log_lef">Password </li>
                     <li class="log_input"> 
                         @Html.PasswordFor(m => m.Password, new { @class = "pw" })
+                        <br />
                         @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
                     </li>
                     <li class="f_pw">
@@ -50,7 +52,7 @@
             
 
         </div>
-        <div class="login" style="border:0;">
+        @*<div class="login" style="border:0;">
             <h2> Connect with</h2>
             <ul class="log_w">
                 <li class="google_bt"> <a href="#" class=" bold">Google</a></li>
@@ -58,9 +60,9 @@
             </ul>
 
 
-        </div>
+        </div>*@
 
-    </div>
+    @*</div>*@
 </div>
 
 

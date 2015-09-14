@@ -75,6 +75,8 @@ namespace AmeCaseBookOrg.Controllers
                 var country = categoryService.GetCategory(countryCode.Value);
                 ViewBag.Country = country;
             }
+            TempData["fromMenu"] = true;
+            TempData.Keep("fromMenu");
             return View(dataItems);
         }
         public JsonResult searchListItem(string userName , GridSettings gridSettings)
@@ -128,8 +130,9 @@ namespace AmeCaseBookOrg.Controllers
             {
                 return HttpNotFound();
             }
-            
-            
+
+            TempData["fromMenu"] = true;
+            TempData.Keep("fromMenu");
             return View(dataItem);
         }
     }

@@ -47,9 +47,13 @@ namespace AmeCaseBookOrg.Controllers
             }
         }
         // GET: Member
-        public ActionResult Index(bool? ReloadData)
+        public ActionResult Index()
         {
-            ViewBag.ReloadData = ReloadData;
+            if(TempData["ReloadData"] != null)
+            {
+                ViewBag.ReloadData = TempData["ReloadData"];
+                TempData["ReloadData"] = null;
+            }          
             var applicationUsers = UserManager.Users.Include(a => a.Country).Include(a => a.UploadImage);
             return View(applicationUsers.ToList());
         }
@@ -127,8 +131,8 @@ namespace AmeCaseBookOrg.Controllers
                     {
                         applicationUser.FileId = newFile.FileId;
                     }
-                }  
-                    
+                }
+                applicationUser.CreatedDate = DateTime.UtcNow;
                 var result = UserManager.Create(applicationUser, model.Password);
                 if (result.Succeeded)
                 {
@@ -142,7 +146,8 @@ namespace AmeCaseBookOrg.Controllers
                     }                
                     if (result.Succeeded)
                     {
-                        return RedirectToAction("Index",  new  { ReloadData = true  });
+                        TempData["ReloadData"] = true;
+                        return RedirectToAction("Index");
                     }
                     
                 }
@@ -241,7 +246,8 @@ namespace AmeCaseBookOrg.Controllers
                     }
                     if (result.Succeeded)
                     {
-                        return RedirectToAction("Index", new { ReloadData = true} );
+                        TempData["ReloadData"] = true;
+                        return RedirectToAction("Index");
                     }
 
                 }

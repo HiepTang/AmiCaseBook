@@ -44,7 +44,11 @@ else
 }
 
 <div class="myinfo_t2" style="width: 960px">
-    @Html.ActionLink("Add Record", "Create", new { controller = "DataManagement" }, new { @class = "bt_green" })
+    @if (Request.IsAuthenticated)
+    {
+        @Html.ActionLink("Add Record", "Create", new { controller = "DataManagement" }, new { @class = "bt_green" })
+    }
+    
     @(Html.Grid("datamanagementgrid")
         .SetRequestType(RequestType.Post)
         .SetJsonReader(new MvcJqGrid.DataReaders.JsonReader { Id = "ID", RepeatItems = false })

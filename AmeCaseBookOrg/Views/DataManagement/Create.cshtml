@@ -96,7 +96,7 @@ else
                                     <a href="~/File?id=@file.FileId"> @file.FileName</a>
                                 }
                             }
-                            @Html.Partial("UploadFile", new ViewDataDictionary { { "multiple", false }, { "uploadId", "fileuploadmainImage" }, { "fileResultIds", "mainImageIds[]" }, { "filesContainerId", "filesContainerId1" }, { "acceptFileTypes", "image" } })
+                            @Html.Partial("UploadFile", new ViewDataDictionary { { "uploadId", "fileuploadmainImage" }, { "fileResultIds", "mainImageIds[]" }, { "filesContainerId", "filesContainerId1" }, { "acceptFileTypes", "image" } })
 
                         </td>
 
