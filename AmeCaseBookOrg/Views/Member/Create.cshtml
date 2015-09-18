@@ -103,7 +103,7 @@
                        {
                            <br />
                             <input name="uploadedfile[]" type="hidden" value="@Model.UploadImage.FileId" />
-                            <a href="~/File/Download?id=@Model.UploadImage"> @Model.UploadImage.FileName</a>
+                            <a class="image-link" href="~/File?id=@Model.UploadImage"> @Model.UploadImage.FileName</a>
                        }
                        @Html.Partial("UploadFile", new ViewDataDictionary { { "multiple", false }, { "acceptFileTypes", "image" }, { "maxFileSize", "1500000" } })
                     </td>

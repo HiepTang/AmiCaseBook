@@ -8,7 +8,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - AMI CaseBook</title>
     @Styles.Render("~/Content/amecss")
- 
+    @Styles.Render("~/Content/imagespopup")
+    
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/imagespopup")
 
 </head>
 <body>
@@ -52,8 +55,9 @@
 
     
 
-    @Scripts.Render("~/bundles/jquery")
+  
     @Scripts.Render("~/bundles/slidesjs")
+   
     @RenderSection("scripts", required: false)
     <!-- SlidesJS Required: Initialize SlidesJS with a jQuery doc ready -->
     @Html.Partial("AjaxWaiting");
@@ -71,7 +75,9 @@
             }
       });
     });
-
+     $(document).ready(function () {
+         $('.image-link').magnificPopup({ type: 'image' });
+     });
     </script>
     <!-- End SlidesJS Required -->
 </body>

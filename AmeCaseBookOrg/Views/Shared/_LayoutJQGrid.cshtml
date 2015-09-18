@@ -18,6 +18,8 @@
     @Styles.Render("~/Content/amecss")
 
     @Styles.Render("~/backload/blueimp/bootstrap/BasicPlusUI/css")
+    @Styles.Render("~/Content/imagespopup")
+    @Scripts.Render("~/bundles/imagespopup")
 
     <script type="text/javascript">
         function removeGridCacheData(gridID) {
@@ -28,6 +30,9 @@
                 window.sessionStorage.removeItem("jqGrid" + gridID + "_data");
             } catch (e) { }
         }
+        $(document).ready(function () {
+            $('.image-link').magnificPopup({ type: 'image' });
+        });
     </script>
 
 </head>

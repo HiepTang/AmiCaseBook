@@ -29,9 +29,12 @@
                     <p>Affiliation: @contributor.Affiliation</p>
                     <p> Country: @contributor.Country.CodeName</p>
                 </div>
-                <ul class="social-icons team-social" style="float:left;width:100%;margin-top:10px;text-align:center;">
-                    <li class="linkedin"><a class="socialico-linkedin" href="@contributor.LinkIn" target="_blank"></a></li>
-                </ul>
+                @if (contributor.LinkIn != null)
+                {
+                    <ul class="social-icons team-social" style="float:left;width:100%;margin-top:10px;text-align:center;">
+                        <li class="linkedin"><a class="socialico-linkedin" href="@contributor.LinkIn" target="_blank"></a></li>
+                    </ul>
+                }               
             </div>
         }
        

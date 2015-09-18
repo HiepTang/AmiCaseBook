@@ -87,7 +87,7 @@
                     <td colspan="3">
                         @if( Model.UploadImage != null)
                         {
-                            <a href="~/File?id=@Model.UploadImage.FileId"> @Model.UploadImage.FileName</a>
+                            <a class="image-link" href="~/File?id=@Model.UploadImage.FileId"> @Model.UploadImage.FileName</a>
                         }
                         @Html.Partial("UploadFile", new ViewDataDictionary { { "multiple", false }, { "acceptFileTypes", "image" } , { "maxFileSize", "1500000" } , { "inputType", "edit" } })
                     </td>

@@ -101,9 +101,9 @@
             </td>*@
         <td>
             <p class="name">
-                {% if (file.url) { %}
-                <a href="{%=file.url%}" title="{%=file.name%}" download="{%=file.name%}" {%=file.thumbnailUrl?'data-gallery':''%}>{%=file.name%}</a>
-                {% } else { %}
+                {% if (file.url) { %}                
+                <a class="image-link" href="{%=file.url%}" title="{%=file.name%}" download="{%=file.name%}" {%=file.thumbnailUrl?'data-gallery':''%}>{%=file.name%}</a>
+                 {% } else { %}
                 <span>{%=file.name%}</span>
                 {% } %}
             </p>
@@ -170,11 +170,12 @@
                                         that._trigger('completed', e, data);
                                         that._trigger('finished', e, data);
                                         deferred.resolve();
+                                        $('.image-link').magnificPopup({ type: 'image' });
                                     }
                                 );
                             }
                         );
-                    });
+                    });                  
                 } else {
                     template = that._renderDownload(files)[
                         that.options.prependFiles ? 'prependTo' : 'appendTo'
@@ -187,6 +188,7 @@
                             that._trigger('completed', e, data);
                             that._trigger('finished', e, data);
                             deferred.resolve();
+                            $('.image-link').magnificPopup({ type: 'image' });
                         }
                     );
                 }

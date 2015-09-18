@@ -39,7 +39,6 @@ namespace AmeCaseBookOrg.Models
 
         [AllowHtml]
         [Required]
-        [MaxLength(4000)]
         public string Content { get; set; }
         public bool AllowComment { get; set; }
 

@@ -18,7 +18,8 @@
     tinyMCE.init({
         selector: "textarea",
         theme: "modern",
-        height:300,
+        height: 300,
+        relative_urls: false,
         plugins: [
             "advlist autolink lists link image charmap print preview hr anchor pagebreak",
             "searchreplace wordcount visualblocks visualchars code fullscreen",
@@ -93,7 +94,7 @@ else
                                 {
                                     <input name="mainImageIds[]" type="hidden" value="@file.FileId" />
                                     <br />
-                                    <a href="~/File?id=@file.FileId"> @file.FileName</a>
+                                    <a class="image-link" href="~/File?id=@file.FileId"> @file.FileName</a>
                                 }
                             }
                             @Html.Partial("UploadFile", new ViewDataDictionary { { "uploadId", "fileuploadmainImage" }, { "fileResultIds", "mainImageIds[]" }, { "filesContainerId", "filesContainerId1" }, { "acceptFileTypes", "image" } })
@@ -111,7 +112,14 @@ else
                                 {
                                      <input name="attachFileIds[]" type="hidden" value="@file.FileId" />
                                      <br />
-                                     <a href="~/File/Download?id=@file.FileId"> @file.FileName</a>
+                                    if (file.ContentType.Contains("image"))
+                                    {
+                                        <a class="image-link" href="~/File?id=@file.FileId"> @file.FileName</a>
+                                    }
+                                    else
+                                    {
+                                        <a href="~/File/Download?id=@file.FileId"> @file.FileName</a>
+                                    }
                                 }
                             }
                             @Html.Partial("UploadFile", new ViewDataDictionary { { "multiple", true }, { "uploadId", "fileuploadAttachFile" }, { "fileResultIds", "attachFileIds[]" }, { "filesContainerId", "filesContainerId2" } })

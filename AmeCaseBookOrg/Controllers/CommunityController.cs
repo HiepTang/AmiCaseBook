@@ -10,13 +10,14 @@ using System.Net;
 
 namespace AmeCaseBookOrg.Controllers
 {
+    [Authorize]
     public class CommunityController : Controller
     {
 
         private readonly ICommunityService communityService;
         private readonly IMemberService memberService;
         private readonly IFileService fileService;
-
+       
         public CommunityController(ICommunityService communityService, IMemberService memberService, IFileService fileService)
         {
             this.communityService = communityService;

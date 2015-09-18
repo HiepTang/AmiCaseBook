@@ -228,6 +228,10 @@
     <Compile Include="Migrations\201509110759497_addCreateField_User.Designer.cs">
       <DependentUpon>201509110759497_addCreateField_User.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201509180302102_Unlimited_DataItem_HtmlContentLength.cs" />
+    <Compile Include="Migrations\201509180302102_Unlimited_DataItem_HtmlContentLength.Designer.cs">
+      <DependentUpon>201509180302102_Unlimited_DataItem_HtmlContentLength.cs</DependentUpon>
+    </Compile>
     <Compile Include="ModelMaper\DomainToViewModelMappingProfile.cs" />
     <Compile Include="Migrations\201508121651157_Initialize.cs" />
     <Compile Include="Migrations\201508121651157_Initialize.Designer.cs">
@@ -301,6 +305,7 @@
     <Content Include="Content\jquery.jqGrid\ellipsis-xbl.xml" />
     <Content Include="Content\jquery.jqGrid\ui.jqgrid.css" />
     <Content Include="Content\layer.css" />
+    <Content Include="Content\magnific-popup.css" />
     <Content Include="Content\themes\overcast\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\overcast\images\ui-bg_flat_0_eeeeee_40x100.png" />
     <Content Include="Content\themes\overcast\images\ui-bg_flat_55_c0402a_40x100.png" />
@@ -504,6 +509,7 @@
     <Content Include="Scripts\jquery-2.1.4.min.js" />
     <Content Include="Scripts\jquery-ui.min.js" />
     <Content Include="Scripts\jquery.jqGrid.min.js" />
+    <Content Include="Scripts\jquery.magnific-popup.js" />
     <Content Include="Scripts\jquery.slides.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
@@ -865,6 +871,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201509110759497_addCreateField_User.resx">
       <DependentUpon>201509110759497_addCreateField_User.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201509180302102_Unlimited_DataItem_HtmlContentLength.resx">
+      <DependentUpon>201509180302102_Unlimited_DataItem_HtmlContentLength.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

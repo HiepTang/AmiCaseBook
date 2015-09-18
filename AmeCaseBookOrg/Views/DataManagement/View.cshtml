@@ -77,7 +77,15 @@
             <li class="t_rig" style="width:960px;border-bottom:1px double #ccc;padding-bottom:10px;">
                 @foreach (var file in Model.AttachFiles)
                 {
-                    <a href="~/File/Download?id=@file.FileId" style="width:800px;">@file.FileName</a>
+                    if (file.ContentType.Contains("image"))
+                    {
+                        <a class="image-link" href="~/File?id=@file.FileId" style="width:800px;">@file.FileName</a>
+                    }
+                    else
+                    {
+                        <a href="~/File/Download?id=@file.FileId" style="width:800px;">@file.FileName</a>
+                    }
+
                     <br />
                 }               
               </li>
@@ -92,7 +100,7 @@
                                 @try
                                 {
                                  <li><img style="width:270px; height:150px;position:relative; top:0px; left:0px; z-index:1;" src="~/File?id=@post.Images.FirstOrDefault().FileId" /></li>
-                                <li><img src="~/File?id=@post.Country.Image.FileId" style="width:70px; height:50px;position:relative; top:-60px; left:85px; z-index:2;" /></li>
+                                <li><img src="~/File?id=@post.Country.Image.FileId" style="position:relative; top:-35px; left:110px; z-index:2;" /></li>
                                 }
                                 catch { }
 

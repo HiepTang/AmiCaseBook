@@ -134,14 +134,18 @@ namespace AmeCaseBookOrg.Controllers
                         currFile.Content = newContent;
                         fileService.saveFile();
                     }
-                   
+                    string imageUrl = "/File/Download?id=" + currFile.FileId;
+                    if (upload.ContentType.Contains("image"))
+                    {
+                        imageUrl = "/File?id=" + currFile.FileId;
+                    }
                     statuses.Add(new ViewDataUploadFilesResult()
                     {
                         id = currFile.FileId,
                         name = upload.FileName,
                         size = currFile.Content.Length,
                         type = upload.ContentType,
-                        url = "/File/Download?id=" + currFile.FileId,
+                        url = imageUrl,
                         delete_url = "/File/Delete?id=" + currFile.FileId,
                         thumbnail_url = @"data:image/png;base64," + EncodeFile(currFile.Content),
                         delete_type = "POST",
@@ -171,13 +175,19 @@ namespace AmeCaseBookOrg.Controllers
                             Content = reader.ReadBytes(upload.ContentLength)
                         };
                         Models.File file = fileService.addFile(avatar);
+                       
+                        string imageUrl = "/File/Download?id=" + file.FileId;
+                        if (upload.ContentType.Contains("image"))
+                        {
+                            imageUrl = "/File?id=" + file.FileId;
+                        }
                         statuses.Add(new ViewDataUploadFilesResult()
                         {
                             id = file.FileId,
                             name = upload.FileName,
                             size = upload.ContentLength,
                             type = upload.ContentType,
-                            url = "/File/Download?id=" + file.FileId,
+                            url = imageUrl,
                             delete_url = "/File/Delete?id=" + file.FileId,
                             thumbnail_url = @"data:image/png;base64," + EncodeFile(file.Content),
                             delete_type = "POST",
