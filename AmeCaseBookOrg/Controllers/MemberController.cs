@@ -266,23 +266,29 @@ namespace AmeCaseBookOrg.Controllers
 
         // GET: Member/Delete/5
         [HttpPost]
-        public ActionResult Delete(string id)
+        public JsonResult Delete(string id)
         {
-            if (id == null)
+            if (id != null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                ApplicationUser applicationUser = UserManager.FindById(id);
+                if (applicationUser != null)
+                {
+                    IdentityResult result = UserManager.Delete(applicationUser);
+                    if (result.Succeeded)
+                    {
+                        return Json(new { result = true });
+                    }
+                    else
+                    {
+                        return Json(new { result = false, message = "Cannot delete '" + applicationUser.UserName + "'" });
+                    }
+                }
+                
             }
-            ApplicationUser applicationUser = UserManager.FindById(id);
-            if (applicationUser == null)
-            {
-                return HttpNotFound();
-            }
-            IdentityResult result = UserManager.Delete(applicationUser);
-            return View(applicationUser);
+            return Json(new { result = false, message = "The user doesn't exist" });
         }
 
         // POST: Member/Delete/5
-        [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(string id)
         {

@@ -39,6 +39,7 @@ namespace AmeCaseBookOrg.Models
 
         [AllowHtml]
         [Required]
+        [MaxLength, Column(TypeName = "ntext")]
         public string Content { get; set; }
         public bool AllowComment { get; set; }
 

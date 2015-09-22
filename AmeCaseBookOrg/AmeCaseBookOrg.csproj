@@ -228,9 +228,9 @@
     <Compile Include="Migrations\201509110759497_addCreateField_User.Designer.cs">
       <DependentUpon>201509110759497_addCreateField_User.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201509180302102_Unlimited_DataItem_HtmlContentLength.cs" />
-    <Compile Include="Migrations\201509180302102_Unlimited_DataItem_HtmlContentLength.Designer.cs">
-      <DependentUpon>201509180302102_Unlimited_DataItem_HtmlContentLength.cs</DependentUpon>
+    <Compile Include="Migrations\201509220252571_Change_DataItem_Content_NText.cs" />
+    <Compile Include="Migrations\201509220252571_Change_DataItem_Content_NText.Designer.cs">
+      <DependentUpon>201509220252571_Change_DataItem_Content_NText.cs</DependentUpon>
     </Compile>
     <Compile Include="ModelMaper\DomainToViewModelMappingProfile.cs" />
     <Compile Include="Migrations\201508121651157_Initialize.cs" />
@@ -872,8 +872,8 @@
     <EmbeddedResource Include="Migrations\201509110759497_addCreateField_User.resx">
       <DependentUpon>201509110759497_addCreateField_User.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201509180302102_Unlimited_DataItem_HtmlContentLength.resx">
-      <DependentUpon>201509180302102_Unlimited_DataItem_HtmlContentLength.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201509220252571_Change_DataItem_Content_NText.resx">
+      <DependentUpon>201509220252571_Change_DataItem_Content_NText.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -24,10 +24,29 @@
     var mvcJqGrid = { demo : {} };
 
     mvcJqGrid.demo.buttonize = function (cellvalue, options, rowobject) {
-        return '<a onclick="return onSelectItem()" href="/Member/Edit?id=' + options.rowId + '"><div class="ui-icon ui-icon-pencil" style="display:inline-block"></div></a>';
+        return '<a onclick="return onSelectItem()" href="/Member/Edit?id=' + options.rowId + '"><div class="ui-icon ui-icon-pencil" style="display:inline-block"></div></a>' +
+            '<a onclick="return mvcJqGrid.demo.delete(' +"'"+options.rowId + "'" + '); return false;" href="#"><div class="ui-icon ui-icon-trash" style="display:inline-block"></div></a>';
     }
     function onSelectItem() {
         $.jgrid.saveState("memberGrid");
+    }
+    mvcJqGrid.demo.delete = function (rowid) {
+        
+        var r = confirm("Do you really want to delete this user?");
+        if (r == true) {
+            $.ajax({ url: "Member/Delete", data: { id: rowid }, method: "POST" }).done(function (data) {
+                if (data.result == true) {
+                    $("#memberGrid").trigger('reloadGrid');
+                } else {
+                    alert(data.message);
+                }
+            }).fail(function (data) {
+                alert("Cannot delete this user");
+            });
+        } else {
+
+        }
+        return false;
     }
 </script>
 <div class="myinfo_t2" style="width: 960px">
@@ -42,7 +61,7 @@
         .AddColumn(new Column("Address").SetLabel("Address").SetSearch(false))
         .AddColumn(new Column("Country").SetLabel("Country").SetSearch(false))
        .AddColumn(new Column("&nbsp;").SetSearch(false).SetCustomFormatter("mvcJqGrid.demo.buttonize")
-                                    .SetWidth(35)
+                                    .SetWidth(65)
                                     .SetAlign(Align.Right))
     .SetUrl(Url.Action("Search", "Member"))
     .SetAutoWidth(true)

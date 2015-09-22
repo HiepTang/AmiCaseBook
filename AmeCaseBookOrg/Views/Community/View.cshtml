@@ -37,7 +37,14 @@
             @foreach (var file in Model.AttachmentFiles)
             {
                 <br />
-                <a href="~/File?id=@file.FileId"> @file.FileName</a>
+                if (file.ContentType.Contains("image"))
+                {
+                    <a class="image-link" href="~/File?id=@file.FileId" style="width:800px;">@file.FileName</a>
+                }
+                else
+                {
+                    <a href="~/File/Download?id=@file.FileId" style="width:800px;">@file.FileName</a>
+                }
             }
                 
             </li>

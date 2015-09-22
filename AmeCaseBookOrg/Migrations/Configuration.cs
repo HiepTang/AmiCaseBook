@@ -32,8 +32,8 @@ namespace AmeCaseBookOrg.Migrations
             List<SubMenu> subMenusForAMI = CreateSubMenusForAMICASE(context, countries);
             List<SubMenu> subMenusForDSM = CreateSubMenusForDSMCASE(context, countries);
             List<SubMenu> subMenusForCommunication = CreateSubMenusForCommunication(context);
-           
-            
+
+
             List<ApplicationUser> users = CreateMembers(context, memberImages, countries);
 
             List<File> dataItemImages = CreateDataItemImages(context);

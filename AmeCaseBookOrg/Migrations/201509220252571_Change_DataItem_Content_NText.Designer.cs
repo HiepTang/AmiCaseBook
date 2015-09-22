@@ -7,13 +7,13 @@ namespace AmeCaseBookOrg.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class Unlimited_DataItem_HtmlContentLength : IMigrationMetadata
+    public sealed partial class Change_DataItem_Content_NText : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(Unlimited_DataItem_HtmlContentLength));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Change_DataItem_Content_NText));
         
         string IMigrationMetadata.Id
         {
-            get { return "201509180302102_Unlimited_DataItem_HtmlContentLength"; }
+            get { return "201509220252571_Change_DataItem_Content_NText"; }
         }
         
         string IMigrationMetadata.Source
